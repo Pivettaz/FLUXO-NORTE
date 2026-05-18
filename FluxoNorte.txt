@@ -1,0 +1,81 @@
+FluxoNorte:
+- Compreensível, tolerar erros, ser adaptável
+
+Três Elementos:
+- Pedidos
+- Entregadores
+- Operações do dia a dia
+
+
+Requisitos:
+
+	A Definir:
+		- Definir se vai priorizar urgência ou ordem de chegada (Resolução da prioridade):
+		Criar um coeficiente para organizar
+		- Definir se entregadores vão podem assumir múltiplas rotasf (Resolução das rotas):
+		Criar um coeficiente
+	
+	Avaliar: 
+		- Avaliar a carga de trabalho de cada entregadores
+	 	- Avaliar se um pedido cancelado pode ser reativado
+	 	- Avaliar a possibilidade de alterar automaticamente a ordem de entrega dos pedidos
+	 	
+	Lembrando:
+		- Pedidos podem mudar de estado
+		- Operadores podem cadastrar informações incorretas
+		- Registros podem ficar "Inativos"
+		- Alguns relatórios precisam ignorar dados inconsistentes
+		- Certas operações só fazem sentido em horários específicos
+		- Conversar com a lúcia sobre certas decisões
+	
+	Vai conter:
+		- Cadastro de informações
+		- Organizações de Registro
+		- Processamento de decisões
+		- Execução repetitiva de tarefas
+		- Armazenamento estruturado
+		- Consultas
+		- Geração de relatórios textuais
+	
+	- Cadastro:
+		- Pedidos:
+			• ID do pedido (deve iniciar por uma letra e conter quatro valores numéricos)
+			• Nome do Cliente
+			• Endereço
+			• Prioridade (Alta, Normal)
+			• Descrição do Pedido
+			• Status do Pedido (Pendente, Em Rota, Entregue, Cancelado)
+			• ID do Entregador (4 dígitos)
+			
+		- Entregadores:
+			• ID do Entregador (constituído de 4 dígitos)
+			• Nome do entregador
+			• Veículo (carro, van, moto)
+			• ID dos Pedidos a serem entregues
+			• Disponibilidade
+	- Atualizações:
+		- Pedidos:
+			• Alterar o status do pedido
+			• Cancelar Pedido
+			• Associar Entregadores a Pedidos
+			• Remover associação de Entregador
+	- Consulta:
+		- Informações:
+			• Pedidos Pendentes
+			• Pedidos Entregues
+			• Buscar Pedido por ID
+			• Entregador Disponível
+			• Todas as Entregas realizadas por um entregador
+	- Relatórios:
+		- Operacionais:
+			• Total de pedidos;
+			• Quantidade de pedidos por status
+			• Pedidos com Alta Prioridade
+			• Entregador com o maior número de entregas
+	ALERTAS:
+	 - Não pode duplicidade de eleitores	 
+		
+NÃO PODE:
+	- Banco de dados
+	- Interface Gráfica
+	- Bibliotecas que ajudam na lógica
