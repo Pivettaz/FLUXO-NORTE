@@ -9,20 +9,19 @@ Três Elementos:
 
 Requisitos:
 
-	A Definir:
-		- Definir se vai priorizar urgência ou ordem de chegada (Resolução da prioridade):
+	DEFINDIO:
+		- Priorizar por urgência (Justificatva: Se atrasar pode pedir Reembolso) e caso for da mesma urgência por ordem de chegada (Resolução da prioridade):
 		Criar um coeficiente para organizar
-		- Definir se entregadores vão podem assumir múltiplas rotasf (Resolução das rotas):
-		Criar um coeficiente
+		- Na hora de informar o endereço colocar a região do bairro, se for a mesma múltipla rota é permitida | Máximo de 5 por entregador:
 	
 	Avaliar: 
-		- Avaliar a carga de trabalho de cada entregadores
-	 	- Avaliar se um pedido cancelado pode ser reativado
-	 	- Avaliar a possibilidade de alterar automaticamente a ordem de entrega dos pedidos
+		- Avaliar a carga de trabalho de cada entregadores (Matutino: 7 - 16 | Vespertino: 14 - 23 | Noturno: 23 - 7)
+	 	- Avaliar se um pedido cancelado pode ser reativado (Taxa 10% (Como funciona a questão de pedidos cancelados))
+	 	- Avaliar a possibilidade de alterar automaticamente a ordem de entrega dos pedidos (Pela urgência)
 	 	
 	Lembrando:
 		- Pedidos podem mudar de estado
-		- Operadores podem cadastrar informações incorretas
+		- Operadores podem cadastrar informações incorretas (Adicionar barreiras)
 		- Registros podem ficar "Inativos"
 		- Alguns relatórios precisam ignorar dados inconsistentes
 		- Certas operações só fazem sentido em horários específicos
