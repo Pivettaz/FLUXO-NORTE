@@ -1,4 +1,4 @@
-from validadores import gerenciar_entrada_numerica, validar_id_entregador, validar_id_pedido
+from validadores import gerenciar_entrada_numerica, validar_id_entregador, validar_id_pedido, validar_regiao
 
 # lista_pedidos = [] ESTÁ LISTA DEVE ESTAR FORA DA FUNÇÃO NO ARQUIVO PRINCIPAL PARA ADICIONAR OS PEDIDOS
 lista_pedidos = []
@@ -22,12 +22,18 @@ def gerar_id_pedido():
 
 def cadastrar_pedido():
 
-    campos = ["id_pedido", "nome_cliente", "prioridade", "descricao_pedido", "status_pedido", "id_entregador"]
+    campos = ["id_pedido", "nome_cliente", "endereco", "regiao", "prioridade", "descricao_pedido", "status_pedido", "id_entregador"]
 
     pedido = dict.fromkeys(campos)
 
     pedido["id_pedido"] = gerar_id_pedido()
     pedido["nome_cliente"] = input("Insira o nome do cliente: ")
+
+    pedido["endereco"] = input("Insira o endereço do pedido: ")
+    regiao_pedido = input("Insira a região do endereço: ")
+    while not validar_regiao(regiao_pedido):
+        regiao_pedido = input("Insira a região do endereço: ")
+    pedido["regiao"] = regiao_pedido
 
     escolha_prioridade = gerenciar_entrada_numerica(1,2, "\nPRIORIDADE \n[1] ALTA \n[2] NORMAL "
                                                          "\nDigite uma opção:")
@@ -61,6 +67,8 @@ def cadastrar_pedido():
     print("-----PEDIDO CADASTRADO-----")
     print(f"ID -> {pedido["id_pedido"]}")
     print(f"CLIENTE -> {pedido["nome_cliente"]}")
+    print(f"ENDEREÇO -> {pedido["endereco"]}")
+    print(f"REGIÃO -> {pedido["regiao"]}")
     print(f"PRIORIDADE -> {prioridade_texto}")
     print(f"DESCRIÇÃO-> {pedido["descricao_pedido"]}")
     print(f"STATUS -> {status_texto}")
@@ -137,7 +145,6 @@ def atualizar_pedido():
             return True
 
         case 3:
-            # Verifica se já está desassociado (usando a string '0000')
             if lista_pedidos[posicao]["id_entregador"] == "0000":
                 print("O pedido já está sem nenhum entregador associado.")
                 return False
@@ -147,6 +154,7 @@ def atualizar_pedido():
             return True
 
         case _:
-            # Caso de segurança para capturar qualquer comportamento inesperado
             print("Opção inválida detectada pelo sistema.")
             return False
+
+cadastrar_pedido()

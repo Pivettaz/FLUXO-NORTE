@@ -10,6 +10,12 @@ def gerenciar_entrada_numerica(min_val, max_val, mensagem):
         print(f"\nPor favor, insira uma opção entre {min_val} e {max_val}")
         return False
 
+def validar_regiao(regiao):
+    if not regiao.isdigit():
+        print("Região só pode ser númerica")
+        return False
+    return True
+
 def validar_id_entregador(id_entregador):
     if not id_entregador.isdigit():
         print("\nID do entregador não deve conter letras")
@@ -30,3 +36,4 @@ def validar_id_pedido(id_pedido):
         print("Quatro últimos dígitos do ID devem ser um número")
         return False
     return True
+
