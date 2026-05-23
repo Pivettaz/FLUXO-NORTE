@@ -5,7 +5,7 @@ def gerenciar_entrada_numerica(min_val, max_val, mensagem):
         print(f"\nPor favor, insira uma opção entre {min_val} e {max_val}")
         return False
     elif min_val <= int(escolha) <= max_val:
-        return escolha
+        return int(escolha)
     else:
         print(f"\nPor favor, insira uma opção entre {min_val} e {max_val}")
         return False
