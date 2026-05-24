@@ -1,4 +1,4 @@
-import validadores as val
+from Validacao import validadores as val
 
 def pedidos_pendentes(lista_pedidos):
     print('\n--- PEDIDOS PENDENTES ---')

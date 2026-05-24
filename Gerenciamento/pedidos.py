@@ -1,6 +1,7 @@
-from validadores import gerenciar_entrada_numerica, validar_id_entregador, validar_id_pedido, validar_regiao
+from Validacao.validadores import gerenciar_entrada_numerica, validar_id_entregador, validar_id_pedido, validar_regiao
 from utils import limpar_tela
 from colorama import Style, Fore
+
 # lista_pedidos = [] ESTÁ LISTA DEVE ESTAR FORA DA FUNÇÃO NO ARQUIVO PRINCIPAL PARA ADICIONAR OS PEDIDOS
 lista_pedidos = []
 
