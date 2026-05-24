@@ -56,6 +56,13 @@ def cadastrar_pedido():
     id_entregador = input("Insira o ID do entregador responsável: ")
     while not validar_id_entregador(id_entregador):
         id_entregador = input("Insira o ID do entregador responsável: ")
+    contagem = 0
+    for pedidos in lista_pedidos:
+        if pedidos["id_entregador"] == id_entregador:
+            contagem += 1
+    if contagem >= 5:
+        print("\nUm entregador só pode assumir 5 entregas simultâneas")
+        return False
     pedido["id_entregador"] = id_entregador
 
     lista_pedidos.append(pedido)
@@ -73,7 +80,7 @@ def cadastrar_pedido():
     print(f"DESCRIÇÃO-> {pedido["descricao_pedido"]}")
     print(f"STATUS -> {status_texto}")
     print(f"ID ENTREGADOR -> {pedido["id_entregador"]}")
-
+    return True
 
 def buscar_posicao_por_id(id_procurado):
     for i, pedido in enumerate(lista_pedidos):
@@ -98,7 +105,6 @@ def atualizar_pedido():
         print("Pedido não encontrado na base de dados.")
         return False
 
-    # 4. Menu de opções de atualização
     escolha = gerenciar_entrada_numerica(
         1, 3,
         "\n--- MENU DE ATUALIZAÇÃO ---\n"
@@ -136,14 +142,26 @@ def atualizar_pedido():
             return True
 
         case 2:
-            id_entregador = input("Insira o ID do novo entregador responsável: ")
+            id_entregador = input("Insira o ID do entregador responsável: ")
             while not validar_id_entregador(id_entregador):
-                id_entregador = input("Insira o ID do novo entregador responsável: ")
+                id_entregador = input("Insira o ID do entregador responsável: ")
+
+            if lista_pedidos[posicao]["id_entregador"] == id_entregador:
+                print("Este entregador já é o responsável por este pedido.")
+                return False
+
+            contagem = 0
+            for pedidos in lista_pedidos:
+                if pedidos["id_entregador"] == id_entregador:
+                    contagem += 1
+
+            if contagem >= 5:
+                print("\nUm entregador só pode assumir 5 entregas simultâneas")
+                return False
 
             lista_pedidos[posicao]["id_entregador"] = id_entregador
-            print("Entregador atualizado com sucesso!")
+            print("✅ Entregador atualizado com sucesso!")
             return True
-
         case 3:
             if lista_pedidos[posicao]["id_entregador"] == "0000":
                 print("O pedido já está sem nenhum entregador associado.")
@@ -156,5 +174,3 @@ def atualizar_pedido():
         case _:
             print("Opção inválida detectada pelo sistema.")
             return False
-
-cadastrar_pedido()
