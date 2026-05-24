@@ -1,4 +1,5 @@
 from Validacao import validadores as val
+from utils import confirmacao
 
 def pedidos_pendentes(lista_pedidos):
     print('\n--- PEDIDOS PENDENTES ---')
@@ -7,8 +8,10 @@ def pedidos_pendentes(lista_pedidos):
         if pedido[4] == 'PENDENTE':
             print(f'\nID: {id_pedido} \nCliente: {pedido[0]} \nEndereço: {pedido[1]} \nRegião: {pedido[2]} \nPrioridade: {pedido[3]} \nDescrição: {pedido[4]} \nStatus: {pedido[5]} \nID Entregador: {pedido[6]}')
             encontrou = 1
+            confirmacao()
     if encontrou == 0:
         print('\nNenhum pedido pendente.')
+        confirmacao()
 
 def pedidos_entregues(lista_pedidos):
     print('\n--- PEDIDOS ENTREGUES ---')
@@ -17,7 +20,9 @@ def pedidos_entregues(lista_pedidos):
         if pedido[4] == 'Entregue':
             print(f'\nID: {id_pedido} \nCliente: {pedido[0]} \nEndereço: {pedido[1]} \nRegião: {pedido[2]} \nPrioridade: {pedido[3]} \nDescrição: {pedido[4]} \nStatus: {pedido[5]} \nID Entregador: {pedido[6]}')
             encontrou = 1
+            confirmacao()
     if encontrou == 0:
+        confirmacao()
         print('\nNenhum pedido entregue.')
 
 def buscar_pedido(lista_pedidos):
@@ -28,8 +33,10 @@ def buscar_pedido(lista_pedidos):
     if id_busca in lista_pedidos:
         pedido = lista_pedidos[id_busca]
         print(f'\n--- PEDIDO ENCONTRADO --- \nID: {id_busca} \nCliente: {pedido[0]} \nEndereço: {pedido[1]} \nRegião: {pedido[2]} \nPrioridade: {pedido[3]} \nDescrição: {pedido[4]} \nStatus: {pedido[5]} \nID Entregador: {pedido[6]}')
+        confirmacao()
     else:
         print('\nPedido não encontrado.')
+        confirmacao()
 
 def entregadores_disponiveis(lista_entregadores):
     print('\n--- ENTREGADORES DISPONÍVEIS ---')
@@ -38,8 +45,10 @@ def entregadores_disponiveis(lista_entregadores):
         if entregador[3] == 1:
             print(f'\nID: {id_entregador} \nNome: {entregador[0]} \nVeículo: {entregador[1]}')
             encontrou = 1
+            confirmacao()
     if encontrou == 0:
         print('\nNenhum entregador disponível.')
+        confirmacao()
 
 def entregas_entregador(lista_pedidos, lista_entregadores):
     id_busca = input('\nDigite o ID do entregador: ')
@@ -53,7 +62,11 @@ def entregas_entregador(lista_pedidos, lista_entregadores):
             if pedido[5] == id_busca:
                 print(f'\nID: {id_pedido} \nCliente: {pedido[0]} \nStatus: {pedido[4]}')
                 encontrou = 1
+                confirmacao()
+
         if encontrou == 0:
             print('\nEste entregador não possui entregas.')
+            confirmacao()
     else:
+        confirmacao()
         print('\nEntregador não encontrado.')
