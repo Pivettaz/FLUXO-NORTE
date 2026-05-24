@@ -1,3 +1,5 @@
+import validadores as val
+
 def pedidos_pendentes(lista_pedidos):
     print('\n--- PEDIDOS PENDENTES ---')
     encontrou = 0
@@ -19,12 +21,10 @@ def pedidos_entregues(lista_pedidos):
         print('\nNenhum pedido entregue.')
 
 def buscar_pedido(lista_pedidos):
-    id_busca = input('\n Digite o ID do pedido: ')
+    id_busca = input('\nDigite o ID do pedido: ')
+    while not val.validar_id_pedido(id_busca):
+        id_busca = input('\n ID inválido, digite novamente: ')
 
-    while len(id_busca) != 5 or id_busca[0].isalpha() == False or id_busca[1:].isdigit() == False:
-        print('\nID inválido! O ID deve iniciar com uma letra seguida de 4 números.')
-        id_busca = input('\nDigite o ID do pedido novamente: ').upper()
-    
     if id_busca in lista_pedidos:
         pedido = lista_pedidos[id_busca]
         print(f'\n--- PEDIDO ENCONTRADO --- \nID: {id_busca} \nCliente: {pedido[0]} \nEndereço: {pedido[1]} \nRegião: {pedido[2]} \nPrioridade: {pedido[3]} \nDescrição: {pedido[4]} \nStatus: {pedido[5]} \nID Entregador: {pedido[6]}')
@@ -43,6 +43,9 @@ def entregadores_disponiveis(lista_entregadores):
 
 def entregas_entregador(lista_pedidos, lista_entregadores):
     id_busca = input('\nDigite o ID do entregador: ')
+    while not val.validar_id_entregador(id_busca):
+        id_busca = input('\nID inválido, digite novamente: ')
+
     if id_busca in lista_entregadores:
         print(f'\n--- ENTREGAS DE {lista_entregadores[id_busca][0].upper()} ---')
         encontrou = 0
