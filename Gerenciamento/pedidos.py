@@ -204,6 +204,3 @@ def atualizar_pedido():
             limpar_tela()
             print(Fore.RED + Style.BRIGHT + "Opção inválida detectada pelo sistema.")
             return False
-
-cadastrar_pedido()
-atualizar_pedido()
