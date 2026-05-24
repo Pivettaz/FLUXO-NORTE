@@ -64,7 +64,7 @@ Requisitos:
 			• Pedidos Entregues
 			• Buscar Pedido por ID
 			• Entregador Disponível
-			• Todas as Entregas realizadas por um entregador
+			• Todas as Entregas realizadas por um entregador (Ver se é o total ou as que ele está fazendo no momento)
 	- Relatórios:
 		- Operacionais:
 			• Total de pedidos;
