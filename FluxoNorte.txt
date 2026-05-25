@@ -8,6 +8,22 @@ Três Elementos:
 
 
 Requisitos:
+	Solução:
+		- No cadastro de eleitores e pedidos um tem que receber o ID do outro, mas e se algum desses dados não existir?
+
+			No Cadastro do Pedido: Permitir que o pedido seja criado inicialmente sem um entregador definido (podendo ficar com o status 	 					"Pendente" e o campo de ID do entregador vazio/nulo).
+
+			No Cadastro do Entregador: Vocês podem permitir que ele seja registrado sem nenhum pedido atribuído (iniciando o dia apenas como 					"Disponível").
+
+			Na Atualização: Posteriormente, o operador utilizaria a função de "Associar Entregadores a Pedidos" para vincular o ID de um ao outro, 				resolvendo o impasse
+
+	Perguntar:
+		- Se precisa inserir o valor no pedido (Questão do reembolso, taxa de 10%)
+		- O que teve ter no endereço
+		- O que seriam os registros inativos
+		- Sobre a questão dos horários específicos
+		- Sobre a atualização do pedido (Porque fala que pode mudar de estado, mas nos requisitos não consta isso nas atualizações dos pedidos)
+		- Perguntar se pode organizar os arquivos es pastas ou só na main mesmo
 
 	DEFINDIO:
 		- Priorizar por urgência (Justificatva: Se atrasar pode pedir Reembolso) e caso for da mesma urgência por ordem de chegada (Resolução da prioridade):
@@ -72,7 +88,7 @@ Requisitos:
 			• Pedidos com Alta Prioridade
 			• Entregador com o maior número de entregas
 	ALERTAS:
-	 - Não pode duplicidade de eleitores	 
+	 - Não pode duplicidade de entregadores	 
 		
 NÃO PODE:
 	- Banco de dados
