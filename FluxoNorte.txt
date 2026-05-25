@@ -26,7 +26,7 @@ Requisitos:
 
 	DEFINDIO:
 		- Priorizar por urgência (Justificatva: Se atrasar pode pedir Reembolso) e caso for da mesma urgência por ordem de chegada (Resolução da 			prioridade):
-		- Dividir São Paulo em regiões (Norte, sul, leste, oeste e centro) | Inserir 6 bairros por região.
+		- Pegar os estados da região Norte e dividir os estados em regiões, entregadores só podem pegar multíplas entregas na mesma região do mesmo estado - Haveŕa um Limite.
 		- Moto pode pegar 2, carro 5, van 8 entregas multiplas (Ver questão de tamnho)
 	
 	Avaliar: 
