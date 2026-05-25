@@ -13,7 +13,7 @@ Requisitos:
 
 			No Cadastro do Pedido: Permitir que o pedido seja criado inicialmente sem um entregador definido (podendo ficar com o status 	 					"Pendente" e o campo de ID do entregador vazio/nulo).
 
-			No Cadastro do Entregador: Vocês podem permitir que ele seja registrado sem nenhum pedido atribuído (iniciando o dia apenas como 					"Disponível").
+			No Cadastro do Entregador: Permitir que ele seja registrado sem nenhum pedido atribuído (iniciando o dia apenas como 								"Disponível").
 
 			Na Atualização: Posteriormente, o operador utilizaria a função de "Associar Entregadores a Pedidos" para vincular o ID de um ao outro, 				resolvendo o impasse
 
