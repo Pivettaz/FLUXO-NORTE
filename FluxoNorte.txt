@@ -8,7 +8,7 @@ Três Elementos:
 
 
 Requisitos:
-	Solução:
+	Solução para ID PEDIDOS E ELEITORES:
 		- No cadastro de eleitores e pedidos um tem que receber o ID do outro, mas e se algum desses dados não existir?
 
 			No Cadastro do Pedido: Permitir que o pedido seja criado inicialmente sem um entregador definido (podendo ficar com o status 	 					"Pendente" e o campo de ID do entregador vazio/nulo).
@@ -19,16 +19,14 @@ Requisitos:
 
 	Perguntar:
 		- Se precisa inserir o valor no pedido (Questão do reembolso, taxa de 10%)
-		- O que teve ter no endereço
 		- O que seriam os registros inativos
 		- Sobre a questão dos horários específicos
-		- Sobre a atualização do pedido (Porque fala que pode mudar de estado, mas nos requisitos não consta isso nas atualizações dos pedidos)
 		- Perguntar se pode organizar os arquivos es pastas ou só na main mesmo
 
 	DEFINDIO:
-		- Priorizar por urgência (Justificatva: Se atrasar pode pedir Reembolso) e caso for da mesma urgência por ordem de chegada (Resolução da prioridade):
-		Criar um coeficiente para organizar
-		- Na hora de informar o endereço colocar a região do bairro, se for a mesma múltipla rota é permitida | Máximo de 5 por entregador:
+		- Priorizar por urgência (Justificatva: Se atrasar pode pedir Reembolso) e caso for da mesma urgência por ordem de chegada (Resolução da 			prioridade):
+		- Dividir São Paulo em regiões (Norte, sul, leste, oeste e centro) | Inserir 6 bairros por região.
+		- Moto pode pegar 2, carro 5, van 8 entregas multiplas (Ver questão de tamnho)
 	
 	Avaliar: 
 		- Avaliar a carga de trabalho de cada entregadores (Matutino: 7 - 16 | Vespertino: 14 - 23 | Noturno: 23 - 7)
