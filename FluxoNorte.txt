@@ -20,7 +20,8 @@ Requisitos:
 	Perguntar:
 		- Se precisa inserir o valor no pedido (Questão do reembolso, taxa de 10%)
 		- O que seriam os registros inativos
-		- Sobre a questão dos horários específicos
+		- Sobre a questão dos horários específicose
+		- Se é o entregador que escolhe o pedido para entregar ou se é no pedido que eu vinculo o entregador.
 		- Perguntar se pode organizar os arquivos es pastas ou só na main mesmo
 
 	DEFINDIO:
