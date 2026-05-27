@@ -11,35 +11,31 @@ Requisitos:
 	Solução para ID PEDIDOS E ELEITORES:
 		- No cadastro de eleitores e pedidos um tem que receber o ID do outro, mas e se algum desses dados não existir?
 
-			No Cadastro do Pedido: Permitir que o pedido seja criado inicialmente sem um entregador definido (podendo ficar com o status 	 					"Pendente" e o campo de ID do entregador vazio/nulo).
+			No Cadastro do Pedido: Permitir que o pedido seja criado inicialmente sem um entregador definido (podendo ficar com o status 	 					"Pendente" e o campo de ID do entregador vazio/nulo). (feito campo ID ENTREGADOR fica 0000)
 
-			No Cadastro do Entregador: Permitir que ele seja registrado sem nenhum pedido atribuído (iniciando o dia apenas como 								"Disponível").
+			No Cadastro do Entregador: Permitir que ele seja registrado sem nenhum pedido atribuído (iniciando o dia apenas como 								"Disponível"). (a fazer)
 
 			Na Atualização: Posteriormente, o operador utilizaria a função de "Associar Entregadores a Pedidos" para vincular o ID de um ao outro, 				resolvendo o impasse
 
 	Perguntar:
-		- Se precisa inserir o valor no pedido (Questão do reembolso, taxa de 10%)
-		- O que seriam os registros inativos
-		- Sobre a questão dos horários específicose
-		- Se é o entregador que escolhe o pedido para entregar ou se é no pedido que eu vinculo o entregador.
-		- Perguntar se pode organizar os arquivos es pastas ou só na main mesmo
+		- Se precisa inserir o valor no pedido (Questão do reembolso, taxa de 10%) (feito)
+		- É no pedido que vincula o entregador (feito)
+		- Perguntar se pode organizar os arquivos es pastas ou só na main mesmo (tudo na main)
 
 	DEFINDIO:
 		- Priorizar por urgência (Justificatva: Se atrasar pode pedir Reembolso) e caso for da mesma urgência por ordem de chegada (Resolução da 			prioridade):
-		- Pegar os estados da região Norte e dividir os estados em regiões, entregadores só podem pegar multíplas entregas na mesma região do mesmo estado - Haveŕa um Limite.
-		- Moto pode pegar 2, carro 5, van 8 entregas multiplas (Ver questão de tamnho)
+		- Pegar os estados da região Norte e dividir os estados em regiões, entregadores só podem pegar multíplas entregas na mesma região do mesmo estado - Haverá um Limite. (feito)
+		- Moto pode pegar 2, carro 5, van 8 entregas multiplas (Fazer questão da pontuação)
 	
 	Avaliar: 
-		- Avaliar a carga de trabalho de cada entregadores (Matutino: 7 - 16 | Vespertino: 14 - 23 | Noturno: 23 - 7)
-	 	- Avaliar se um pedido cancelado pode ser reativado (Taxa 10% (Como funciona a questão de pedidos cancelados))
-	 	- Avaliar a possibilidade de alterar automaticamente a ordem de entrega dos pedidos (Pela urgência)
+		- Avaliar a carga de trabalho de cada entregadores (Matutino: 7 - 16 | Vespertino: 14 - 23 | Noturno: 23 - 7) (a fazer)
+	 	- Avaliar se um pedido cancelado pode ser reativado (Taxa 10% (Como funciona a questão de pedidos cancelados)) (feito)
+	 	- Avaliar a possibilidade de alterar automaticamente a ordem de entrega dos pedidos (Pela urgência) (a fazer, na listagem de pedidos colocar os que estão em alta prioridade na frente)
 	 	
 	Lembrando:
-		- Pedidos podem mudar de estado
+		- Pedidos podem mudar de estado (Focamos na região norte)
 		- Operadores podem cadastrar informações incorretas (Adicionar barreiras)
-		- Registros podem ficar "Inativos"
 		- Alguns relatórios precisam ignorar dados inconsistentes
-		- Certas operações só fazem sentido em horários específicos
 		- Conversar com a lúcia sobre certas decisões
 	
 	Vai conter:
