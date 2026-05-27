@@ -54,7 +54,7 @@ Requisitos:
 			• Endereço
 			• Prioridade (Alta, Normal)
 			• Descrição do Pedido
-			• Status do Pedido (Pendente, Em Rota, Entregue, Cancelado)
+			• Status do Pedido (Pendente, Em Rota, Entregue)
 			• ID do Entregador (4 dígitos)
 			
 		- Entregadores:
@@ -75,7 +75,7 @@ Requisitos:
 			• Pedidos Entregues
 			• Buscar Pedido por ID
 			• Entregador Disponível
-			• Todas as Entregas realizadas por um entregador (Ver se é o total ou as que ele está fazendo no momento)
+			• Todas as Entregas realizadas por um entregador
 	- Relatórios:
 		- Operacionais:
 			• Total de pedidos;
