@@ -286,33 +286,28 @@ def atualizar_pedido(lista_pedidos, lista_entregadores):
 
         case 2:
             limpar_tela()
-            id_entregador = input(Fore.WHITE + Style.BRIGHT + "Insira o ID do entregador responsável: ")
-            while not validar_id_entregador(id_entregador):
-                limpar_tela()
-                id_entregador = input(Fore.YELLOW + Style.BRIGHT + "Insira o ID do entregador responsável novamente: ")
 
-            if lista_pedidos[posicao]["id_entregador"] == id_entregador:
-                limpar_tela()
-                print(Fore.YELLOW + Style.BRIGHT + "Este entregador já é o responsável por este pedido.")
-                confirmacao()
+            estado = lista_pedidos[posicao]["estado"]
+            regiao = lista_pedidos[posicao]["regiao"]
+
+            id_novo_entregador = cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, regiao)
+
+            if id_novo_entregador == False:
                 return False
 
-            contagem = 0
-            for pedidos in lista_pedidos:
-                if pedidos["id_entregador"] == id_entregador:
-                    contagem += 1
-
-            if contagem >= 5:
+            if lista_pedidos[posicao]["id_entregador"] == id_novo_entregador:
                 limpar_tela()
-                print(Fore.YELLOW+ Style.BRIGHT + "\nUm entregador só pode assumir 5 entregas simultâneas")
+                print(
+                    Fore.YELLOW + Style.BRIGHT + "Este entregador já é o responsável por este pedido. Nenhuma alteração feita.")
                 confirmacao()
                 return False
 
             limpar_tela()
-            lista_pedidos[posicao]["id_entregador"] = id_entregador
+            lista_pedidos[posicao]["id_entregador"] = id_novo_entregador
             print(Fore.GREEN + Style.BRIGHT + "Entregador atualizado com sucesso!")
             confirmacao()
             return True
+
         case 3:
             if lista_pedidos[posicao]["id_entregador"] == "0000":
                 limpar_tela()
