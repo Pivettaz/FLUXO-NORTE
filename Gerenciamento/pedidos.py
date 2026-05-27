@@ -2,23 +2,16 @@ from Validacao.validadores import gerenciar_entrada_numerica, validar_id_entrega
 from utils import limpar_tela, confirmacao
 from colorama import Style, Fore
 from Menu.sub_menus import sub_menu_estados
+import random
 
 def gerar_id_pedido():
-    letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    numeros = "1234567890"
+    letras_aleatorias = ''.join(random.choices('ABCDEFGHIJKLMNOPQRSTUVWXYZ', k=1))
+    numeros_aleatorios = random.randint(1000, 9999)
 
-    indice_letra_aleatoria = id(object()) % len(letras)
-    semente = id(object())
-
-    letra_aleatoria = letras[indice_letra_aleatoria]
-    id_pedido = letra_aleatoria
-
-    for i in range(4):
-        semente = (semente * 1103515245 + 12345) % 2**31
-        numero_aleatorio = semente % len(numeros)
-        id_pedido += str(numero_aleatorio)
-
+    id_pedido = letras_aleatorias + str(numeros_aleatorios)
     return id_pedido
+
+print(gerar_id_pedido())
 
 def cadastrar_nome():
     nome = input(Fore.WHITE + Style.BRIGHT + "Insira o nome do cliente: ")
