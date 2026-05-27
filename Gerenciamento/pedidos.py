@@ -19,66 +19,76 @@ def gerar_id_pedido():
 
     return id_pedido
 
-def cadastrar_pedido(lista_pedidos):
-
-    campos = ["id_pedido", "nome_cliente", "endereco", "regiao", "prioridade", "descricao_pedido", "porte_pedido", "valor_pedido", "status_pedido", "id_entregador"]
-
-    pedido = dict.fromkeys(campos)
-
-    pedido["id_pedido"] = gerar_id_pedido()
-
-    pedido["nome_cliente"] = input(Fore.WHITE + Style.BRIGHT + "Insira o nome do cliente: ")
+def cadastrar_nome():
+    nome = input(Fore.WHITE + Style.BRIGHT + "Insira o nome do cliente: ")
+    while len(nome) < 3 or  not nome.isalpha():
+        print("Nome inválido! -> Deve conter mais de 3 letras e não conter símbolos ou números")
+        nome = input("Insira o nome do cliente: ")
     limpar_tela()
+    return nome.upper()
 
-    pedido["endereco"] = input(Fore.WHITE + Style.BRIGHT + "Insira o endereço do pedido: ")
+def cadastrar_endereço():
+    endereco = input("Digite o endereço do pedido: ")
+    # implementar barreiras
     limpar_tela()
+    return endereco.upper()
 
+def cadastrar_regiao():
     regiao_pedido = input(Fore.WHITE + Style.BRIGHT + "Insira a região do endereço: ")
     while not validar_regiao(regiao_pedido):
         limpar_tela()
         regiao_pedido = input(Fore.YELLOW + Style.BRIGHT + "Insira a região do endereço novamente: ")
-    pedido["regiao"] = regiao_pedido
-    limpar_tela()
+    return regiao_pedido
 
-    escolha_prioridade = gerenciar_entrada_numerica(1,2, Fore.WHITE+ Style.BRIGHT + "\nPRIORIDADE \n[1] ALTA \n[2] NORMAL "
-                                                        "\nDigite uma opção: ")
-    while not escolha_prioridade:
+def cadastrar_prioridade():
+    prioridade = gerenciar_entrada_numerica(1, 2,
+                                                    Fore.WHITE + Style.BRIGHT + "\nPRIORIDADE \n[1] ALTA \n[2] NORMAL "
+                                                                                "\nDigite uma opção: ")
+    while not prioridade:
         limpar_tela()
-        escolha_prioridade = gerenciar_entrada_numerica(1,2, Fore.YELLOW + Style.BRIGHT + "\nPRIORIDADE "
-                                                                                "\n[1] ALTA \n[2] NORMAL "
-                                                                                "\nDigite uma opção novamente: ")
+        prioridade = gerenciar_entrada_numerica(1, 2, Fore.YELLOW + Style.BRIGHT + "\nPRIORIDADE "
+                                                                                           "\n[1] ALTA \n[2] NORMAL "
+                                                                                           "\nDigite uma opção novamente: ")
+        return prioridade
 
-    pedido["prioridade"] = escolha_prioridade
-    limpar_tela()
+def cadastrar_descricao():
+   descricao = input(Fore.WHITE + Style.BRIGHT + "Insira a descrição do produto: ")
+   limpar_tela()
+   return descricao
 
-    pedido["descricao_pedido"] = input(Fore.WHITE + Style.BRIGHT + "Insira a descrição do produto: ")
-    limpar_tela()
+def cadastrar_porte():
+    porte = gerenciar_entrada_numerica(1, 3, Fore.YELLOW + Style.BRIGHT + "\nPORTE "
+                                                                                  "\n[1] BAIXO \n[2] MÉDIA [3] GRANDE "
+                                                                                  "\nDigite uma opção: ")
 
-    escolha_porte = gerenciar_entrada_numerica(1,3, Fore.YELLOW + Style.BRIGHT + "\nPORTE "
-                                                                    "\n[1] BAIXO \n[2] MÉDIA [3] GRANDE "
-                                                                    "\nDigite uma opção: ")
-
-    while not escolha_porte:
+    while not porte:
         limpar_tela()
-        escolha_porte = gerenciar_entrada_numerica(1,3, Fore.YELLOW + Style.BRIGHT + "\nPORTE "
-                                                                    "\n[1] BAIXO \n[2] MÉDIA [3] GRANDE "
-                                                                    "\nDigite uma opção novamente: ")
-    pedido["porte_pedido"] = escolha_porte
-
-    pedido["valor_pedido"] = float(input(Fore.WHITE + Style.BRIGHT + "Insira o valor do produto: "))
-    limpar_tela()
-    
-    escolha_status = gerenciar_entrada_numerica(1, 4, Fore.WHITE + Style.BRIGHT + "\nSTATUS DO PEDIDO "
-                                "\n[1] PENDENTE ""\n[2] EM ROTA \n[3] ENTREGUE \n[4] CANCELADO "
-                                "\nDigite uma opção: ")
-    while not escolha_status:
+        porte = gerenciar_entrada_numerica(1, 3, Fore.YELLOW + Style.BRIGHT + "\nPORTE "
+                                                                                      "\n[1] BAIXO \n[2] MÉDIA [3] GRANDE "
+                                                                                      "\nDigite uma opção novamente: ")
         limpar_tela()
-        escolha_status = gerenciar_entrada_numerica(1,4, Fore.YELLOW + Style.BRIGHT + "\nSTATUS DO PEDIDO \n"
-                                                        "[1] PENDENTE ""\n[2] EM ROTA \n[3] ENTREGUE \n[4] CANCELADO "
-                                                        "\nDigite uma opção novamente: ")
-    pedido["status_pedido"] = escolha_status
-    limpar_tela()
+        return porte
 
+def cadastrar_valor():
+    valor = float(input(Fore.WHITE + Style.BRIGHT + "Insira o valor do produto: "))
+    while valor.isaplha(): # Resolver isso
+        valor = float(input(Fore.WHITE + Style.BRIGHT + "Insira o valor do produto: "))
+    limpar_tela()
+    return valor
+
+def cadastrar_status():
+    status = gerenciar_entrada_numerica(1, 4, Fore.WHITE + Style.BRIGHT + "\nSTATUS DO PEDIDO "
+                                                                                  "\n[1] PENDENTE ""\n[2] EM ROTA \n[3] ENTREGUE \n[4] CANCELADO "
+                                                                                  "\nDigite uma opção: ")
+    while not status:
+        limpar_tela()
+        escolha_status = gerenciar_entrada_numerica(1, 4, Fore.YELLOW + Style.BRIGHT + "\nSTATUS DO PEDIDO \n"
+                                                                                       "[1] PENDENTE ""\n[2] EM ROTA \n[3] ENTREGUE \n[4] CANCELADO "
+                                                                                       "\nDigite uma opção novamente: ")
+        limpar_tela()
+        return status
+
+def cadastrar_id_entregador_pedido(lista_pedidos):
     id_entregador = input(Fore.WHITE + Style.BRIGHT + "Insira o ID do entregador responsável: ")
     while not validar_id_entregador(id_entregador):
         limpar_tela()
@@ -91,8 +101,32 @@ def cadastrar_pedido(lista_pedidos):
         print(Fore.WHITE + Style.BRIGHT + "\nUm entregador só pode assumir 5 entregas simultâneas")
         confirmacao()
         return False
-    pedido["id_entregador"] = id_entregador
-    limpar_tela()
+
+def cadastrar_pedido(lista_pedidos):
+
+    campos = ["id_pedido", "nome_cliente", "endereco", "regiao", "prioridade", "descricao_pedido", "porte_pedido", "valor_pedido", "status_pedido", "id_entregador"]
+
+    pedido = dict.fromkeys(campos)
+
+    pedido["id_pedido"] = gerar_id_pedido()
+
+    pedido["nome_cliente"] = cadastrar_nome()
+
+    pedido["endereco"] = cadastrar_endereço()
+
+    pedido["regiao"] = cadastrar_regiao()
+
+    pedido["prioridade"] = cadastrar_prioridade()
+
+    pedido["descricao_pedido"] =  cadastrar_descricao()
+
+    pedido["porte_pedido"] = cadastrar_porte()
+
+    pedido["valor_pedido"] = cadastrar_valor()
+
+    pedido["status_pedido"] = cadastrar_status()
+
+    pedido["id_entregador"] = cadastrar_id_entregador_pedido(lista_pedidos)
 
     lista_pedidos.append(pedido)
 
