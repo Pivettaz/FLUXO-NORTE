@@ -86,7 +86,7 @@ def cadastrar_valor():
     return valor
 
 
-def cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, regiao, pontuacao):
+def cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, regiao):
     id_entregador = input(Fore.WHITE + Style.BRIGHT + "Insira o ID do entregador responsável: ")
     while not validar_id_entregador(id_entregador):
         limpar_tela()
@@ -110,7 +110,8 @@ def cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, re
     contagem = 0
     for pedidos in lista_pedidos:
         if pedidos["id_entregador"] == id_entregador:
-            contagem += 1
+            if pedidos["status_pedido"] in ["PENDENTE", "EM ROTA"]:
+                contagem += 1
 
     if contagem >= 5:
         print(Fore.WHITE + Style.BRIGHT + "\nUm entregador só pode assumir 5 entregas simultâneas")
@@ -141,13 +142,13 @@ def cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, re
 def cadastrar_status(lista_entregadores):
     if not lista_entregadores:
         return 1
-    status = gerenciar_entrada_numerica(1, 4, Fore.WHITE + Style.BRIGHT + "\nSTATUS DO PEDIDO "
-                                                                                  "\n[1] PENDENTE ""\n[2] EM ROTA \n[3] ENTREGUE \n[4] CANCELADO "
+    status = gerenciar_entrada_numerica(1, 3, Fore.WHITE + Style.BRIGHT + "\nSTATUS DO PEDIDO "
+                                                                                  "\n[1] PENDENTE ""\n[2] EM ROTA \n[3] ENTREGUE"
                                                                                   "\nDigite uma opção: ")
     while not status:
         limpar_tela()
-        status = gerenciar_entrada_numerica(1, 4, Fore.YELLOW + Style.BRIGHT + "\nSTATUS DO PEDIDO \n"
-                                                                                       "[1] PENDENTE ""\n[2] EM ROTA \n[3] ENTREGUE \n[4] CANCELADO "
+        status = gerenciar_entrada_numerica(1, 3, Fore.YELLOW + Style.BRIGHT + "\nSTATUS DO PEDIDO \n"
+                                                                                       "[1] PENDENTE ""\n[2] EM ROTA \n[3] ENTREGUE"
                                                                                        "\nDigite uma opção novamente: ")
         limpar_tela()
         return status
@@ -228,7 +229,7 @@ def buscar_id_pedido_atualizar():
         id_pedido = input(Fore.YELLOW + Style.BRIGHT + "Digite o ID do pedido que deseja atualizar novamente: ").upper()
     return id_pedido
 
-def atualizar_pedido(lista_pedidos):
+def atualizar_pedido(lista_pedidos, lista_entregadores):
     if not lista_pedidos:
         print(Fore.YELLOW+ Style.BRIGHT + "Sem pedidos para atualizar...")
         confirmacao()
@@ -255,20 +256,15 @@ def atualizar_pedido(lista_pedidos):
     match escolha:
         case 1:
             limpar_tela()
-            escolha_status = gerenciar_entrada_numerica(
-                1, 4,
-                Fore.WHITE + Style.BRIGHT + "\nSTATUS DO PEDIDO \n"
-                "[1] PENDENTE \n[2] EM ROTA \n[3] ENTREGUE \n[4] CANCELADO \n"
-                "Digite uma opção: "
-            )
+
+            escolha_status = gerenciar_entrada_numerica(1, 4, Fore.YELLOW + Style.BRIGHT + "\nSTATUS DO PEDIDO \n"
+                                                                                   "[1] PENDENTE ""\n[2] EM ROTA \n[3] ENTREGUE\n [4] CANCELADO"
+                                                                                   "\nDigite uma opção: ")
             while not escolha_status:
-                limpar_tela()
-                escolha_status = gerenciar_entrada_numerica(
-                    1, 4,
-                    Fore.YELLOW + Style.BRIGHT + "\nSTATUS DO PEDIDO \n"
-                    "[1] PENDENTE \n[2] EM ROTA \n[3] ENTREGUE \n[4] CANCELADO \n"
-                    "Digite uma opção novamente: "
-                )
+                escolha_status = gerenciar_entrada_numerica(1, 4, Fore.YELLOW + Style.BRIGHT + "\nSTATUS DO PEDIDO \n"
+                                                                                               "[1] PENDENTE ""\n[2] EM ROTA \n[3] ENTREGUE\n [4] CANCELADO"
+                                                                                               "\nDigite uma opção novamente: ")
+
 
             status_opcoes = ["", "PENDENTE", "EM ROTA", "ENTREGUE", "CANCELADO"]
             status_texto = status_opcoes[escolha_status]
@@ -278,6 +274,9 @@ def atualizar_pedido(lista_pedidos):
                 print(Fore.YELLOW+ Style.BRIGHT + f"O pedido já está com o status '{status_texto}'. Nenhuma alteração foi feita.")
                 confirmacao()
                 return False
+
+            if status_texto == "CANCELADO":
+                lista_pedidos[posicao]["id_entregador"] = "0000"
 
             limpar_tela()
             lista_pedidos[posicao]["status_pedido"] = status_texto
@@ -332,9 +331,9 @@ def atualizar_pedido(lista_pedidos):
             print(Fore.RED + Style.BRIGHT + "Opção inválida detectada pelo sistema.")
             confirmacao()
             return False
-        
-        
-def reativar_pedido(lista_pedidos):
+
+
+def reativar_pedido(lista_pedidos, lista_entregadores):
     id_pedido = input(Fore.WHITE + Style.BRIGHT + 'Digite o ID do pedido que deseja reativar: ').upper()
     while not validar_id_pedido(id_pedido):
         limpar_tela()
@@ -354,18 +353,31 @@ def reativar_pedido(lista_pedidos):
         confirmacao()
         return False
 
+    estado = lista_pedidos[posicao]['estado']
+    regiao = lista_pedidos[posicao]['regiao']
+
+    id_entregador = cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, regiao)
+
+    if id_entregador == False:
+        limpar_tela()
+        print(Fore.YELLOW + Style.BRIGHT + 'Não foi possível reativar o pedido devido a problemas com o entregador.')
+        confirmacao()
+        return False
+
     valor_original = lista_pedidos[posicao]['valor_pedido']
     valor_reativado = float(f"{valor_original * 1.10:.2f}")
 
     limpar_tela()
     print(Fore.WHITE + Style.BRIGHT + '--- CONFIRMAÇÃO DE REATIVAÇÃO ---')
-    print(f'ID:             {lista_pedidos[posicao]['id_pedido']}')
-    print(f'Cliente:        {lista_pedidos[posicao]['nome_cliente']}')
-    print(f'Valor original: R$ {valor_original:.2f}')
-    print(f'Valor com +10%: R$ {valor_reativado:.2f}')
+    print(f"ID:             {lista_pedidos[posicao]['id_pedido']}")
+    print(f"Cliente:        {lista_pedidos[posicao]['nome_cliente']}")
+    print(f"Valor original: R$ {valor_original:.2f}")
+    print(f"Valor com +10%: R$ {valor_reativado:.2f}")
 
-    confirmar = gerenciar_entrada_numerica(Fore.YELLOW + Style.BRIGHT + '\nDeseja reativar esse pedido? \n[1] SIM \n[2] NÃO \nDigite uma opção: ', 1, 2)
-    if confirmar != '1':
+    confirmar = gerenciar_entrada_numerica(1, 2,
+                                           Fore.YELLOW + Style.BRIGHT + '\nDeseja reativar esse pedido? \n[1] SIM \n[2] NÃO \nDigite uma opção: ')
+
+    if confirmar != 1:
         limpar_tela()
         print(Fore.YELLOW + Style.BRIGHT + 'Reativação cancelada.')
         confirmacao()
@@ -373,6 +385,7 @@ def reativar_pedido(lista_pedidos):
 
     lista_pedidos[posicao]['status_pedido'] = 'PENDENTE'
     lista_pedidos[posicao]['valor_pedido'] = valor_reativado
+    lista_pedidos[posicao]['id_entregador'] = id_entregador
 
     limpar_tela()
     print(Fore.GREEN + Style.BRIGHT + 'Pedido reativado com sucesso!')
