@@ -33,7 +33,7 @@ def menu_principal():
                 match escolha_menu_pedidos:
                     case 1:
                         limpar_tela()
-                        cadastrar_pedido(lista_pedidos)
+                        cadastrar_pedido(lista_pedidos, lista_entregadores)
                     case 2:
                         limpar_tela()
                         atualizar_pedido(lista_pedidos)

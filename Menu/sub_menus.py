@@ -33,3 +33,12 @@ def sub_menu_relatorios():
     print("\n[3] PEDIDOS URGENTES")
     print("\n[4] ENTREGADOR COM MAIOR NÚMERO DE ENTREGA")
     print("[5] VOLTAR")
+
+def sub_menu_estados():
+    print("[1] Acre (AC)")
+    print("[2] Amapá (AP)")
+    print("[3] Amazonas (AM)")
+    print("[4] Pará (PA)")
+    print("[5] Rondônia (RO)")
+    print("[6] Roraima (RR)")
+    print("[7] Tocantins (TO)")

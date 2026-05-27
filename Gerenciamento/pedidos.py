@@ -1,6 +1,7 @@
 from Validacao.validadores import gerenciar_entrada_numerica, validar_id_entregador, validar_id_pedido, validar_regiao
 from utils import limpar_tela, confirmacao
 from colorama import Style, Fore
+from Menu.sub_menus import sub_menu_estados
 
 def gerar_id_pedido():
     letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -27,7 +28,15 @@ def cadastrar_nome():
     limpar_tela()
     return nome.upper()
 
-def cadastrar_endereço():
+def cadastrar_estado():
+    sub_menu_estados()
+    estado = gerenciar_entrada_numerica(1,7,"Digite uma opção: ")
+
+    while not estado:
+        estado = gerenciar_entrada_numerica(1,7,"Digite uma opção novamente: ")
+    return estado
+
+def cadastrar_endereco():
     endereco = input("Digite o endereço do pedido: ")
     # implementar barreiras
     limpar_tela()
@@ -70,41 +79,83 @@ def cadastrar_porte():
         return porte
 
 def cadastrar_valor():
-    valor = float(input(Fore.WHITE + Style.BRIGHT + "Insira o valor do produto: "))
-    while valor.isaplha(): # Resolver isso
-        valor = float(input(Fore.WHITE + Style.BRIGHT + "Insira o valor do produto: "))
+    valor = input(Fore.WHITE + Style.BRIGHT + "Insira o valor do produto: ")
+    while not valor.isdigit():
+        valor = input(Fore.WHITE + Style.BRIGHT + "Valor deve conter apenas números \nInsira o valor do produto novamente")
     limpar_tela()
     return valor
 
-def cadastrar_status():
-    status = gerenciar_entrada_numerica(1, 4, Fore.WHITE + Style.BRIGHT + "\nSTATUS DO PEDIDO "
-                                                                                  "\n[1] PENDENTE ""\n[2] EM ROTA \n[3] ENTREGUE \n[4] CANCELADO "
-                                                                                  "\nDigite uma opção: ")
-    while not status:
-        limpar_tela()
-        escolha_status = gerenciar_entrada_numerica(1, 4, Fore.YELLOW + Style.BRIGHT + "\nSTATUS DO PEDIDO \n"
-                                                                                       "[1] PENDENTE ""\n[2] EM ROTA \n[3] ENTREGUE \n[4] CANCELADO "
-                                                                                       "\nDigite uma opção novamente: ")
-        limpar_tela()
-        return status
 
-def cadastrar_id_entregador_pedido(lista_pedidos):
+def cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, regiao):
     id_entregador = input(Fore.WHITE + Style.BRIGHT + "Insira o ID do entregador responsável: ")
     while not validar_id_entregador(id_entregador):
         limpar_tela()
         id_entregador = input(Fore.YELLOW + Style.BRIGHT + "Insira o ID do entregador responsável novamente: ")
+
+    estados_norte = ["", "AC", "AP", "AM", "PA", "RO", "RR", "TO"]
+
+    if 1 <= estado<= 7:
+        estado_sigla = estados_norte[estado]
+    else:
+        print("Código de estado inválido.")
+        confirmacao()
+        return False
+
+
+    if not lista_entregadores:
+        print(
+            Fore.WHITE + Style.BRIGHT + "\nNenhum entregador cadastrado, pedido ficará como Pendente.\nApós cadastrar um entregador atualize esse pedido.")
+        confirmacao()
+        return "0000"
+
     contagem = 0
     for pedidos in lista_pedidos:
         if pedidos["id_entregador"] == id_entregador:
             contagem += 1
+
     if contagem >= 5:
         print(Fore.WHITE + Style.BRIGHT + "\nUm entregador só pode assumir 5 entregas simultâneas")
         confirmacao()
         return False
 
-def cadastrar_pedido(lista_pedidos):
+    for entregador in lista_entregadores:
+        if entregador["id_entregador"] == id_entregador:
 
-    campos = ["id_pedido", "nome_cliente", "endereco", "regiao", "prioridade", "descricao_pedido", "porte_pedido", "valor_pedido", "status_pedido", "id_entregador"]
+            if entregador["estado"] != estado_sigla:
+                print("Este entregador não pertence a esse estado!")
+                confirmacao()
+                return False
+
+            if entregador["regiao"] != regiao:
+                print("Este entregador pertence ao estado, mas não a essa região!")
+                confirmacao()
+                return False
+
+            print("Entregador verificado e confirmado para esta rota!")
+            confirmacao()
+            return id_entregador
+
+    print("Entregador não encontrado no sistema.")
+    confirmacao()
+    return False
+
+def cadastrar_status(lista_entregadores):
+    if not lista_entregadores:
+        return 1
+    status = gerenciar_entrada_numerica(1, 4, Fore.WHITE + Style.BRIGHT + "\nSTATUS DO PEDIDO "
+                                                                                  "\n[1] PENDENTE ""\n[2] EM ROTA \n[3] ENTREGUE \n[4] CANCELADO "
+                                                                                  "\nDigite uma opção: ")
+    while not status:
+        limpar_tela()
+        status = gerenciar_entrada_numerica(1, 4, Fore.YELLOW + Style.BRIGHT + "\nSTATUS DO PEDIDO \n"
+                                                                                       "[1] PENDENTE ""\n[2] EM ROTA \n[3] ENTREGUE \n[4] CANCELADO "
+                                                                                       "\nDigite uma opção novamente: ")
+        limpar_tela()
+        return status
+
+def cadastrar_pedido(lista_pedidos, lista_entregadores):
+
+    campos = ["id_pedido", "nome_cliente", "estado", "endereco", "regiao", "prioridade", "descricao_pedido", "porte_pedido", "valor_pedido", "id_entregador", "status_pedido"]
 
     pedido = dict.fromkeys(campos)
 
@@ -112,9 +163,15 @@ def cadastrar_pedido(lista_pedidos):
 
     pedido["nome_cliente"] = cadastrar_nome()
 
-    pedido["endereco"] = cadastrar_endereço()
+    estado = cadastrar_estado()
 
-    pedido["regiao"] = cadastrar_regiao()
+    pedido["estado"] = estado
+
+    pedido["endereco"] = cadastrar_endereco()
+
+    regiao = cadastrar_regiao()
+
+    pedido["regiao"] = regiao
 
     pedido["prioridade"] = cadastrar_prioridade()
 
@@ -124,19 +181,24 @@ def cadastrar_pedido(lista_pedidos):
 
     pedido["valor_pedido"] = cadastrar_valor()
 
-    pedido["status_pedido"] = cadastrar_status()
+    pedido["id_entregador"] = cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, regiao)
 
-    pedido["id_entregador"] = cadastrar_id_entregador_pedido(lista_pedidos)
+    pedido["status_pedido"] = cadastrar_status(lista_entregadores)
 
     lista_pedidos.append(pedido)
 
+    estado_texto = "AC" if pedido["estado"] == 1 else "AP" if pedido["estado"] == 2 else "AM" if pedido["estado"] == 3 else "PA" if \
+    pedido["estado"] == 4 else "RO" if pedido["estado"] == 5 else "RR" if pedido["estado"] == 6 else "TO" if pedido["estado"] == 7 else "Desconhecido"
+
     prioridade_texto = "ALTA" if pedido["prioridade"] == 1 else "NORMAL"
+
     status_texto = "PENDENTE" if pedido["status_pedido"] == 1 else "EM ROTA" if pedido["status_pedido"] == 2 \
         else "ENTREGUE" if pedido["status_pedido"] == 3 else "CANCELADO"
 
     print(Fore.WHITE + Style.BRIGHT + "-----PEDIDO CADASTRADO-----")
     print(f"ID -> {pedido["id_pedido"]}")
     print(f"CLIENTE -> {pedido["nome_cliente"]}")
+    print(f"ESTADO -> {estado_texto}")
     print(f"ENDEREÇO -> {pedido["endereco"]}")
     print(f"REGIÃO -> {pedido["regiao"]}")
     print(f"PRIORIDADE -> {prioridade_texto}")
