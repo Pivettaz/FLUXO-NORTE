@@ -156,6 +156,12 @@ def buscar_posicao_por_id(id_procurado, lista_pedidos):
 
     return -1
 
+def buscar_id_pedido_atualizar():
+    id_pedido = input(Fore.WHITE + Style.BRIGHT + "Digite o ID do pedido que deseja atualizar: ").upper()
+    while not validar_id_pedido(id_pedido):
+        limpar_tela()
+        id_pedido = input(Fore.YELLOW + Style.BRIGHT + "Digite o ID do pedido que deseja atualizar novamente: ").upper()
+    return id_pedido
 
 def atualizar_pedido(lista_pedidos):
     if not lista_pedidos:
@@ -163,10 +169,7 @@ def atualizar_pedido(lista_pedidos):
         confirmacao()
         return False
 
-    id_pedido = input(Fore.WHITE + Style.BRIGHT + "Digite o ID do pedido que deseja atualizar: ").upper()
-    while not validar_id_pedido(id_pedido):
-        limpar_tela()
-        id_pedido = input(Fore.YELLOW + Style.BRIGHT + "Digite o ID do pedido que deseja atualizar novamente: ").upper()
+    id_pedido = buscar_id_pedido_atualizar()
 
     posicao = buscar_posicao_por_id(id_pedido, lista_pedidos)
 
