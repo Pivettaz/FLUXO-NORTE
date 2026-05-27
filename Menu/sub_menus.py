@@ -19,7 +19,7 @@ def sub_menu_entregadores():
 
 def sub_menu_consultas():
     print("-----Consulta-----")
-    print("\n[1] PEDIDOS PENDENTES")
+    print("\n[1] PEDIDOS PENDENTES") # POR PRIORIDADE
     print("\n[2] PEDIDOS ENTREGUES")
     print("\n[3] BUSCAR PEDIDO - ID")
     print("\n[4] ENTREGADORES DISPONÍVEIS")
@@ -29,7 +29,7 @@ def sub_menu_consultas():
 def sub_menu_relatorios():
     print("-----Relatórios-----")
     print("\n[1] TOTAL DE PEDIDOS")
-    print("\n[2] QUANTIDAD DE PEDIDOS - STATUS")
+    print("\n[2] QUANTIDADE DE PEDIDOS - STATUS")
     print("\n[3] PEDIDOS URGENTES")
     print("\n[4] ENTREGADOR COM MAIOR NÚMERO DE ENTREGA")
     print("[5] VOLTAR")

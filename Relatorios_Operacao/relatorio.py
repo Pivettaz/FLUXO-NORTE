@@ -24,15 +24,15 @@ def relatorio_pedidos_por_status(pedidos):
     cancelado = 0
 
     for pid in pedidos:
-        status = pedidos[pid]["status"]
+        status = pedidos[pid]["status_pedido"]
 
-        if status == "Pendente":
+        if status == "PENDENTE":
             pendente = pendente + 1
-        elif status == "Em Rota":
+        elif status == "EM ROTA":
             em_rota = em_rota + 1
-        elif status == "Entregue":
+        elif status == "ENTREGUE":
             entregue = entregue + 1
-        elif status == "Cancelado":
+        elif status == "CANCELADO":
             cancelado = cancelado + 1
 
     print("Pendente : " + str(pendente))
@@ -52,14 +52,18 @@ def relatorio_alta_prioridade(pedidos):
     for pid in pedidos:
         prioridade = pedidos[pid]["prioridade"]
 
-        if prioridade == "Alta":
+        if prioridade == "ALTA":
             encontrados = encontrados + 1
             nome = pedidos[pid]["nome_cliente"]
+            estado = pedidos[pid]["estado"]
+            regiao = pedidos[pid]["regiao"]
             endereco = pedidos[pid]["endereco"]
             status = pedidos[pid]["status"]
 
             print("ID      : " + pid)
             print("Cliente : " + nome)
+            print("Estado  : " + estado)
+            print("Região  : " + regiao)
             print("Endereco: " + endereco)
             print("Status  : " + status)
             print("---")
@@ -91,7 +95,7 @@ def relatorio_top_entregador(entregadores, pedidos):
 
         for pid in lista_pedidos:
             if pid in pedidos:
-                if pedidos[pid]["status"] == "Entregue":
+                if pedidos[pid]["status_pedido"] == "ENTREGUE":
                     total_entregues = total_entregues + 1
 
         if total_entregues > maior_numero:
@@ -105,34 +109,3 @@ def relatorio_top_entregador(entregadores, pedidos):
         print("ID    : " + id_lider)
         print("Nome  : " + nome_lider)
         print("Total : " + str(maior_numero) + " entrega(s) concluida(s)")
-
-    print("")
-
-
-def menu_relatorios(pedidos, entregadores):
-    continuar = True
-
-    while continuar:
-        print("")
-        print("---- RELATORIOS OPERACIONAIS ----")
-        print("1 - Total de pedidos")
-        print("2 - Pedidos por status")
-        print("3 - Pedidos com Alta Prioridade")
-        print("4 - Entregador com mais entregas")
-        print("0 - Voltar")
-        print("---------------------------------")
-
-        opcao = input("Escolha uma opcao: ")
-
-        if opcao == "1":
-            relatorio_total_pedidos(pedidos)
-        elif opcao == "2":
-            relatorio_pedidos_por_status(pedidos)
-        elif opcao == "3":
-            relatorio_alta_prioridade(pedidos)
-        elif opcao == "4":
-            relatorio_top_entregador(entregadores, pedidos)
-        elif opcao == "0":
-            continuar = False
-        else:
-            print("Opcao invalida. Tente novamente.")
