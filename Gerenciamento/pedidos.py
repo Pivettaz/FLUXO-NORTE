@@ -267,3 +267,50 @@ def atualizar_pedido(lista_pedidos):
             print(Fore.RED + Style.BRIGHT + "Opção inválida detectada pelo sistema.")
             confirmacao()
             return False
+        
+        
+def reativar_pedido(lista_pedidos):
+    id_pedido = input(Fore.WHITE + Style.BRIGHT + 'Digite o ID do pedido que deseja reativar: ').upper()
+    while not validar_id_pedido(id_pedido):
+        limpar_tela()
+        id_pedido = input(Fore.YELLOW + Style.BRIGHT + 'Digite o ID do pedido novamente: ').upper()
+
+    posicao = buscar_posicao_por_id(id_pedido, lista_pedidos)
+
+    if posicao == -1:
+        limpar_tela()
+        print(Fore.YELLOW + Style.BRIGHT + 'Pedido não encontrado na base de dados.')
+        confirmacao()
+        return False
+
+    if lista_pedidos[posicao]['status_pedido'] != 'CANCELADO':
+        limpar_tela()
+        print(Fore.YELLOW + Style.BRIGHT + 'Este pedido não está cancelado e não pode ser reativado.')
+        confirmacao()
+        return False
+
+    valor_original = lista_pedidos[posicao]['valor_pedido']
+    valor_reativado = float(f"{valor_original * 1.10:.2f}")
+
+    limpar_tela()
+    print(Fore.WHITE + Style.BRIGHT + '--- CONFIRMAÇÃO DE REATIVAÇÃO ---')
+    print(f'ID:             {lista_pedidos[posicao]['id_pedido']}')
+    print(f'Cliente:        {lista_pedidos[posicao]['nome_cliente']}')
+    print(f'Valor original: R$ {valor_original:.2f}')
+    print(f'Valor com +10%: R$ {valor_reativado:.2f}')
+
+    confirmar = gerenciar_entrada_numerica(Fore.YELLOW + Style.BRIGHT + '\nDeseja reativar esse pedido? \n[1] SIM \n[2] NÃO \nDigite uma opção: ', 1, 2)
+    if confirmar != '1':
+        limpar_tela()
+        print(Fore.YELLOW + Style.BRIGHT + 'Reativação cancelada.')
+        confirmacao()
+        return False
+
+    lista_pedidos[posicao]['status_pedido'] = 'PENDENTE'
+    lista_pedidos[posicao]['valor_pedido'] = valor_reativado
+
+    limpar_tela()
+    print(Fore.GREEN + Style.BRIGHT + 'Pedido reativado com sucesso!')
+    print(f'Novo status: PENDENTE | Novo valor: R$ {valor_reativado:.2f}')
+    confirmacao()
+    return True
