@@ -1,7 +1,7 @@
 from utils import limpar_tela
 import Menu.sub_menus as sm
 from Validacao.validadores import gerenciar_entrada_numerica
-from Gerenciamento.pedidos import cadastrar_pedido, atualizar_pedido
+from Gerenciamento.pedidos import cadastrar_pedido, atualizar_pedido, reativar_pedido, solicitar_reembolso
 from Gerenciamento.consulta_infomações import pedidos_pendentes, pedidos_entregues, buscar_pedido, entregadores_disponiveis, entregas_entregador
 
 def menu_principal():
@@ -12,11 +12,11 @@ def menu_principal():
         limpar_tela()
         sm.sub_menu_principal()
 
-        escolha_menu_principal = gerenciar_entrada_numerica(1, 5, "Digite uma opção: ")
+        escolha_menu_principal = gerenciar_entrada_numerica(1, 5, "\nDigite uma opção: ")
         while not escolha_menu_principal:
             limpar_tela()
             sm.sub_menu_principal()
-            escolha_menu_principal = gerenciar_entrada_numerica(1, 5, "Digite uma opção novamente: ")
+            escolha_menu_principal = gerenciar_entrada_numerica(1, 5, "\nDigite uma opção novamente: ")
 
         if escolha_menu_principal == 1:
             executando_menu_pedidos = 1
@@ -24,11 +24,11 @@ def menu_principal():
                 limpar_tela()
                 sm.sub_menu_pedidos()
 
-                escolha_menu_pedidos = gerenciar_entrada_numerica(1,3, "Digite uma opção: ")
+                escolha_menu_pedidos = gerenciar_entrada_numerica(1,5, "\nDigite uma opção: ")
                 while not escolha_menu_pedidos:
                     limpar_tela()
                     sm.sub_menu_pedidos()
-                    escolha_menu_pedidos = gerenciar_entrada_numerica(1, 3, "Digite uma opção novamente: ")
+                    escolha_menu_pedidos = gerenciar_entrada_numerica(1, 5, "\nDigite uma opção novamente: ")
 
                 match escolha_menu_pedidos:
                     case 1:
@@ -36,8 +36,14 @@ def menu_principal():
                         cadastrar_pedido(lista_pedidos, lista_entregadores)
                     case 2:
                         limpar_tela()
-                        atualizar_pedido(lista_pedidos)
+                        atualizar_pedido(lista_pedidos, lista_entregadores)
                     case 3:
+                        limpar_tela()
+                        reativar_pedido(lista_pedidos, lista_entregadores)
+                    case 4:
+                        limpar_tela()
+                        solicitar_reembolso(lista_pedidos)
+                    case 5:
                         executando_menu_pedidos = 0
         elif escolha_menu_principal == 2:
             executando_menu_entregadores = 1
@@ -45,11 +51,11 @@ def menu_principal():
                 limpar_tela()
                 sm.sub_menu_entregadores()
 
-                escolha_menu_entregadores = gerenciar_entrada_numerica(1, 2, "Digite uma opção: ")
+                escolha_menu_entregadores = gerenciar_entrada_numerica(1, 2, "\nDigite uma opção: ")
                 while not escolha_menu_entregadores:
                     limpar_tela()
                     sm.sub_menu_entregadores()
-                    escolha_menu_entregadores = gerenciar_entrada_numerica(1, 2, "Digite uma opção novamente:")
+                    escolha_menu_entregadores = gerenciar_entrada_numerica(1, 2, "\nDigite uma opção novamente:")
 
                 match escolha_menu_entregadores:
                     case 1:
@@ -63,11 +69,11 @@ def menu_principal():
                 limpar_tela()
                 sm.sub_menu_consultas()
 
-                escolha_menu_consulta = gerenciar_entrada_numerica(1, 6, "Digite uma opção: ")
+                escolha_menu_consulta = gerenciar_entrada_numerica(1, 6, "\nDigite uma opção: ")
                 while not escolha_menu_consulta:
                     limpar_tela()
                     sm.sub_menu_consultas()
-                    escolha_menu_consulta = gerenciar_entrada_numerica(1, 6, "Digite uma opção novamente: ")
+                    escolha_menu_consulta = gerenciar_entrada_numerica(1, 6, "\nDigite uma opção novamente: ")
 
                 match escolha_menu_consulta:
                     case 1:
@@ -93,10 +99,10 @@ def menu_principal():
                 limpar_tela()
                 sm.sub_menu_relatorios()
 
-                escolha_menu_relatorios = gerenciar_entrada_numerica(1, 5, "Digite uma opção: ")
+                escolha_menu_relatorios = gerenciar_entrada_numerica(1, 5, "\nDigite uma opção: ")
                 while not escolha_menu_relatorios:
                     limpar_tela()
-                    escolha_menu_relatorios = gerenciar_entrada_numerica(1, 5, "Digite uma opção novamente: ")
+                    escolha_menu_relatorios = gerenciar_entrada_numerica(1, 5, "\nDigite uma opção novamente: ")
 
                 match escolha_menu_relatorios:
                     case 1:

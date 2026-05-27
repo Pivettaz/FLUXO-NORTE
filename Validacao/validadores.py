@@ -45,5 +45,5 @@ def validar_id_pedido(id_pedido):
         print("\nQuatro últimos dígitos do ID devem ser um número")
         sleep(1.5)
         return False
-    return True
+    return id_pedido.upper()
 

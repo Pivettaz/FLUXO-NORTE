@@ -9,8 +9,10 @@ def sub_menu_principal():
 def sub_menu_pedidos():
     print("-----Pedidos-----")
     print("\n[1] CADASTRO")
-    print("[2] ATUALIZAR")
-    print("[3] VOLTAR")
+    print("[2] ATUALIZAÇÕES")
+    print("[3] REATIVAR PEDIDO")
+    print("[4] REEMBOLSAR PEDIDO")
+    print("[5] VOLTAR")
 
 def sub_menu_entregadores():
     print("-----Entregadores-----")
