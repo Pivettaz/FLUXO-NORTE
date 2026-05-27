@@ -67,13 +67,13 @@ def cadastrar_descricao():
 
 def cadastrar_porte():
     porte = gerenciar_entrada_numerica(1, 3, Fore.YELLOW + Style.BRIGHT + "\nPORTE "
-                                                                                  "\n[1] BAIXO \n[2] MÉDIA [3] GRANDE "
+                                                                                  "\n[1] BAIXO \n[2] MEDIO [3] GRANDE "
                                                                                   "\nDigite uma opção: ")
 
     while not porte:
         limpar_tela()
         porte = gerenciar_entrada_numerica(1, 3, Fore.YELLOW + Style.BRIGHT + "\nPORTE "
-                                                                                      "\n[1] BAIXO \n[2] MÉDIA [3] GRANDE "
+                                                                                      "\n[1] BAIXO \n[2] MEDIO [3] GRANDE "
                                                                                       "\nDigite uma opção novamente: ")
         limpar_tela()
         return porte
@@ -86,7 +86,7 @@ def cadastrar_valor():
     return valor
 
 
-def cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, regiao):
+def cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, regiao, pontuacao):
     id_entregador = input(Fore.WHITE + Style.BRIGHT + "Insira o ID do entregador responsável: ")
     while not validar_id_entregador(id_entregador):
         limpar_tela()
@@ -100,7 +100,6 @@ def cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, re
         print("Código de estado inválido.")
         confirmacao()
         return False
-
 
     if not lista_entregadores:
         print(
@@ -177,15 +176,19 @@ def cadastrar_pedido(lista_pedidos, lista_entregadores):
 
     pedido["descricao_pedido"] =  cadastrar_descricao()
 
-    pedido["porte_pedido"] = cadastrar_porte()
+    porte = cadastrar_porte()
+
+    pedido["porte_pedido"] =  porte
 
     pedido["valor_pedido"] = cadastrar_valor()
 
-    pedido["id_entregador"] = cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, regiao)
+    pedido["id_entregador"] = cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, regiao, porte)
 
     pedido["status_pedido"] = cadastrar_status(lista_entregadores)
 
     lista_pedidos.append(pedido)
+
+    porte_texto = "PEQUENO" if pedido["porte_pedido"] == 1 else "MEDIO" if pedido["status_pedido"] == 2 else "GRANDE"
 
     estado_texto = "AC" if pedido["estado"] == 1 else "AP" if pedido["estado"] == 2 else "AM" if pedido["estado"] == 3 else "PA" if \
     pedido["estado"] == 4 else "RO" if pedido["estado"] == 5 else "RR" if pedido["estado"] == 6 else "TO" if pedido["estado"] == 7 else "Desconhecido"
@@ -203,7 +206,7 @@ def cadastrar_pedido(lista_pedidos, lista_entregadores):
     print(f"REGIÃO -> {pedido["regiao"]}")
     print(f"PRIORIDADE -> {prioridade_texto}")
     print(f"DESCRIÇÃO-> {pedido["descricao_pedido"]}")
-    print(f"PORTE -> {pedido["porte_pedido"]}")
+    print(f"PORTE -> {porte_texto}")
     print(f"VALOR -> {pedido["valor_pedido"]}")
     print(f"STATUS -> {status_texto}")
     print(f"ID ENTREGADOR -> {pedido["id_entregador"]}")
