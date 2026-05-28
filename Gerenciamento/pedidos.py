@@ -355,6 +355,11 @@ def atualizar_pedido(lista_pedidos, lista_entregadores):
 
 
 def reativar_pedido(lista_pedidos, lista_entregadores):
+    if not lista_pedidos:
+        print(AMARELO + "Sem pedidos para reativar...")
+        confirmacao()
+        return False
+
     id_pedido = input(BRANCO + 'Digite o ID do pedido que deseja reativar: ').upper()
     while not validar_id_pedido(id_pedido):
         limpar_tela()
@@ -416,6 +421,11 @@ def reativar_pedido(lista_pedidos, lista_entregadores):
 
 
 def solicitar_reembolso(lista_pedidos):
+    if not lista_pedidos:
+        print(AMARELO + "Sem pedidos para reembolsar..")
+        confirmacao()
+        return False
+
     id_pedido = input(BRANCO + "Digite o ID do pedido a reembolsar: ").upper()
     while not validar_id_pedido(id_pedido):
         limpar_tela()

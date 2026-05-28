@@ -111,6 +111,11 @@ def buscar_pedido(lista_pedidos):
 
 
 def entregas_entregador(lista_pedidos, lista_entregadores):
+    if not lista_entregadores:
+        print(AMARELO + "Nenhum Entregador cadastrado no sistema...")
+        confirmacao()
+        return False
+
     limpar_tela()
     id_busca = input('Digite o ID do entregador: ').strip()
     while not val.validar_id_entregador(id_busca):
