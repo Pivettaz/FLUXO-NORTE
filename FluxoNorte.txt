@@ -54,14 +54,14 @@ Requisitos:
 			• Endereço
 			• Prioridade (Alta, Normal)
 			• Descrição do Pedido
-			• Status do Pedido (Pendente, Em Rota, Entregue)
+			• Status do Pedido (Pendente, Em Rota, Entregue, Cancelado) # Adicionar cancelado
 			• ID do Entregador (4 dígitos)
 			
 		- Entregadores:
 			• ID do Entregador (constituído de 4 dígitos)
 			• Nome do entregador
 			• Veículo (carro, van, moto)
-			• ID dos Pedidos a serem entregues
+			• ID dos Pedidos a serem entregues # Ser em um menu separado com um print
 			• Disponibilidade
 	- Atualizações:
 		- Pedidos:
@@ -69,6 +69,7 @@ Requisitos:
 			• Cancelar Pedido
 			• Associar Entregadores a Pedidos
 			• Remover associação de Entregador
+			* Na parte do reembolso colocar status_pago
 	- Consulta:
 		- Informações:
 			• Pedidos Pendentes
