@@ -1,7 +1,7 @@
-from Validacao.validadores import gerenciar_entrada_numerica, validar_id_entregador, validar_id_pedido, validar_regiao
+from Validacao.validadores import gerenciar_entrada_numerica, validar_id_entregador, validar_id_pedido, validar_nome
 from utils import limpar_tela, confirmacao
 from colorama import Style, Fore
-from Menu.sub_menus import sub_menu_estados
+from Menu.sub_menus import sub_menu_estados, sub_menu_regiao
 import random
 
 AMARELO = Fore.YELLOW + Style.BRIGHT
@@ -17,10 +17,11 @@ def gerar_id_pedido():
     return id_pedido
 
 def cadastrar_nome():
-    nome = input(BRANCO  + "Insira o nome do cliente: ")
-    while len(nome) < 3 or  not nome.isalpha(): # ajustar aqui
-        print(AMARELO + "Nome inválido! -> Deve conter mais de 3 letras e não conter símbolos ou números")
-        nome = input(BRANCO + "Insira o nome do cliente novamente: ")
+    limpar_tela()
+    nome = input(BRANCO + "Insira o nome do cliente: ")
+    while not validar_nome(nome):
+        limpar_tela()
+        nome = input(AMARELO + "Insira o nome do cliente novamente: ")
     limpar_tela()
     return nome.upper()
 
@@ -42,11 +43,13 @@ def cadastrar_endereco():
 
 def cadastrar_regiao():
     limpar_tela()
-    regiao_pedido = input(BRANCO + "Insira a região do endereço: ")
-    while not validar_regiao(regiao_pedido):
+    sub_menu_regiao()
+    regiao_pedido = gerenciar_entrada_numerica(1, 5, "\nDigite uma opção: ")
+    while not regiao_pedido:
         limpar_tela()
-        regiao_pedido = input(BRANCO + "Insira a região do endereço novamente: ")
-    return regiao_pedido
+        sub_menu_regiao()
+        regiao_pedido = gerenciar_entrada_numerica(1, 5, "\nDigite uma opção novamente: ")
+    return str(regiao_pedido)
 
 def cadastrar_prioridade():
     limpar_tela()
