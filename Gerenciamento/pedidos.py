@@ -342,22 +342,22 @@ def atualizar_pedido(lista_pedidos, lista_entregadores):
 
 
 def reativar_pedido(lista_pedidos, lista_entregadores):
-    id_pedido = input(Fore.WHITE + Style.BRIGHT + 'Digite o ID do pedido que deseja reativar: ').upper()
+    id_pedido = input(BRANCO + 'Digite o ID do pedido que deseja reativar: ').upper()
     while not validar_id_pedido(id_pedido):
         limpar_tela()
-        id_pedido = input(Fore.YELLOW + Style.BRIGHT + 'Digite o ID do pedido novamente: ').upper()
+        id_pedido = input(AMARELO + 'Digite o ID do pedido novamente: ').upper()
 
     posicao = buscar_posicao_por_id(id_pedido, lista_pedidos)
 
     if posicao == -1:
         limpar_tela()
-        print(Fore.YELLOW + Style.BRIGHT + 'Pedido não encontrado na base de dados.')
+        print(AMARELO + 'Pedido não encontrado na base de dados.')
         confirmacao()
         return False
 
     if lista_pedidos[posicao]['status_pedido'] != 'CANCELADO':
         limpar_tela()
-        print(Fore.YELLOW + Style.BRIGHT + 'Este pedido não está cancelado e não pode ser reativado.')
+        print(AMARELO + 'Este pedido não está cancelado e não pode ser reativado.')
         confirmacao()
         return False
 
@@ -368,7 +368,7 @@ def reativar_pedido(lista_pedidos, lista_entregadores):
 
     if id_entregador == False:
         limpar_tela()
-        print(Fore.YELLOW + Style.BRIGHT + 'Não foi possível reativar o pedido devido a problemas com o entregador.')
+        print(AMARELO + 'Não foi possível reativar o pedido devido a problemas com o entregador.')
         confirmacao()
         return False
 
@@ -376,18 +376,18 @@ def reativar_pedido(lista_pedidos, lista_entregadores):
     valor_reativado = float(f"{valor_original * 1.10:.2f}")
 
     limpar_tela()
-    print(Fore.WHITE + Style.BRIGHT + '--- CONFIRMAÇÃO DE REATIVAÇÃO ---')
-    print(f"ID:             {lista_pedidos[posicao]['id_pedido']}")
-    print(f"Cliente:        {lista_pedidos[posicao]['nome_cliente']}")
-    print(f"Valor original: R$ {valor_original:.2f}")
-    print(f"Valor com +10%: R$ {valor_reativado:.2f}")
+    print(BRANCO + '--- CONFIRMAÇÃO DE REATIVAÇÃO ---')
+    print(BRANCO + f"ID:             {lista_pedidos[posicao]['id_pedido']}")
+    print(BRANCO + f"Cliente:        {lista_pedidos[posicao]['nome_cliente']}")
+    print(BRANCO + f"Valor original: R$ {valor_original:.2f}")
+    print(BRANCO + f"Valor com +10%: R$ {valor_reativado:.2f}")
 
     confirmar = gerenciar_entrada_numerica(1, 2,
-                                           Fore.YELLOW + Style.BRIGHT + '\nDeseja reativar esse pedido? \n[1] SIM \n[2] NÃO \nDigite uma opção: ')
+                                           BRANCO + '\nDeseja reativar esse pedido? \n[1] SIM \n[2] NÃO \nDigite uma opção: ')
 
     if confirmar != 1:
         limpar_tela()
-        print(Fore.YELLOW + Style.BRIGHT + 'Reativação cancelada.')
+        print(AMARELO + 'Reativação cancelada.')
         confirmacao()
         return False
 
@@ -396,23 +396,23 @@ def reativar_pedido(lista_pedidos, lista_entregadores):
     lista_pedidos[posicao]['id_entregador'] = id_entregador
 
     limpar_tela()
-    print(Fore.GREEN + Style.BRIGHT + 'Pedido reativado com sucesso!')
+    print(VERDE + 'Pedido reativado com sucesso!')
     print(f'Novo status: PENDENTE | Novo valor: R$ {valor_reativado:.2f}')
     confirmacao()
     return True
 
 
 def solicitar_reembolso(lista_pedidos):
-    id_pedido = input("Digite o ID do pedido a reembolsar: ").upper()
+    id_pedido = input(BRANCO + "Digite o ID do pedido a reembolsar: ").upper()
     while not validar_id_pedido(id_pedido):
         limpar_tela()
-        id_pedido = input("Digite o ID do pedido a reembolsar novamente: ").upper()
+        id_pedido = input(BRANCO + "Digite o ID do pedido a reembolsar novamente: ").upper()
 
     posicao = buscar_posicao_por_id(id_pedido, lista_pedidos)
 
     if posicao == -1:
         limpar_tela()
-        print(Fore.YELLOW + Style.BRIGHT + "Pedido não encontrado na base de dados.")
+        print(AMARELO + "Pedido não encontrado na base de dados.")
         confirmacao()
         return False
 
@@ -420,13 +420,13 @@ def solicitar_reembolso(lista_pedidos):
 
     if status_atual == "REEMBOLSADO":
         limpar_tela()
-        print(Fore.YELLOW + Style.BRIGHT + "Este pedido já foi reembolsado anteriormente!")
+        print(AMARELO + "Este pedido já foi reembolsado anteriormente!")
         confirmacao()
         return False
 
     if status_atual != "CANCELADO":
         limpar_tela()
-        print(Fore.YELLOW + Style.BRIGHT + f"Não é possível reembolsar um pedido com o status '{status_atual}'.")
+        print(AMARELO + f"Não é possível reembolsar um pedido com o status '{status_atual}'.")
         print("O pedido precisa ser cancelado antes de solicitar o reembolso.")
         confirmacao()
         return False
@@ -435,7 +435,7 @@ def solicitar_reembolso(lista_pedidos):
 
     confirmacao_reembolso = gerenciar_entrada_numerica(
         1, 2,
-        "\nConfirmar reembolso? \n[1] Sim \n[2] Não \nDigite uma opção: "
+        BRANCO + "\nConfirmar reembolso? \n[1] Sim \n[2] Não \nDigite uma opção: "
     )
 
     if confirmacao_reembolso == 1:
@@ -444,13 +444,13 @@ def solicitar_reembolso(lista_pedidos):
         valor = lista_pedidos[posicao]["valor_pedido"]
 
         limpar_tela()
-        print(Fore.GREEN + Style.BRIGHT + "Reembolso Confirmado com Sucesso!")
-        print(f"Motivo do reembolso: {justificativa}")
-        print(f"Valor a ser reembolsado: R$ {valor:.2f}")
+        print(VERDE + "Reembolso Confirmado com Sucesso!")
+        print(BRANCO + f"Motivo do reembolso: {justificativa}")
+        print(BRANCO + f"Valor a ser reembolsado: R$ {valor:.2f}")
         confirmacao()
         return True
 
     limpar_tela()
-    print(Fore.YELLOW + Style.BRIGHT + "Operação de reembolso cancelada.")
+    print(AMARELO + "Operação de reembolso cancelada.")
     confirmacao()
     return False
