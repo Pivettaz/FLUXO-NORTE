@@ -113,7 +113,7 @@ def relatorio_top_entregador(lista_entregadores, lista_pedidos):
     if maior_numero == 0:
         print(AMARELO + "Nenhum entregador possui entregas concluídas até o momento.")
     else:
-        print(VERDE + "🏆 LÍDER DE ENTREGAS ENCONTRADO:")
+        print(VERDE + "LÍDER DE ENTREGAS ENCONTRADO:")
         print(BRANCO + f"ID    : {id_lider}")
         print(BRANCO + f"Nome  : {nome_lider}")
         print(VERDE + f"Total : {maior_numero} entrega(s) concluída(s)")
