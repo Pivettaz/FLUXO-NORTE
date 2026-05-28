@@ -14,9 +14,9 @@ def gerenciar_entrada_numerica(min_val, max_val, mensagem):
         sleep(1.5)
         return False
 
-def validar_regiao(regiao):
-    if not regiao.isdigit():
-        print("\nRegião só pode ser númerica")
+def validar_nome(nome):
+    if len(nome) < 3 or not nome.isalpha():
+        print("\nNome inválido! \n Deve conter mais de 3 letras e não conter símbolos ou números")
         sleep(1.5)
         return False
     return True
