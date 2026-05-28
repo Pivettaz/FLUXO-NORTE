@@ -1,15 +1,11 @@
 from utils import limpar_tela, confirmacao
 import Menu.sub_menus as sm
 from Validacao.validadores import gerenciar_entrada_numerica
-
 from Gerenciamento.pedidos import cadastrar_pedido, atualizar_pedido, reativar_pedido, solicitar_reembolso
 from Gerenciamento.entregadores import cadastrar_entregador
-
 from Gerenciamento.consulta_infomações import pedidos_pendentes,pedidos_entregues,buscar_pedido,consultar_entregadores_disponiveis, entregas_entregador
-
-
 from  Relatorios_Operacao.relatorio import relatorio_total_pedidos, relatorio_pedidos_por_status, relatorio_alta_prioridade, relatorio_top_entregador
-
+from cores import VERDE
 
 
 def menu_principal():
