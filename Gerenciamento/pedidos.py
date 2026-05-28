@@ -153,18 +153,24 @@ def cadastrar_status(lista_entregadores):
     if not lista_entregadores:
         return 1
     status = gerenciar_entrada_numerica(1, 3,BRANCO + "\nSTATUS DO PEDIDO "
-                                                                                  "\n[1] PENDENTE ""\n[2] EM ROTA \n[3] ENTREGUE"
+                                                                                  "\n[1] PENDENTE ""\n[2] EM ROTA \n[3] ENTREGUE \n[4] CANCELADO"
                                                                                   "\nDigite uma opção: ")
     while not status:
         limpar_tela()
         status = gerenciar_entrada_numerica(1, 3, BRANCO + "\nSTATUS DO PEDIDO \n"
-                                                                                       "[1] PENDENTE ""\n[2] EM ROTA \n[3] ENTREGUE"
+                                                                                       "[1] PENDENTE ""\n[2] EM ROTA \n[3] ENTREGUE \n[4] CANCELADO"
                                                                                        "\nDigite uma opção novamente: ")
     return status
 
+def cadastrar_status_pago():
+    status_pago = gerenciar_entrada_numerica(1,2, BRANCO + "[1] SIM \n[2] NÃO \nDigite uma opção: ")
+    while not status_pago:
+        status_pago = gerenciar_entrada_numerica(1, 2, BRANCO + "[1] SIM \n[2] NÃO \nDigite uma opção: ")
+    return status_pago
+
 def cadastrar_pedido(lista_pedidos, lista_entregadores):
 
-    campos = ["id_pedido", "nome_cliente", "estado", "endereco", "regiao", "prioridade", "descricao_pedido", "porte_pedido", "valor_pedido", "id_entregador", "status_pedido"]
+    campos = ["id_pedido", "nome_cliente", "estado", "endereco", "regiao", "prioridade", "descricao_pedido", "porte_pedido", "valor_pedido", "status_pago", "id_entregador", "status_pedido"]
 
     pedido = dict.fromkeys(campos)
 
@@ -192,6 +198,8 @@ def cadastrar_pedido(lista_pedidos, lista_entregadores):
 
     pedido["valor_pedido"] = cadastrar_valor()
 
+    pedido["status_pedido"] = cadastrar_status_pago()
+
     pedido["id_entregador"] = cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, regiao)
 
     pedido["status_pedido"] = cadastrar_status(lista_entregadores)
@@ -206,7 +214,9 @@ def cadastrar_pedido(lista_pedidos, lista_entregadores):
     prioridade_texto = "ALTA" if pedido["prioridade"] == 1 else "NORMAL"
 
     status_texto = "PENDENTE" if pedido["status_pedido"] == 1 else "EM ROTA" if pedido["status_pedido"] == 2 \
-        else "ENTREGUE" if pedido["status_pedido"] == 3 else "CANCELADO"
+        else "ENTREGUE" if pedido["status_pedido"] == 3 else "CANCELADO" if pedido["status_pedido"] == 4 else "DESCONHECIDO"
+
+    status_pago = "PAGO" if pedido["status_pago"] == 1 else "NAO PAGO" if pedido["status_pago"] else "DESCONHECIDO"
 
     print(BRANCO + "-----PEDIDO CADASTRADO-----")
     print(BRANCO + f"ID -> {pedido["id_pedido"]}")
@@ -218,6 +228,7 @@ def cadastrar_pedido(lista_pedidos, lista_entregadores):
     print(BRANCO + f"DESCRIÇÃO-> {pedido["descricao_pedido"]}")
     print(BRANCO + f"PORTE -> {porte_texto}")
     print(BRANCO + f"VALOR -> {pedido["valor_pedido"]}")
+    print(BRANCO + f"STATUS PAGAMENTO -> {status_pago}")
     print(BRANCO + f"STATUS -> {status_texto}")
     print(BRANCO + f"ID ENTREGADOR -> {pedido["id_entregador"]}")
 
@@ -259,8 +270,9 @@ def atualizar_pedido(lista_pedidos, lista_entregadores):
         1, 3,
         BRANCO + "\n--- MENU DE ATUALIZAÇÃO ---\n"
         "[1] Alterar Status do Pedido \n"
-        "[2] Editar Entregador \n"
+        "[2] Associar Entregador \n"
         "[3] Desassociar Entregador\n"
+        "[4] Atualizar Pagamento"
         "Escolha uma opção: "
     )
 
@@ -332,6 +344,10 @@ def atualizar_pedido(lista_pedidos, lista_entregadores):
             print(VERDE + "Entregador desassociado do pedido com sucesso.")
             confirmacao()
             return True
+
+        case 4:
+            #IMPLEMENTAR ATUALIZAÇÃO
+            print("")
 
         case _:
             limpar_tela()
@@ -423,13 +439,17 @@ def solicitar_reembolso(lista_pedidos):
         confirmacao()
         return False
 
-    if status_atual != "CANCELADO":
+    if status_atual != "CANCELADO" and status_atual != "PENDENTE":
         limpar_tela()
         print(AMARELO + f"Não é possível reembolsar um pedido com o status '{status_atual}'.")
-        print("O pedido precisa ser cancelado antes de solicitar o reembolso.")
+        print("O pedido precisa ser estar pendente ou cancelado antes de solicitar o reembolso.")
         confirmacao()
         return False
 
+    if lista_pedidos[posicao]["status_pago"] == "NAO PAGO":
+        print(AMARELO + f"Pedido não foi pago, reembolso cancelado")
+        confirmacao()
+        return False
     justificativa = input("Por que está solicitando o reembolso? ")
 
     confirmacao_reembolso = gerenciar_entrada_numerica(
