@@ -44,3 +44,17 @@ def sub_menu_estados():
     print("[5] Rondônia (RO)")
     print("[6] Roraima (RR)")
     print("[7] Tocantins (TO)")
+
+def sub_menu_veiculo():
+    print("-----Veículo-----")
+    print("[1] MOTO")
+    print("[2] CARRO")
+    print("[3] VAN")
+
+def sub_menu_regiao():
+    print("-----Região-----")
+    print("[1] REGIÃO 1")
+    print("[2] REGIÃO 2")
+    print("[3] REGIÃO 3")
+    print("[4] REGIÃO 4")
+    print("[5] REGIÃO 5")
