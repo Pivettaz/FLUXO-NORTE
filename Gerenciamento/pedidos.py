@@ -11,6 +11,10 @@ MAPA_PRIORIDADES = {1: "ALTA", 2: "NORMAL"}
 MAPA_PORTES = {1: "PEQUENO", 2: "MÉDIO", 3: "GRANDE"}
 MAPA_STATUS_PEDIDO = {1: "PENDENTE", 2: "EM ROTA", 3: "ENTREGUE", 4: "CANCELADO", 5: "REEMBOLSADO"}
 MAPA_STATUS_PAGO = {1: "PAGO", 2: "NAO PAGO", 3: "REEMBOLSADO"}
+MAPA_VEICULOS = {1: "MOTO", 2: "CARRO", 3: "VAN"}
+
+PONTOS_PORTE = {1: 1, 2: 2, 3: 3}
+CAPACIDADE_PONTOS_VEICULO = {1: 3, 2: 9, 3: 15}
 
 
 def gerar_id_pedido():
@@ -99,7 +103,7 @@ def cadastrar_valor():
     return float(valor_texto)
 
 
-def cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, regiao):
+def cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, regiao, porte_pedido):
     limpar_tela()
     id_entregador = input(BRANCO + "Insira o ID do entregador responsável: ")
     while not validar_id_entregador(id_entregador):
@@ -114,36 +118,51 @@ def cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, re
         input(BRANCO + "\nPressione Enter para continuar...")
         return "0000"
 
+    entregador_encontrado = None
+    for entregador in lista_entregadores:
+        if entregador["id_entregador"] == id_entregador:
+            entregador_encontrado = entregador
+            break
+    if entregador_encontrado is None:
+        print(VERMELHO + "Entregador não encontrado no sistema.")
+        confirmacao()
+        return False
+
     contagem = 0
-    for pedidos in lista_pedidos:
-        if pedidos["id_entregador"] == id_entregador:
-            if pedidos["status_pedido"] in [1, 2]:
-                contagem += 1
+    pontos_em_uso = 0
+    for pedido in lista_pedidos:
+        if pedido["id_entregador"] == id_entregador and pedido["status_pedido"] in [1, 2]:
+            contagem += 1
+            pontos_em_uso += PONTOS_PORTE[pedido["porte_pedido"]]
 
     if contagem >= 5:
         print(AMARELO + "\nUm entregador só pode assumir 5 entregas simultâneas")
         confirmacao()
         return False
 
-    for entregador in lista_entregadores:
-        if entregador["id_entregador"] == id_entregador:
-            if entregador["estado"] != estado_sigla:
-                print(AMARELO + "Este entregador não pertence a esse estado!")
-                confirmacao()
-                return False
+    nome_veiculo = MAPA_VEICULOS.get(entregador_encontrado["veiculo"], "VEÍCULO")
+    limite_pontos = CAPACIDADE_PONTOS_VEICULO[entregador_encontrado["veiculo"]]
+    pontos_pedido = PONTOS_PORTE[porte_pedido]
 
-            if entregador["regiao"] != regiao:
-                print(AMARELO + "Este entregador pertence ao estado, mas não a essa região!")
-                confirmacao()
-                return False
+    if pontos_em_uso + pontos_pedido > limite_pontos:
+        print(AMARELO + f"\nCapacidade de carga excedida para {nome_veiculo}!")
+        print(AMARELO + f"Limite: {limite_pontos} ponto(s) | Em uso: {pontos_em_uso} | Este pedido: +{pontos_pedido} ({MAPA_PORTES[porte_pedido]})")
+        confirmacao()
+        return False
 
-            print(VERDE + "Entregador verificado e confirmado para esta rota!")
-            confirmacao()
-            return id_entregador
+    if entregador_encontrado["estado"] != estado_sigla:
+        print(AMARELO + "Este entregador não pertence a esse estado!")
+        confirmacao()
+        return False
 
-    print(VERMELHO + "Entregador não encontrado no sistema.")
+    if entregador_encontrado["regiao"] != regiao:
+        print(AMARELO + "Este entregador pertence ao estado, mas não a essa região!")
+        confirmacao()
+        return False
+
+    print(VERDE + "Entregador verificado e confirmado para esta rota!")
     confirmacao()
-    return False
+    return id_entregador
 
 
 def cadastrar_status(lista_entregadores):
@@ -193,7 +212,7 @@ def cadastrar_pedido(lista_pedidos, lista_entregadores):
     pedido["valor_pedido"] = cadastrar_valor()
 
     pedido["status_pago"] = cadastrar_status_pago()
-    pedido["id_entregador"] = cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, regiao)
+    pedido["id_entregador"] = cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, regiao, pedido["porte_pedido"])
     pedido["status_pedido"] = cadastrar_status(lista_entregadores)
 
     lista_pedidos.append(pedido)
@@ -294,7 +313,7 @@ def atualizar_pedido(lista_pedidos, lista_entregadores):
             estado = lista_pedidos[posicao]["estado"]
             regiao = lista_pedidos[posicao]["regiao"]
 
-            id_novo_entregador = cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, regiao)
+            id_novo_entregador = cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, regiao, lista_pedidos[posicao]["porte_pedido"])
 
             if id_novo_entregador == False:
                 return False
