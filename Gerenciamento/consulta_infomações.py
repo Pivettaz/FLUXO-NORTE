@@ -89,10 +89,14 @@ def buscar_pedido(lista_pedidos):
         confirmacao()
         return False
 
-    id_busca = input('\nDigite o ID do pedido: ').upper()
+    id_busca = input('\nDigite o ID do pedido (X para cancelar): ').upper()
+    if id_busca == 'X':
+        return False
     while not val.validar_id_pedido(id_busca):
         limpar_tela()
-        id_busca = input('\nID inválido, digite novamente: ').upper()
+        id_busca = input('\nID inválido, digite novamente (X para cancelar): ').upper()
+        if id_busca == 'X':
+            return False
 
     encontrou = 0
 
@@ -117,10 +121,14 @@ def entregas_entregador(lista_pedidos, lista_entregadores):
         return False
 
     limpar_tela()
-    id_busca = input('Digite o ID do entregador: ').strip()
+    id_busca = input('Digite o ID do entregador (X para cancelar): ').strip()
+    if id_busca.lower() == 'x':
+        return False
     while not val.validar_id_entregador(id_busca):
         limpar_tela()
-        id_busca = input('ID inválido, digite novamente: ').strip()
+        id_busca = input('ID inválido, digite novamente (X para cancelar): ').strip()
+        if id_busca.lower() == 'x':
+            return False
 
     for entregador in lista_entregadores:
         if entregador["id_entregador"] == id_busca:

@@ -20,10 +20,14 @@ def gerar_id_entregador():
 
 def cadastrar_nome_entregador():
     limpar_tela()
-    nome = input(BRANCO + "Insira o nome do entregador: ")
+    nome = input(BRANCO + "Insira o nome do entregador (X para cancelar): ")
+    if nome.lower() == 'x':
+        return None
     while not validar_nome(nome):
         limpar_tela()
-        nome = input(AMARELO + "Insira o nome do entregador novamente: ")
+        nome = input(AMARELO + "Insira o nome do entregador novamente (X para cancelar): ")
+        if nome.lower() == 'x':
+            return None
     limpar_tela()
     return nome.upper()
 
@@ -32,7 +36,7 @@ def cadastrar_veiculo():
     limpar_tela()
     sub_menu_veiculo()
     veiculo = gerenciar_entrada_numerica(1, 3, "\nDigite uma opção: ")
-    while not veiculo:
+    while veiculo is False:
         limpar_tela()
         sub_menu_veiculo()
         veiculo = gerenciar_entrada_numerica(1, 3, "\nDigite uma opção novamente: ")
@@ -43,11 +47,12 @@ def cadastrar_estado_entregador():
     limpar_tela()
     sub_menu_estados()
     estado = gerenciar_entrada_numerica(1, 7, "Digite uma opção: ")
-    while not estado:
+    while estado is False:
         limpar_tela()
         sub_menu_estados()
         estado = gerenciar_entrada_numerica(1, 7, "Digite uma opção novamente: ")
-
+    if estado is None:
+        return None
     return MAPA_ESTADOS.get(estado, "DESCONHECIDO")
 
 
@@ -55,7 +60,7 @@ def cadastrar_regiao_entregador():
     limpar_tela()
     sub_menu_regiao()
     regiao = gerenciar_entrada_numerica(1, 5, "\nDigite uma opção: ")
-    while not regiao:
+    while regiao is False:
         limpar_tela()
         sub_menu_regiao()
         regiao = gerenciar_entrada_numerica(1, 5, "\nDigite uma opção novamente: ")
@@ -66,7 +71,7 @@ def cadastrar_turno_entregador():
     limpar_tela()
     sub_menus_turno()
     turno = gerenciar_entrada_numerica(1, 3, "\nDigite uma opção: ")
-    while not turno:
+    while turno is False:
         turno = gerenciar_entrada_numerica(1, 3, "\nDigite uma opção novamente: ")
     return turno
 
@@ -76,11 +81,37 @@ def cadastrar_entregador(lista_entregadores):
     entregador = dict.fromkeys(campos)
 
     entregador["id_entregador"] = gerar_id_entregador()
+
     entregador["nome_entregador"] = cadastrar_nome_entregador()
+    if entregador["nome_entregador"] is None:
+        print(AMARELO + "\nCadastro cancelado.")
+        confirmacao()
+        return False
+
     entregador["veiculo"] = cadastrar_veiculo()
+    if entregador["veiculo"] is None:
+        print(AMARELO + "\nCadastro cancelado.")
+        confirmacao()
+        return False
+
     entregador["estado"] = cadastrar_estado_entregador()
+    if entregador["estado"] is None:
+        print(AMARELO + "\nCadastro cancelado.")
+        confirmacao()
+        return False
+
     entregador["regiao"] = cadastrar_regiao_entregador()
+    if entregador["regiao"] is None:
+        print(AMARELO + "\nCadastro cancelado.")
+        confirmacao()
+        return False
+
     entregador["turno"] = cadastrar_turno_entregador()
+    if entregador["turno"] is None:
+        print(AMARELO + "\nCadastro cancelado.")
+        confirmacao()
+        return False
+
     entregador["disponibilidade"] = "DISPONIVEL"
 
     lista_entregadores.append(entregador)
@@ -124,10 +155,14 @@ def imprimir_ficha_pedido_entregador(pedido):
 
 def listar_pedidos_entregador(lista_pedidos, lista_entregadores):
     limpar_tela()
-    id_busca = input('Digite o ID do entregador: ').strip()
+    id_busca = input('Digite o ID do entregador (X para cancelar): ').strip()
+    if id_busca.lower() == 'x':
+        return False
     while not validar_id_entregador(id_busca):
         limpar_tela()
-        id_busca = input('ID inválido, digite novamente: ').strip()
+        id_busca = input('ID inválido, digite novamente (X para cancelar): ').strip()
+        if id_busca.lower() == 'x':
+            return False
 
     for entregador in lista_entregadores:
         if entregador["id_entregador"] == id_busca:

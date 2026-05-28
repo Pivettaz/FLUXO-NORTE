@@ -5,6 +5,8 @@ from cores import BRANCO, VERDE, VERMELHO, AMARELO
 def gerenciar_entrada_numerica(min_val, max_val, mensagem):
     escolha = input(mensagem)
 
+    if escolha.lower() == 'x':
+        return None
     if not escolha.isdigit():
         print(AMARELO + f"\nPor favor, insira uma opção entre {min_val} e {max_val}")
         sleep(1.5)

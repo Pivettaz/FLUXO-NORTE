@@ -52,12 +52,14 @@ def sub_menu_estados():
     print("[5] Rondônia (RO)")
     print("[6] Roraima (RR)")
     print("[7] Tocantins (TO)")
+    print(AMARELO + "[X] CANCELAR")
 
 def sub_menu_veiculo():
     print(BRANCO + "--- SELECIONE O VEÍCULO ---")
     print("\n[1] MOTO")
     print("[2] CARRO")
     print("[3] VAN")
+    print(AMARELO + "[X] CANCELAR")
 
 def sub_menu_regiao():
     print(BRANCO + "--- SELECIONE A REGIÃO ---")
@@ -66,9 +68,11 @@ def sub_menu_regiao():
     print("[3] ZONA LESTE")
     print("[4] ZONA OESTE")
     print("[5] CENTRO")
+    print(AMARELO + "[X] CANCELAR")
 
 def sub_menus_turno():
     print(BRANCO + "--- SELECIONE O TURNO ---")
     print("\n[1] MATUTINO   -> (07h às 16h)")
     print("[2] VESPERTINO -> (14h às 23h)")
     print("[3] NOTURNO    -> (23h às 07h)")
+    print(AMARELO + "[X] CANCELAR")

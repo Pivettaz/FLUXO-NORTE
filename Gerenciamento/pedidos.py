@@ -25,10 +25,14 @@ def gerar_id_pedido():
 
 def cadastrar_nome():
     limpar_tela()
-    nome = input(BRANCO + "Insira o nome do cliente: ")
+    nome = input(BRANCO + "Insira o nome do cliente (X para cancelar): ")
+    if nome.lower() == 'x':
+        return None
     while not validar_nome(nome):
         limpar_tela()
-        nome = input(BRANCO+ "Insira o nome do cliente novamente: ")
+        nome = input(BRANCO + "Insira o nome do cliente novamente (X para cancelar): ")
+        if nome.lower() == 'x':
+            return None
     limpar_tela()
     return nome.upper()
 
@@ -37,7 +41,7 @@ def cadastrar_estado():
     limpar_tela()
     sub_menu_estados()
     estado = gerenciar_entrada_numerica(1, 7, BRANCO + "Digite uma opção: ")
-    while not estado:
+    while estado is False:
         limpar_tela()
         sub_menu_estados()
         estado = gerenciar_entrada_numerica(1, 7, BRANCO + "Digite uma opção novamente: ")
@@ -46,7 +50,9 @@ def cadastrar_estado():
 
 def cadastrar_endereco():
     limpar_tela()
-    endereco = input(BRANCO + "[BAIRRO - RUA - NÚMERO] do pedido: ")
+    endereco = input(BRANCO + "[BAIRRO - RUA - NÚMERO] do pedido (X para cancelar): ")
+    if endereco.lower() == 'x':
+        return None
     limpar_tela()
     return endereco.upper()
 
@@ -55,7 +61,7 @@ def cadastrar_regiao():
     limpar_tela()
     sub_menu_regiao()
     regiao_pedido = gerenciar_entrada_numerica(1, 5, "\nDigite uma opção: ")
-    while not regiao_pedido:
+    while regiao_pedido is False:
         limpar_tela()
         sub_menu_regiao()
         regiao_pedido = gerenciar_entrada_numerica(1, 5, "\nDigite uma opção novamente: ")
@@ -64,51 +70,61 @@ def cadastrar_regiao():
 
 def cadastrar_prioridade():
     limpar_tela()
-    prioridade = gerenciar_entrada_numerica(1, 2, BRANCO + "\nPRIORIDADE \n[1] ALTA \n[2] NORMAL \nDigite uma opção: ")
-    while not prioridade:
+    prioridade = gerenciar_entrada_numerica(1, 2, BRANCO + "\nPRIORIDADE \n[1] ALTA \n[2] NORMAL \n[X] CANCELAR\nDigite uma opção: ")
+    while prioridade is False:
         limpar_tela()
         prioridade = gerenciar_entrada_numerica(1, 2,
-                                                BRANCO + "\nPRIORIDADE \n[1] ALTA \n[2] NORMAL \nDigite uma opção novamente: ")
+                                                BRANCO + "\nPRIORIDADE \n[1] ALTA \n[2] NORMAL \n[X] CANCELAR\nDigite uma opção novamente: ")
     return prioridade
 
 
 def cadastrar_descricao():
     limpar_tela()
-    return input(BRANCO + "Insira a descrição do produto: ")
+    descricao = input(BRANCO + "Insira a descrição do produto (X para cancelar): ")
+    if descricao.lower() == 'x':
+        return None
+    return descricao
 
 
 def cadastrar_porte():
     limpar_tela()
     porte = gerenciar_entrada_numerica(1, 3,
-                                       BRANCO + "\nPORTE \n[1] BAIXO \n[2] MEDIO \n[3] GRANDE \nDigite uma opção: ")
-    while not porte:
+                                       BRANCO + "\nPORTE \n[1] BAIXO \n[2] MEDIO \n[3] GRANDE \n[X] CANCELAR\nDigite uma opção: ")
+    while porte is False:
         limpar_tela()
         porte = gerenciar_entrada_numerica(1, 3,
-                                           BRANCO + "\nPORTE \n[1] BAIXO \n[2] MEDIO \n[3] GRANDE \nDigite uma opção novamente: ")
+                                           BRANCO + "\nPORTE \n[1] BAIXO \n[2] MEDIO \n[3] GRANDE \n[X] CANCELAR\nDigite uma opção novamente: ")
     return porte
 
 
 def cadastrar_valor():
     limpar_tela()
-    valor_texto = input(BRANCO + "Insira o valor do produto: ")
+    valor_texto = input(BRANCO + "Insira o valor do produto (X para cancelar): ")
+    if valor_texto.lower() == 'x':
+        return None
     valor_texto = valor_texto.replace(",", ".")
     while not valor_texto.replace(".", "", 1).strip().isdigit():
         limpar_tela()
         print(AMARELO + "Valor deve ser um número válido")
         sleep(1.5)
         limpar_tela()
-
-        valor_texto = input(BRANCO + "Insira o valor do produto novamente: ")
+        valor_texto = input(BRANCO + "Insira o valor do produto novamente (X para cancelar): ")
+        if valor_texto.lower() == 'x':
+            return None
         valor_texto = valor_texto.replace(",", ".")
     return float(valor_texto)
 
 
 def cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, regiao, porte_pedido):
     limpar_tela()
-    id_entregador = input(BRANCO + "Insira o ID do entregador responsável: ")
+    id_entregador = input(BRANCO + "Insira o ID do entregador responsável (X para cancelar): ")
+    if id_entregador.lower() == 'x':
+        return None
     while not validar_id_entregador(id_entregador):
         limpar_tela()
-        id_entregador = input(BRANCO + "Insira o ID do entregador responsável novamente: ")
+        id_entregador = input(BRANCO + "Insira o ID do entregador responsável novamente (X para cancelar): ")
+        if id_entregador.lower() == 'x':
+            return None
 
     estado_sigla = MAPA_ESTADOS.get(estado, "ID_INVALIDO")
 
@@ -170,22 +186,22 @@ def cadastrar_status(lista_entregadores):
     if not lista_entregadores:
         return 1
     status = gerenciar_entrada_numerica(1, 4,
-                                        BRANCO + "\nSTATUS DO PEDIDO \n[1] PENDENTE \n[2] EM ROTA \n[3] ENTREGUE \n[4] CANCELADO \nDigite uma opção: ")
-    while not status:
+                                        BRANCO + "\nSTATUS DO PEDIDO \n[1] PENDENTE \n[2] EM ROTA \n[3] ENTREGUE \n[4] CANCELADO \n[X] CANCELAR\nDigite uma opção: ")
+    while status is False:
         limpar_tela()
         status = gerenciar_entrada_numerica(1, 4,
-                                            BRANCO + "\nSTATUS DO PEDIDO \n[1] PENDENTE \n[2] EM ROTA \n[3] ENTREGUE \n[4] CANCELADO \nDigite uma opção novamente: ")
+                                            BRANCO + "\nSTATUS DO PEDIDO \n[1] PENDENTE \n[2] EM ROTA \n[3] ENTREGUE \n[4] CANCELADO \n[X] CANCELAR\nDigite uma opção novamente: ")
     return status
 
 
 def cadastrar_status_pago():
     limpar_tela()
     status_pago = gerenciar_entrada_numerica(1, 2,
-                                             BRANCO + "STATUS FINANCEIRO \n[1] SIM (PAGO) \n[2] NÃO (A PAGAR) \nDigite uma opção: ")
-    while not status_pago:
+                                             BRANCO + "STATUS FINANCEIRO \n[1] SIM (PAGO) \n[2] NÃO (A PAGAR) \n[X] CANCELAR\nDigite uma opção: ")
+    while status_pago is False:
         limpar_tela()
         status_pago = gerenciar_entrada_numerica(1, 2,
-                                                 BRANCO + "STATUS FINANCEIRO \n[1] SIM (PAGO) \n[2] NÃO (A PAGAR) \nDigite uma opção novamente: ")
+                                                 BRANCO + "STATUS FINANCEIRO \n[1] SIM (PAGO) \n[2] NÃO (A PAGAR) \n[X] CANCELAR\nDigite uma opção novamente: ")
     return status_pago
 
 
@@ -195,25 +211,74 @@ def cadastrar_pedido(lista_pedidos, lista_entregadores):
     pedido = dict.fromkeys(campos)
 
     pedido["id_pedido"] = gerar_id_pedido()
+
     pedido["nome_cliente"] = cadastrar_nome()
+    if pedido["nome_cliente"] is None:
+        print(AMARELO + "\nCadastro cancelado.")
+        confirmacao()
+        return False
 
     estado = cadastrar_estado()
+    if estado is None:
+        print(AMARELO + "\nCadastro cancelado.")
+        confirmacao()
+        return False
     pedido["estado"] = estado
 
     pedido["endereco"] = cadastrar_endereco()
+    if pedido["endereco"] is None:
+        print(AMARELO + "\nCadastro cancelado.")
+        confirmacao()
+        return False
 
     regiao = cadastrar_regiao()
+    if regiao is None:
+        print(AMARELO + "\nCadastro cancelado.")
+        confirmacao()
+        return False
     pedido["regiao"] = regiao
 
     pedido["prioridade"] = cadastrar_prioridade()
+    if pedido["prioridade"] is None:
+        print(AMARELO + "\nCadastro cancelado.")
+        confirmacao()
+        return False
+
     pedido["descricao_pedido"] = cadastrar_descricao()
+    if pedido["descricao_pedido"] is None:
+        print(AMARELO + "\nCadastro cancelado.")
+        confirmacao()
+        return False
 
     pedido["porte_pedido"] = cadastrar_porte()
+    if pedido["porte_pedido"] is None:
+        print(AMARELO + "\nCadastro cancelado.")
+        confirmacao()
+        return False
+
     pedido["valor_pedido"] = cadastrar_valor()
+    if pedido["valor_pedido"] is None:
+        print(AMARELO + "\nCadastro cancelado.")
+        confirmacao()
+        return False
 
     pedido["status_pago"] = cadastrar_status_pago()
+    if pedido["status_pago"] is None:
+        print(AMARELO + "\nCadastro cancelado.")
+        confirmacao()
+        return False
+
     pedido["id_entregador"] = cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, regiao, pedido["porte_pedido"])
+    if pedido["id_entregador"] is None:
+        print(AMARELO + "\nCadastro cancelado.")
+        confirmacao()
+        return False
+
     pedido["status_pedido"] = cadastrar_status(lista_entregadores)
+    if pedido["status_pedido"] is None:
+        print(AMARELO + "\nCadastro cancelado.")
+        confirmacao()
+        return False
 
     lista_pedidos.append(pedido)
 
@@ -249,10 +314,14 @@ def buscar_posicao_por_id(id_procurado, lista_pedidos):
 
 
 def buscar_id_pedido_atualizar():
-    id_pedido = input(BRANCO + "Digite o ID do pedido que deseja atualizar: ").upper()
+    id_pedido = input(BRANCO + "Digite o ID do pedido que deseja atualizar (X para cancelar): ").upper()
+    if id_pedido == 'X':
+        return None
     while not validar_id_pedido(id_pedido):
         limpar_tela()
-        id_pedido = input(BRANCO + "Digite o ID do pedido que deseja atualizar novamente: ").upper()
+        id_pedido = input(BRANCO + "Digite o ID do pedido que deseja atualizar novamente (X para cancelar): ").upper()
+        if id_pedido == 'X':
+            return None
     return id_pedido
 
 
@@ -263,6 +332,11 @@ def atualizar_pedido(lista_pedidos, lista_entregadores):
         return False
 
     id_pedido = buscar_id_pedido_atualizar()
+    if id_pedido is None:
+        print(AMARELO + "\nOperação cancelada.")
+        confirmacao()
+        return False
+
     posicao = buscar_posicao_por_id(id_pedido, lista_pedidos)
 
     if posicao == -1:
@@ -286,11 +360,15 @@ def atualizar_pedido(lista_pedidos, lista_entregadores):
         case 1:
             limpar_tela()
             escolha_status = gerenciar_entrada_numerica(1, 4,
-                                                        BRANCO + "\nSTATUS DO PEDIDO \n[1] PENDENTE \n[2] EM ROTA \n[3] ENTREGUE \n[4] CANCELADO \nDigite uma opção: ")
-            while not escolha_status:
+                                                        BRANCO + "\nSTATUS DO PEDIDO \n[1] PENDENTE \n[2] EM ROTA \n[3] ENTREGUE \n[4] CANCELADO \n[X] CANCELAR\nDigite uma opção: ")
+            while escolha_status is False:
                 limpar_tela()
                 escolha_status = gerenciar_entrada_numerica(1, 4,
-                                                            BRANCO + "\nSTATUS DO PEDIDO \n[1] PENDENTE \n[2] EM ROTA \n[3] ENTREGUE \n[4] CANCELADO \nDigite uma opção novamente: ")
+                                                            BRANCO + "\nSTATUS DO PEDIDO \n[1] PENDENTE \n[2] EM ROTA \n[3] ENTREGUE \n[4] CANCELADO \n[X] CANCELAR\nDigite uma opção novamente: ")
+            if escolha_status is None:
+                print(AMARELO + "\nOperação cancelada.")
+                confirmacao()
+                return False
 
             if lista_pedidos[posicao]["status_pedido"] == escolha_status:
                 limpar_tela()
@@ -315,7 +393,7 @@ def atualizar_pedido(lista_pedidos, lista_entregadores):
 
             id_novo_entregador = cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, regiao, lista_pedidos[posicao]["porte_pedido"])
 
-            if id_novo_entregador == False:
+            if not id_novo_entregador:
                 return False
 
             if lista_pedidos[posicao]["id_entregador"] == id_novo_entregador:
@@ -346,10 +424,14 @@ def atualizar_pedido(lista_pedidos, lista_entregadores):
         case 4:
             limpar_tela()
             escolha_pagamento = gerenciar_entrada_numerica(1, 2,
-                                                           BRANCO + "[1] SETAR PAGO \n[2] SETAR NÃO PAGO \nDigite uma opção: ")
-            while not escolha_pagamento:
+                                                           BRANCO + "[1] SETAR PAGO \n[2] SETAR NÃO PAGO \n[X] CANCELAR\nDigite uma opção: ")
+            while escolha_pagamento is False:
                 escolha_pagamento = gerenciar_entrada_numerica(1, 2,
-                                                               BRANCO + "[1] SETAR PAGO \n[2] SETAR NÃO PAGO \nDigite uma opção novamente: ")
+                                                               BRANCO + "[1] SETAR PAGO \n[2] SETAR NÃO PAGO \n[X] CANCELAR\nDigite uma opção novamente: ")
+            if escolha_pagamento is None:
+                print(AMARELO + "\nOperação cancelada.")
+                confirmacao()
+                return False
 
             if escolha_pagamento == 1:
                 limpar_tela()
@@ -386,10 +468,18 @@ def reativar_pedido(lista_pedidos, lista_entregadores):
         confirmacao()
         return False
 
-    id_pedido = input(BRANCO + 'Digite o ID do pedido que deseja reativar: ').upper()
+    id_pedido = input(BRANCO + 'Digite o ID do pedido que deseja reativar (X para cancelar): ').upper()
+    if id_pedido == 'X':
+        print(AMARELO + "\nOperação cancelada.")
+        confirmacao()
+        return False
     while not validar_id_pedido(id_pedido):
         limpar_tela()
-        id_pedido = input(AMARELO + 'Digite o ID do pedido novamente: ').upper()
+        id_pedido = input(AMARELO + 'Digite o ID do pedido novamente (X para cancelar): ').upper()
+        if id_pedido == 'X':
+            print(AMARELO + "\nOperação cancelada.")
+            confirmacao()
+            return False
 
     posicao = buscar_posicao_por_id(id_pedido, lista_pedidos)
 
@@ -408,9 +498,9 @@ def reativar_pedido(lista_pedidos, lista_entregadores):
     estado = lista_pedidos[posicao]['estado']
     regiao = lista_pedidos[posicao]['regiao']
 
-    id_entregador = cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, regiao)
+    id_entregador = cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, regiao, lista_pedidos[posicao]['porte_pedido'])
 
-    if id_entregador == False:
+    if not id_entregador:
         limpar_tela()
         print(AMARELO + 'Não foi possível reativar o pedido devido a problemas com o entregador.')
         confirmacao()
@@ -452,10 +542,18 @@ def solicitar_reembolso(lista_pedidos):
         confirmacao()
         return False
 
-    id_pedido = input(BRANCO + "Digite o ID do pedido a reembolsar: ").upper()
+    id_pedido = input(BRANCO + "Digite o ID do pedido a reembolsar (X para cancelar): ").upper()
+    if id_pedido == 'X':
+        print(AMARELO + "\nOperação cancelada.")
+        confirmacao()
+        return False
     while not validar_id_pedido(id_pedido):
         limpar_tela()
-        id_pedido = input(BRANCO + "Digite o ID do pedido a reembolsar novamente: ").upper()
+        id_pedido = input(BRANCO + "Digite o ID do pedido a reembolsar novamente (X para cancelar): ").upper()
+        if id_pedido == 'X':
+            print(AMARELO + "\nOperação cancelada.")
+            confirmacao()
+            return False
 
     posicao = buscar_posicao_por_id(id_pedido, lista_pedidos)
 
