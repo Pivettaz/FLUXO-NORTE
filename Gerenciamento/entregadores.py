@@ -1,7 +1,7 @@
 from Validacao.validadores import gerenciar_entrada_numerica, validar_nome
 from utils import limpar_tela, confirmacao
 from colorama import Style, Fore
-from Menu.sub_menus import sub_menu_estados, sub_menu_veiculo, sub_menu_regiao
+from Menu.sub_menus import sub_menu_estados, sub_menu_veiculo, sub_menu_regiao, sub_menus_turno
 import random
 
 def gerar_id_entregador():
@@ -47,8 +47,21 @@ def cadastrar_regiao_entregador():
         regiao = gerenciar_entrada_numerica(1, 5, "\nDigite uma opção novamente: ")
     return str(regiao)
 
+# Turno do entregador
+
+
+def cadastrar_turno_entregador():
+    limpar_tela()
+    sub_menus_turno()
+
+    turno = gerenciar_entrada_numerica(1,3, "\nDigite uma opção: ")
+    while not turno:
+        turno = gerenciar_entrada_numerica(1, 3, "\nDigite uma opção novamente: ")
+
+    return turno
+
 def cadastrar_entregador(lista_entregadores):
-    campos = ["id_entregador", "nome_entregador", "veiculo", "estado", "regiao", "disponibilidade"]
+    campos = ["id_entregador", "nome_entregador", "veiculo", "estado", "regiao", "turno", "disponibilidade"]
     entregador = dict.fromkeys(campos)
 
     entregador["id_entregador"] = gerar_id_entregador()
@@ -56,6 +69,7 @@ def cadastrar_entregador(lista_entregadores):
     entregador["veiculo"] = cadastrar_veiculo()
     entregador["estado"] = cadastrar_estado_entregador()
     entregador["regiao"] = cadastrar_regiao_entregador()
+    entregador["turno"] = cadastrar_turno_entregador()
     entregador["disponibilidade"] = "DISPONÍVEL"
 
     lista_entregadores.append(entregador)
@@ -74,5 +88,6 @@ def cadastrar_entregador(lista_entregadores):
     print(f"VEÍCULO -> {veiculo_texto}")
     print(f"ESTADO -> {entregador['estado']}")
     print(f"REGIÃO -> {entregador['regiao']}")
+    print(f"TURNO -> {entregador['turno']}")
     print(f"DISPONIBILIDADE -> {entregador['disponibilidade']}")
     confirmacao()

@@ -58,3 +58,9 @@ def sub_menu_regiao():
     print("[3] REGIÃO 3")
     print("[4] REGIÃO 4")
     print("[5] REGIÃO 5")
+
+def sub_menus_turno():
+    print("-----Turno-----")
+    print("[1] MATUTINO -> (07-16)")
+    print("[2] VESPERTINO -> (14-23)")
+    print("[3] NOTURNO -> (23-07)")
