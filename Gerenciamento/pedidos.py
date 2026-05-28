@@ -42,7 +42,7 @@ def cadastrar_estado():
 
 def cadastrar_endereco():
     limpar_tela()
-    endereco = input(BRANCO + "[BARRIO - RUA - NÚMERO] do pedido: ")
+    endereco = input(BRANCO + "[BAIRRO - RUA - NÚMERO] do pedido: ")
     limpar_tela()
     return endereco.upper()
 
@@ -149,7 +149,6 @@ def cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, re
 def cadastrar_status(lista_entregadores):
     limpar_tela()
     if not lista_entregadores:
-        print(AMARELO + "Nenhum entregador cadastrado \nPedido ficara como PENDENTE...")
         return 1
     status = gerenciar_entrada_numerica(1, 4,
                                         BRANCO + "\nSTATUS DO PEDIDO \n[1] PENDENTE \n[2] EM ROTA \n[3] ENTREGUE \n[4] CANCELADO \nDigite uma opção: ")
