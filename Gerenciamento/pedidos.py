@@ -4,6 +4,11 @@ from colorama import Style, Fore
 from Menu.sub_menus import sub_menu_estados
 import random
 
+AMARELO = Fore.YELLOW + Style.BRIGHT
+BRANCO = Fore.WHITE + Style.BRIGHT
+VERDE = Fore.GREEN + Style.BRIGHT
+VERMELHO = Fore.RED + Style.BRIGHT
+
 def gerar_id_pedido():
     letras_aleatorias = ''.join(random.choices('ABCDEFGHIJKLMNOPQRSTUVWXYZ', k=1))
     numeros_aleatorios = random.randint(1000, 9999)
@@ -12,45 +17,45 @@ def gerar_id_pedido():
     return id_pedido
 
 def cadastrar_nome():
-    nome = input(Fore.WHITE + Style.BRIGHT + "Insira o nome do cliente: ")
-    while len(nome) < 3 or  not nome.isalpha():
-        print("Nome inválido! -> Deve conter mais de 3 letras e não conter símbolos ou números")
-        nome = input("Insira o nome do cliente: ")
+    nome = input(BRANCO  + "Insira o nome do cliente: ")
+    while len(nome) < 3 or  not nome.isalpha(): # ajustar aqui
+        print(AMARELO + "Nome inválido! -> Deve conter mais de 3 letras e não conter símbolos ou números")
+        nome = input(BRANCO + "Insira o nome do cliente novamente: ")
     limpar_tela()
     return nome.upper()
 
 def cadastrar_estado():
     limpar_tela()
     sub_menu_estados()
-    estado = gerenciar_entrada_numerica(1,7,"Digite uma opção: ")
+    estado = gerenciar_entrada_numerica(1,7,BRANCO + "Digite uma opção: ")
 
     while not estado:
-        estado = gerenciar_entrada_numerica(1,7,"Digite uma opção novamente: ")
+        estado = gerenciar_entrada_numerica(1,7,BRANCO + "Digite uma opção novamente: ")
     return estado
 
 def cadastrar_endereco():
     limpar_tela()
-    endereco = input("Digite o endereço do pedido: ")
+    endereco = input(BRANCO + "Digite o endereço do pedido: ")
     # implementar barreiras
     limpar_tela()
     return endereco.upper()
 
 def cadastrar_regiao():
     limpar_tela()
-    regiao_pedido = input(Fore.WHITE + Style.BRIGHT + "Insira a região do endereço: ")
+    regiao_pedido = input(BRANCO + "Insira a região do endereço: ")
     while not validar_regiao(regiao_pedido):
         limpar_tela()
-        regiao_pedido = input(Fore.YELLOW + Style.BRIGHT + "Insira a região do endereço novamente: ")
+        regiao_pedido = input(BRANCO + "Insira a região do endereço novamente: ")
     return regiao_pedido
 
 def cadastrar_prioridade():
     limpar_tela()
     prioridade = gerenciar_entrada_numerica(1, 2,
-                                                    Fore.WHITE + Style.BRIGHT + "\nPRIORIDADE \n[1] ALTA \n[2] NORMAL "
+                                                    BRANCO + "\nPRIORIDADE \n[1] ALTA \n[2] NORMAL "
                                                                                 "\nDigite uma opção: ")
     while not prioridade:
         limpar_tela()
-        prioridade = gerenciar_entrada_numerica(1, 2, Fore.YELLOW + Style.BRIGHT + "\nPRIORIDADE "
+        prioridade = gerenciar_entrada_numerica(1, 2, BRANCO + "\nPRIORIDADE "
                                                                                            "\n[1] ALTA \n[2] NORMAL "
                                                                                            "\nDigite uma opção novamente: ")
     return prioridade
@@ -58,18 +63,18 @@ def cadastrar_prioridade():
 
 def cadastrar_descricao():
     limpar_tela()
-    descricao = input(Fore.WHITE + Style.BRIGHT + "Insira a descrição do produto: ")
+    descricao = input(BRANCO + "Insira a descrição do produto: ")
     return descricao
 
 def cadastrar_porte():
     limpar_tela()
-    porte = gerenciar_entrada_numerica(1, 3, Fore.WHITE+ Style.BRIGHT + "\nPORTE "
+    porte = gerenciar_entrada_numerica(1, 3, BRANCO + "\nPORTE "
                                                                                   "\n[1] BAIXO \n[2] MEDIO \n[3] GRANDE "
                                                                                   "\nDigite uma opção: ")
 
     while not porte:
         limpar_tela()
-        porte = gerenciar_entrada_numerica(1, 3, Fore.YELLOW + Style.BRIGHT + "\nPORTE "
+        porte = gerenciar_entrada_numerica(1, 3, BRANCO + "\nPORTE "
                                                                                       "\n[1] BAIXO \n[2] MEDIO \n[3] GRANDE "
                                                                                       "\nDigite uma opção novamente: ")
     return porte
@@ -77,13 +82,13 @@ def cadastrar_porte():
 
 def cadastrar_valor():
     limpar_tela()
-    valor_texto = input(Fore.WHITE + Style.BRIGHT + "Insira o valor do produto: ")
+    valor_texto = input(BRANCO + "Insira o valor do produto: ")
     valor_texto = valor_texto.replace(",", ".")  # Padroniza vírgula para ponto
 
     while not valor_texto.replace(".", "", 1).strip().isdigit():
         limpar_tela()
-        print(Fore.RED + "Valor deve ser um número válido")
-        valor_texto = input(Fore.WHITE + Style.BRIGHT + "Insira o valor do produto novamente: ")
+        print(AMARELO + "Valor deve ser um número válido")
+        valor_texto = input(BRANCO + "Insira o valor do produto novamente: ")
         valor_texto = valor_texto.replace(",", ".")
 
     valor_float = float(valor_texto)
@@ -92,24 +97,24 @@ def cadastrar_valor():
 
 def cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, regiao):
     limpar_tela()
-    id_entregador = input(Fore.WHITE + Style.BRIGHT + "Insira o ID do entregador responsável: ")
+    id_entregador = input(BRANCO + "Insira o ID do entregador responsável: ")
     while not validar_id_entregador(id_entregador):
         limpar_tela()
-        id_entregador = input(Fore.YELLOW + Style.BRIGHT + "Insira o ID do entregador responsável novamente: ")
+        id_entregador = input(BRANCO + "Insira o ID do entregador responsável novamente: ")
 
     estados_norte = ["", "AC", "AP", "AM", "PA", "RO", "RR", "TO"]
 
     if 1 <= estado<= 7:
         estado_sigla = estados_norte[estado]
     else:
-        print("Código de estado inválido.")
+        print(VERMELHO + "Código de estado inválido.")
         confirmacao()
         return False
 
     if not lista_entregadores:
         print(
-            Fore.WHITE + Style.BRIGHT + "\nNenhum entregador cadastrado, pedido ficará como Pendente.\nApós cadastrar um entregador atualize esse pedido.")
-        input("\nPressione Enter para continuar...")
+            AMARELO + "\nNenhum entregador cadastrado, pedido ficará como Pendente.\nApós cadastrar um entregador atualize esse pedido.")
+        input(BRANCO + "\nPressione Enter para continuar...")
         return "0000"
 
     contagem = 0
@@ -119,7 +124,7 @@ def cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, re
                 contagem += 1
 
     if contagem >= 5:
-        print(Fore.WHITE + Style.BRIGHT + "\nUm entregador só pode assumir 5 entregas simultâneas")
+        print(AMARELO + "\nUm entregador só pode assumir 5 entregas simultâneas")
         confirmacao()
         return False
 
@@ -127,20 +132,20 @@ def cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, re
         if entregador["id_entregador"] == id_entregador:
 
             if entregador["estado"] != estado_sigla:
-                print("Este entregador não pertence a esse estado!")
+                print(AMARELO + "Este entregador não pertence a esse estado!")
                 confirmacao()
                 return False
 
             if entregador["regiao"] != regiao:
-                print("Este entregador pertence ao estado, mas não a essa região!")
+                print(AMARELO + "Este entregador pertence ao estado, mas não a essa região!")
                 confirmacao()
                 return False
 
-            print("Entregador verificado e confirmado para esta rota!")
+            print(VERDE + "Entregador verificado e confirmado para esta rota!")
             confirmacao()
             return id_entregador
 
-    print("Entregador não encontrado no sistema.")
+    print(VERMELHO + "Entregador não encontrado no sistema.")
     confirmacao()
     return False
 
@@ -148,12 +153,12 @@ def cadastrar_status(lista_entregadores):
     limpar_tela()
     if not lista_entregadores:
         return 1
-    status = gerenciar_entrada_numerica(1, 3, Fore.WHITE + Style.BRIGHT + "\nSTATUS DO PEDIDO "
+    status = gerenciar_entrada_numerica(1, 3,BRANCO + "\nSTATUS DO PEDIDO "
                                                                                   "\n[1] PENDENTE ""\n[2] EM ROTA \n[3] ENTREGUE"
                                                                                   "\nDigite uma opção: ")
     while not status:
         limpar_tela()
-        status = gerenciar_entrada_numerica(1, 3, Fore.YELLOW + Style.BRIGHT + "\nSTATUS DO PEDIDO \n"
+        status = gerenciar_entrada_numerica(1, 3, BRANCO + "\nSTATUS DO PEDIDO \n"
                                                                                        "[1] PENDENTE ""\n[2] EM ROTA \n[3] ENTREGUE"
                                                                                        "\nDigite uma opção novamente: ")
     return status
@@ -204,18 +209,18 @@ def cadastrar_pedido(lista_pedidos, lista_entregadores):
     status_texto = "PENDENTE" if pedido["status_pedido"] == 1 else "EM ROTA" if pedido["status_pedido"] == 2 \
         else "ENTREGUE" if pedido["status_pedido"] == 3 else "CANCELADO"
 
-    print(Fore.WHITE + Style.BRIGHT + "-----PEDIDO CADASTRADO-----")
-    print(f"ID -> {pedido["id_pedido"]}")
-    print(f"CLIENTE -> {pedido["nome_cliente"]}")
-    print(f"ESTADO -> {estado_texto}")
-    print(f"ENDEREÇO -> {pedido["endereco"]}")
-    print(f"REGIÃO -> {pedido["regiao"]}")
-    print(f"PRIORIDADE -> {prioridade_texto}")
-    print(f"DESCRIÇÃO-> {pedido["descricao_pedido"]}")
-    print(f"PORTE -> {porte_texto}")
-    print(f"VALOR -> {pedido["valor_pedido"]}")
-    print(f"STATUS -> {status_texto}")
-    print(f"ID ENTREGADOR -> {pedido["id_entregador"]}")
+    print(BRANCO + "-----PEDIDO CADASTRADO-----")
+    print(BRANCO + f"ID -> {pedido["id_pedido"]}")
+    print(BRANCO + f"CLIENTE -> {pedido["nome_cliente"]}")
+    print(BRANCO + f"ESTADO -> {estado_texto}")
+    print(BRANCO + f"ENDEREÇO -> {pedido["endereco"]}")
+    print(BRANCO + f"REGIÃO -> {pedido["regiao"]}")
+    print(BRANCO + f"PRIORIDADE -> {prioridade_texto}")
+    print(BRANCO + f"DESCRIÇÃO-> {pedido["descricao_pedido"]}")
+    print(BRANCO + f"PORTE -> {porte_texto}")
+    print(BRANCO + f"VALOR -> {pedido["valor_pedido"]}")
+    print(BRANCO + f"STATUS -> {status_texto}")
+    print(BRANCO + f"ID ENTREGADOR -> {pedido["id_entregador"]}")
 
     confirmacao()
     return True
@@ -228,15 +233,15 @@ def buscar_posicao_por_id(id_procurado, lista_pedidos):
     return -1
 
 def buscar_id_pedido_atualizar():
-    id_pedido = input(Fore.WHITE + Style.BRIGHT + "Digite o ID do pedido que deseja atualizar: ").upper()
+    id_pedido = input(BRANCO + "Digite o ID do pedido que deseja atualizar: ").upper()
     while not validar_id_pedido(id_pedido):
         limpar_tela()
-        id_pedido = input(Fore.YELLOW + Style.BRIGHT + "Digite o ID do pedido que deseja atualizar novamente: ").upper()
+        id_pedido = input(BRANCO + "Digite o ID do pedido que deseja atualizar novamente: ").upper()
     return id_pedido
 
 def atualizar_pedido(lista_pedidos, lista_entregadores):
     if not lista_pedidos:
-        print(Fore.YELLOW+ Style.BRIGHT + "Sem pedidos para atualizar...")
+        print(AMARELO + "Sem pedidos para atualizar...")
         confirmacao()
         return False
 
@@ -246,14 +251,14 @@ def atualizar_pedido(lista_pedidos, lista_entregadores):
 
     if posicao == -1:
         limpar_tela()
-        print(Fore.YELLOW + Style.BRIGHT + "Pedido não encontrado na base de dados.")
+        print(AMARELO + "Pedido não encontrado na base de dados.")
         confirmacao()
         return False
 
     limpar_tela()
     escolha = gerenciar_entrada_numerica(
         1, 3,
-        Fore.WHITE + Style.BRIGHT + "\n--- MENU DE ATUALIZAÇÃO ---\n"
+        BRANCO + "\n--- MENU DE ATUALIZAÇÃO ---\n"
         "[1] Alterar Status do Pedido \n"
         "[2] Editar Entregador \n"
         "[3] Desassociar Entregador\n"
@@ -264,12 +269,12 @@ def atualizar_pedido(lista_pedidos, lista_entregadores):
         case 1:
             limpar_tela()
 
-            escolha_status = gerenciar_entrada_numerica(1, 4, Fore.WHITE+ Style.BRIGHT + "\nSTATUS DO PEDIDO \n"
+            escolha_status = gerenciar_entrada_numerica(1, 4, BRANCO + "\nSTATUS DO PEDIDO \n"
                                                                                    "[1] PENDENTE ""\n[2] EM ROTA \n[3] ENTREGUE \n[4] CANCELADO"
                                                                                    "\nDigite uma opção: ")
             while not escolha_status:
                 limpar_tela()
-                escolha_status = gerenciar_entrada_numerica(1, 4, Fore.WHITE + Style.BRIGHT + "\nSTATUS DO PEDIDO \n"
+                escolha_status = gerenciar_entrada_numerica(1, 4, BRANCO + "\nSTATUS DO PEDIDO \n"
                                                                                                "[1] PENDENTE ""\n[2] EM ROTA \n[3] ENTREGUE \n[4] CANCELADO"
                                                                                                "\nDigite uma opção novamente: ")
 
@@ -279,7 +284,7 @@ def atualizar_pedido(lista_pedidos, lista_entregadores):
 
             if lista_pedidos[posicao]["status_pedido"] == status_texto:
                 limpar_tela()
-                print(Fore.YELLOW+ Style.BRIGHT + f"O pedido já está com o status '{status_texto}'. Nenhuma alteração foi feita.")
+                print(AMARELO + f"O pedido já está com o status '{status_texto}'. Nenhuma alteração foi feita.")
                 confirmacao()
                 return False
 
@@ -288,7 +293,7 @@ def atualizar_pedido(lista_pedidos, lista_entregadores):
 
             limpar_tela()
             lista_pedidos[posicao]["status_pedido"] = status_texto
-            print(Fore.GREEN + Style.BRIGHT + f"Status do pedido atualizado com sucesso para: {status_texto}")
+            print(VERDE + f"Status do pedido atualizado com sucesso para: {status_texto}")
             confirmacao()
             return True
 
@@ -306,32 +311,32 @@ def atualizar_pedido(lista_pedidos, lista_entregadores):
             if lista_pedidos[posicao]["id_entregador"] == id_novo_entregador:
                 limpar_tela()
                 print(
-                    Fore.YELLOW + Style.BRIGHT + "Este entregador já é o responsável por este pedido. Nenhuma alteração feita.")
+                    AMARELO + "Este entregador já é o responsável por este pedido. Nenhuma alteração feita.")
                 confirmacao()
                 return False
 
             limpar_tela()
             lista_pedidos[posicao]["id_entregador"] = id_novo_entregador
-            print(Fore.GREEN + Style.BRIGHT + "Entregador atualizado com sucesso!")
+            print(VERDE + "Entregador atualizado com sucesso!")
             confirmacao()
             return True
 
         case 3:
             if lista_pedidos[posicao]["id_entregador"] == "0000":
                 limpar_tela()
-                print(Fore.YELLOW + Style.BRIGHT + "O pedido já está sem nenhum entregador associado.")
+                print(AMARELO + "O pedido já está sem nenhum entregador associado.")
                 confirmacao()
                 return False
 
             limpar_tela()
             lista_pedidos[posicao]["id_entregador"] = "0000"
-            print(Fore.GREEN + Style.BRIGHT + "Entregador desassociado do pedido com sucesso.")
+            print(VERDE + "Entregador desassociado do pedido com sucesso.")
             confirmacao()
             return True
 
         case _:
             limpar_tela()
-            print(Fore.RED + Style.BRIGHT + "Opção inválida detectada pelo sistema.")
+            print(VERMELHO + "Opção inválida detectada pelo sistema.")
             confirmacao()
             return False
 
