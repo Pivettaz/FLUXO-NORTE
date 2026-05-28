@@ -1,5 +1,7 @@
 from Validacao import validadores as val
 from utils import confirmacao
+from main import BRANCO,VERDE,VERMELHO,AMARELO
+
 
 def pedidos_pendentes(lista_pedidos):
     print('\n--- PEDIDOS PENDENTES ---')

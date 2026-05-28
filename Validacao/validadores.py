@@ -1,7 +1,7 @@
 from time import sleep
 from colorama import Fore, Style
-AMARELO = Fore.YELLOW + Style.BRIGHT
-VERMELHO = Fore.RED + Style.BRIGHT
+from main import BRANCO,VERDE,VERMELHO,AMARELO
+
 
 def gerenciar_entrada_numerica(min_val, max_val, mensagem):
     escolha = input(mensagem)

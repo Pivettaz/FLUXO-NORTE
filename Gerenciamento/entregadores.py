@@ -3,6 +3,8 @@ from utils import limpar_tela, confirmacao
 from colorama import Style, Fore
 from Menu.sub_menus import sub_menu_estados, sub_menu_veiculo, sub_menu_regiao, sub_menus_turno
 import random
+from main import BRANCO,VERDE,VERMELHO,AMARELO
+
 
 def gerar_id_entregador():
     return str(random.randint(1000, 9999))
@@ -46,9 +48,6 @@ def cadastrar_regiao_entregador():
         sub_menu_regiao()
         regiao = gerenciar_entrada_numerica(1, 5, "\nDigite uma opção novamente: ")
     return str(regiao)
-
-# Turno do entregador
-
 
 def cadastrar_turno_entregador():
     limpar_tela()
