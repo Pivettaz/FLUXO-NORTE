@@ -3,7 +3,7 @@ from utils import limpar_tela, confirmacao
 from colorama import Style, Fore
 from Menu.sub_menus import sub_menu_estados, sub_menu_regiao
 import random
-from main import BRANCO,VERDE,VERMELHO,AMARELO
+from cores import BRANCO, VERDE, VERMELHO, AMARELO
 
 def gerar_id_pedido():
     letras_aleatorias = ''.join(random.choices('ABCDEFGHIJKLMNOPQRSTUVWXYZ', k=1))

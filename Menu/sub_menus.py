@@ -1,5 +1,3 @@
-from main import BRANCO,VERDE,VERMELHO,AMARELO
-
 def sub_menu_principal():
     print("-----Fluxo Norte-----")
     print("\n[1] PEDIDOS")

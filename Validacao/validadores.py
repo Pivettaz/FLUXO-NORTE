@@ -1,6 +1,5 @@
 from time import sleep
-from colorama import Fore, Style
-from main import BRANCO,VERDE,VERMELHO,AMARELO
+from cores import BRANCO, VERDE, VERMELHO, AMARELO
 
 
 def gerenciar_entrada_numerica(min_val, max_val, mensagem):

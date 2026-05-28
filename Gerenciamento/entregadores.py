@@ -1,9 +1,8 @@
 from Validacao.validadores import gerenciar_entrada_numerica, validar_nome
 from utils import limpar_tela, confirmacao
-from colorama import Style, Fore
 from Menu.sub_menus import sub_menu_estados, sub_menu_veiculo, sub_menu_regiao, sub_menus_turno
 import random
-from main import BRANCO,VERDE,VERMELHO,AMARELO
+from cores import BRANCO, VERDE, VERMELHO, AMARELO
 
 
 def gerar_id_entregador():
@@ -11,10 +10,10 @@ def gerar_id_entregador():
 
 def cadastrar_nome_entregador():
     limpar_tela()
-    nome = input(Fore.WHITE + Style.BRIGHT + "Insira o nome do entregador: ")
+    nome = input(BRANCO + "Insira o nome do entregador: ")
     while not validar_nome(nome):
         limpar_tela()
-        nome = input(Fore.YELLOW + Style.BRIGHT + "Insira o nome do entregador novamente: ")
+        nome = input(AMARELO + "Insira o nome do entregador novamente: ")
     limpar_tela()
     return nome.upper()
 
@@ -81,7 +80,7 @@ def cadastrar_entregador(lista_entregadores):
         veiculo_texto = "VAN"
 
     limpar_tela()
-    print(Fore.WHITE + Style.BRIGHT + "-----ENTREGADOR CADASTRADO-----")
+    print(BRANCO + "-----ENTREGADOR CADASTRADO-----")
     print(f"ID -> {entregador['id_entregador']}")
     print(f"NOME -> {entregador['nome_entregador']}")
     print(f"VEÍCULO -> {veiculo_texto}")
