@@ -1,8 +1,9 @@
-from Validacao.validadores import gerenciar_entrada_numerica, validar_nome
+from Validacao.validadores import gerenciar_entrada_numerica, validar_nome, validar_id_entregador
 from utils import limpar_tela, confirmacao
 from Menu.sub_menus import sub_menu_estados, sub_menu_veiculo, sub_menu_regiao, sub_menus_turno
 import random
 from cores import BRANCO, VERDE, VERMELHO, AMARELO
+from pedidos import buscar_posicao_por_id
 
 
 def gerar_id_entregador():
@@ -89,3 +90,76 @@ def cadastrar_entregador(lista_entregadores):
     print(f"TURNO -> {entregador['turno']}")
     print(f"DISPONIBILIDADE -> {entregador['disponibilidade']}")
     confirmacao()
+
+
+def listar_pedidos_entregador(lista_pedidos, lista_entregadores):
+    limpar_tela()
+    id_busca = input('Digite o ID do entregador: ').strip()
+    while not validar_id_entregador(id_busca):
+        limpar_tela()
+        id_busca = input('ID inválido, digite novamente: ').strip()
+
+    for entregador in lista_entregadores:
+        if entregador["id_entregador"] == id_busca:
+            limpar_tela()
+            print(f'=== RELATÓRIO DE ENTREGAS: {entregador["nome_entregador"].upper()} ===\n')
+
+            encontrou_pendente = 0
+
+            print("----PEDIDOS PENDENTES----")
+            for pedido in lista_pedidos:
+                if pedido["id_entregador"] == id_busca and pedido["status_pedido"] == "PENDENTE":
+                    encontrou_pendente = 1
+                    print(f'\nID: {pedido["id_pedido"]}'
+                          f'\nCLIENTE: {pedido["nome_cliente"]}'
+                          f'\nESTADO: {pedido["estado"]}'
+                          f'\nENDEREÇO: {pedido["endereco"]}'
+                          f'\nREGIÃO: {pedido["regiao"]}'
+                          f'\nPRIORIDADE: {pedido["prioridade"]}'
+                          f'\nDESCRIÇÃO: {pedido["descricao_pedido"]}'
+                          f'\nPORTE: {pedido["porte_pedido"]}'
+                          f'\nVALOR: R$ {pedido["valor_pedido"]:.2f}'  
+                          f'\nSTATUS PEDIDO: {pedido["status_pedido"]}'
+                          f'\nID ENTREGADOR: {pedido["id_entregador"]}')
+
+            if encontrou_pendente == 0:
+                print(" Nenhum pedido pendente.")
+
+            print("\n" + "-" * 50 + "\n")
+
+            print("---PEDIDOS EM ROTA----")
+            encontrou_em_rota = 0
+
+            for pedido in lista_pedidos:
+                if pedido["id_entregador"] == id_busca and pedido["status_pedido"] == "EM ROTA":
+                    encontrou_em_rota = 1
+                    print(f'\nID: {pedido["id_pedido"]}'
+                          f'\nCLIENTE: {pedido["nome_cliente"]}'
+                          f'\nESTADO: {pedido["estado"]}'
+                          f'\nENDEREÇO: {pedido["endereco"]}'
+                          f'\nREGIÃO: {pedido["regiao"]}'
+                          f'\nPRIORIDADE: {pedido["prioridade"]}'
+                          f'\nDESCRIÇÃO: {pedido["descricao_pedido"]}'
+                          f'\nPORTE: {pedido["porte_pedido"]}'
+                          f'\nVALOR: R$ {pedido["valor_pedido"]:.2f}'  
+                          f'\nSTATUS PEDIDO: {pedido["status_pedido"]}'
+                          f'\nID ENTREGADOR: {pedido["id_entregador"]}')
+
+            if encontrou_em_rota == 0:
+                print("Nenhum pedido em rota.")
+
+            print("\n==================================================")
+            if encontrou_pendente == 0 and encontrou_em_rota == 0:
+                limpar_tela()
+                print('\nEste entregador não possui nenhuma entrega ativa no momento (Pendente/Em Rota).')
+
+            confirmacao()
+            return True
+
+    limpar_tela()
+    print('\nEntregador não encontrado no sistema.')
+    confirmacao()
+    return False
+
+
+
