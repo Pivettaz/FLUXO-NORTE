@@ -4,69 +4,93 @@ from utils import confirmacao
 def pedidos_pendentes(lista_pedidos):
     print('\n--- PEDIDOS PENDENTES ---')
     encontrou = 0
-    for id_pedido, pedido in lista_pedidos.items():
-        if pedido[4] == 'PENDENTE':
-            print(f'\nID: {id_pedido} \nCliente: {pedido[0]} \nEndereço: {pedido[1]} \nRegião: {pedido[2]} \nPrioridade: {pedido[3]} \nDescrição: {pedido[4]} \nStatus: {pedido[5]} \nID Entregador: {pedido[6]}')
+    for pedido in lista_pedidos:
+        if pedido["status_pedido"] == 'PENDENTE':
+            print(f'\nID: {pedido["id_pedido"]}'
+                  f'\nCliente: {pedido["nome_cliente"]}'
+                  f'\nEstado: {pedido["estado"]}'
+                  f'\nEndereço: {pedido["endereco"]}'
+                  f'\nRegião: {pedido["regiao"]}'
+                  f'\nPrioridade: {pedido["prioridade"]}'
+                  f'\nDescrição: {pedido["descricao_pedido"]}'
+                  f'\nPorte: {pedido["porte_pedido"]}'
+                  f'\nValor: {pedido["valor_pedido"]}'
+                  f'\nStatus: {pedido["status_pedido"]}'
+                  f'\nID Entregador: {pedido["id_entregador"]}')
             encontrou = 1
             confirmacao()
     if encontrou == 0:
         print('\nNenhum pedido pendente.')
         confirmacao()
 
+
 def pedidos_entregues(lista_pedidos):
     print('\n--- PEDIDOS ENTREGUES ---')
     encontrou = 0
-    for id_pedido, pedido in lista_pedidos.items():
-        if pedido[4] == 'Entregue':
-            print(f'\nID: {id_pedido} \nCliente: {pedido[0]} \nEndereço: {pedido[1]} \nRegião: {pedido[2]} \nPrioridade: {pedido[3]} \nDescrição: {pedido[4]} \nStatus: {pedido[5]} \nID Entregador: {pedido[6]}')
+    for pedido in lista_pedidos:
+        if pedido["status_pedido"] == 'ENTREGUE':
+            print(f'\nID: {pedido["id_pedido"]}'
+                  f'\nCliente: {pedido["nome_cliente"]}'
+                  f'\nEstado: {pedido["estado"]}'
+                  f'\nEndereço: {pedido["endereco"]}'
+                  f'\nRegião: {pedido["regiao"]}'
+                  f'\nPrioridade: {pedido["prioridade"]}'
+                  f'\nDescrição: {pedido["descricao_pedido"]}'
+                  f'\nPorte: {pedido["porte_pedido"]}'
+                  f'\nValor: {pedido["valor_pedido"]}'
+                  f'\nStatus: {pedido["status_pedido"]}'
+                  f'\nID Entregador: {pedido["id_entregador"]}')
             encontrou = 1
             confirmacao()
     if encontrou == 0:
-        confirmacao()
         print('\nNenhum pedido entregue.')
+        confirmacao()
+
 
 def buscar_pedido(lista_pedidos):
-    id_busca = input('\nDigite o ID do pedido: ')
+    id_busca = input('\nDigite o ID do pedido: ').upper()
     while not val.validar_id_pedido(id_busca):
-        id_busca = input('\n ID inválido, digite novamente: ')
+        id_busca = input('\nID inválido, digite novamente: ').upper()
 
-    if id_busca in lista_pedidos:
-        pedido = lista_pedidos[id_busca]
-        print(f'\n--- PEDIDO ENCONTRADO --- \nID: {id_busca} \nCliente: {pedido[0]} \nEndereço: {pedido[1]} \nRegião: {pedido[2]} \nPrioridade: {pedido[3]} \nDescrição: {pedido[4]} \nStatus: {pedido[5]} \nID Entregador: {pedido[6]}')
-        confirmacao()
-    else:
-        print('\nPedido não encontrado.')
-        confirmacao()
-
-def entregadores_disponiveis(lista_entregadores):
-    print('\n--- ENTREGADORES DISPONÍVEIS ---')
-    encontrou = 0
-    for id_entregador, entregador in lista_entregadores.items():
-        if entregador[3] == 1:
-            print(f'\nID: {id_entregador} \nNome: {entregador[0]} \nVeículo: {entregador[1]}')
-            encontrou = 1
+    for pedido in lista_pedidos:
+        if pedido["id_pedido"] == id_busca:
+            print(f'\n--- PEDIDO ENCONTRADO ---'
+                  f'\nID: {pedido["id_pedido"]}'
+                  f'\nCliente: {pedido["nome_cliente"]}'
+                  f'\nEstado: {pedido["estado"]}'
+                  f'\nEndereço: {pedido["endereco"]}'
+                  f'\nRegião: {pedido["regiao"]}'
+                  f'\nPrioridade: {pedido["prioridade"]}'
+                  f'\nDescrição: {pedido["descricao_pedido"]}'
+                  f'\nPorte: {pedido["porte_pedido"]}'
+                  f'\nValor: {pedido["valor_pedido"]}'
+                  f'\nStatus: {pedido["status_pedido"]}'
+                  f'\nID Entregador: {pedido["id_entregador"]}')
             confirmacao()
-    if encontrou == 0:
-        print('\nNenhum entregador disponível.')
-        confirmacao()
+            return
+    print('\nPedido não encontrado no sistema.')
+    confirmacao()
+
 
 def entregas_entregador(lista_pedidos, lista_entregadores):
     id_busca = input('\nDigite o ID do entregador: ')
     while not val.validar_id_entregador(id_busca):
         id_busca = input('\nID inválido, digite novamente: ')
 
-    if id_busca in lista_entregadores:
-        print(f'\n--- ENTREGAS DE {lista_entregadores[id_busca][0].upper()} ---')
-        encontrou = 0
-        for id_pedido, pedido in lista_pedidos.items():
-            if pedido[5] == id_busca:
-                print(f'\nID: {id_pedido} \nCliente: {pedido[0]} \nStatus: {pedido[4]}')
-                encontrou = 1
+    for entregador in lista_entregadores:
+        if entregador["id_entregador"] == id_busca:
+            print(f'\n--- ENTREGAS DE {entregador["nome_entregador"]} ---')
+            encontrou = 0
+            for pedido in lista_pedidos:
+                if pedido["id_entregador"] == id_busca:
+                    print(f'\nID: {pedido["id_pedido"]}'
+                          f'\nCliente: {pedido["nome_cliente"]}'
+                          f'\nStatus: {pedido["status_pedido"]}')
+                    encontrou = 1
+                    confirmacao()
+            if encontrou == 0:
+                print('\nEste entregador não possui entregas.')
                 confirmacao()
-
-        if encontrou == 0:
-            print('\nEste entregador não possui entregas.')
-            confirmacao()
-    else:
-        confirmacao()
-        print('\nEntregador não encontrado.')
+            return
+    print('\nEntregador não encontrado no sistema.')
+    confirmacao()
