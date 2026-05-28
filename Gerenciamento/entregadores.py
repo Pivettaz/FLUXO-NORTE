@@ -3,11 +3,20 @@ from utils import limpar_tela, confirmacao
 from Menu.sub_menus import sub_menu_estados, sub_menu_veiculo, sub_menu_regiao, sub_menus_turno
 import random
 from cores import BRANCO, VERDE, VERMELHO, AMARELO
-from pedidos import buscar_posicao_por_id
+
+MAPA_ESTADOS = {1: "AC", 2: "AP", 3: "AM", 4: "PA", 5: "RO", 6: "RR", 7: "TO"}
+MAPA_REGIOES = {1: "ZONA NORTE", 2: "ZONA SUL", 3: "ZONA LEST", 4: "ZONA OEST", 5: "CENTRO"}
+MAPA_TURNOS = {1: "MANHÃ", 2: "TARDE", 3: "NOITE"}
+MAPA_VEICULOS = {1: "MOTO", 2: "CARRO", 3: "VAN"}
+MAPA_STATUS_PEDIDO = {1: "PENDENTE", 2: "EM ROTA", 3: "ENTREGUE", 4: "CANCELADO", 5: "REEMBOLSADO"}
+MAPA_STATUS_PAGO = {1: "PAGO", 2: "NAO PAGO", 3: "REEMBOLSADO"}
+MAPA_PRIORIDADES = {1: "ALTA", 2: "NORMAL"}
+MAPA_PORTES = {1: "PEQUENO", 2: "MÉDIO", 3: "GRANDE"}
 
 
 def gerar_id_entregador():
     return str(random.randint(1000, 9999))
+
 
 def cadastrar_nome_entregador():
     limpar_tela()
@@ -17,6 +26,7 @@ def cadastrar_nome_entregador():
         nome = input(AMARELO + "Insira o nome do entregador novamente: ")
     limpar_tela()
     return nome.upper()
+
 
 def cadastrar_veiculo():
     limpar_tela()
@@ -28,6 +38,7 @@ def cadastrar_veiculo():
         veiculo = gerenciar_entrada_numerica(1, 3, "\nDigite uma opção novamente: ")
     return veiculo
 
+
 def cadastrar_estado_entregador():
     limpar_tela()
     sub_menu_estados()
@@ -36,8 +47,9 @@ def cadastrar_estado_entregador():
         limpar_tela()
         sub_menu_estados()
         estado = gerenciar_entrada_numerica(1, 7, "Digite uma opção novamente: ")
-    estados_norte = ["", "AC", "AP", "AM", "PA", "RO", "RR", "TO"]
-    return estados_norte[estado]
+
+    return MAPA_ESTADOS.get(estado, "DESCONHECIDO")
+
 
 def cadastrar_regiao_entregador():
     limpar_tela()
@@ -47,17 +59,17 @@ def cadastrar_regiao_entregador():
         limpar_tela()
         sub_menu_regiao()
         regiao = gerenciar_entrada_numerica(1, 5, "\nDigite uma opção novamente: ")
-    return str(regiao)
+    return regiao
+
 
 def cadastrar_turno_entregador():
     limpar_tela()
     sub_menus_turno()
-
-    turno = gerenciar_entrada_numerica(1,3, "\nDigite uma opção: ")
+    turno = gerenciar_entrada_numerica(1, 3, "\nDigite uma opção: ")
     while not turno:
         turno = gerenciar_entrada_numerica(1, 3, "\nDigite uma opção novamente: ")
-
     return turno
+
 
 def cadastrar_entregador(lista_entregadores):
     campos = ["id_entregador", "nome_entregador", "veiculo", "estado", "regiao", "turno", "disponibilidade"]
@@ -69,27 +81,45 @@ def cadastrar_entregador(lista_entregadores):
     entregador["estado"] = cadastrar_estado_entregador()
     entregador["regiao"] = cadastrar_regiao_entregador()
     entregador["turno"] = cadastrar_turno_entregador()
-    entregador["disponibilidade"] = "DISPONÍVEL"
+    entregador["disponibilidade"] = "DISPONIVEL"
 
     lista_entregadores.append(entregador)
 
-    if entregador["veiculo"] == 1:
-        veiculo_texto = "MOTO"
-    elif entregador["veiculo"] == 2:
-        veiculo_texto = "CARRO"
-    else:
-        veiculo_texto = "VAN"
+    veiculo_texto = MAPA_VEICULOS.get(entregador["veiculo"], "DESCONHECIDO")
+    regiao_texto = MAPA_REGIOES.get(entregador["regiao"], "DESCONHECIDA")
+    turno_texto = MAPA_TURNOS.get(entregador["turno"], "DESCONHECIDO")
 
     limpar_tela()
-    print(BRANCO + "-----ENTREGADOR CADASTRADO-----")
+    print(BRANCO + "----- ENTREGADOR CADASTRADO -----")
     print(f"ID -> {entregador['id_entregador']}")
     print(f"NOME -> {entregador['nome_entregador']}")
     print(f"VEÍCULO -> {veiculo_texto}")
     print(f"ESTADO -> {entregador['estado']}")
-    print(f"REGIÃO -> {entregador['regiao']}")
-    print(f"TURNO -> {entregador['turno']}")
+    print(f"REGIÃO -> {regiao_texto}")
+    print(f"TURNO -> {turno_texto}")
     print(f"DISPONIBILIDADE -> {entregador['disponibilidade']}")
     confirmacao()
+
+
+def imprimir_ficha_pedido_entregador(pedido):
+    estado_txt = MAPA_ESTADOS.get(pedido["estado"], "DESCONHECIDO")
+    regiao_txt = MAPA_REGIOES.get(pedido["regiao"], "DESCONHECIDA")
+    prioridade_txt = MAPA_PRIORIDADES.get(pedido["prioridade"], "DESCONHECIDO")
+    porte_txt = MAPA_PORTES.get(pedido["porte_pedido"], "DESCONHECIDO")
+    status_pedido_txt = MAPA_STATUS_PEDIDO.get(pedido["status_pedido"], "DESCONHECIDO")
+
+    print(f'\nID:               {pedido["id_pedido"]}'
+          f'\nCLIENTE:          {pedido["nome_cliente"]}'
+          f'\nESTADO:           {estado_txt}'
+          f'\nENDEREÇO:         {pedido["endereco"]}'
+          f'\nREGIÃO:           {regiao_txt}'
+          f'\nPRIORIDADE:       {prioridade_txt}'
+          f'\nDESCRIÇÃO:        {pedido["descricao_pedido"]}'
+          f'\nPORTE:            {porte_txt}'
+          f'\nVALOR:            R$ {pedido["valor_pedido"]:.2f}'
+          f'\nSTATUS PEDIDO:    {status_pedido_txt}'
+          f'\nID ENTREGADOR:    {pedido["id_entregador"]}')
+    print("-" * 40)
 
 
 def listar_pedidos_entregador(lista_pedidos, lista_entregadores):
@@ -106,47 +136,27 @@ def listar_pedidos_entregador(lista_pedidos, lista_entregadores):
 
             encontrou_pendente = 0
 
-            print("----PEDIDOS PENDENTES----")
+            print("---- PEDIDOS PENDENTES ----")
             for pedido in lista_pedidos:
-                if pedido["id_entregador"] == id_busca and pedido["status_pedido"] == "PENDENTE":
+                if pedido["id_entregador"] == id_busca and pedido["status_pedido"] == 1:
                     encontrou_pendente = 1
-                    print(f'\nID: {pedido["id_pedido"]}'
-                          f'\nCLIENTE: {pedido["nome_cliente"]}'
-                          f'\nESTADO: {pedido["estado"]}'
-                          f'\nENDEREÇO: {pedido["endereco"]}'
-                          f'\nREGIÃO: {pedido["regiao"]}'
-                          f'\nPRIORIDADE: {pedido["prioridade"]}'
-                          f'\nDESCRIÇÃO: {pedido["descricao_pedido"]}'
-                          f'\nPORTE: {pedido["porte_pedido"]}'
-                          f'\nVALOR: R$ {pedido["valor_pedido"]:.2f}'  
-                          f'\nSTATUS PEDIDO: {pedido["status_pedido"]}'
-                          f'\nID ENTREGADOR: {pedido["id_entregador"]}')
+                    imprimir_ficha_pedido_entregador(pedido)
 
             if encontrou_pendente == 0:
-                print(" Nenhum pedido pendente.")
+                print("  Nenhum pedido pendente.")
 
             print("\n" + "-" * 50 + "\n")
 
-            print("---PEDIDOS EM ROTA----")
+            print("---- PEDIDOS EM ROTA ----")
             encontrou_em_rota = 0
 
             for pedido in lista_pedidos:
-                if pedido["id_entregador"] == id_busca and pedido["status_pedido"] == "EM ROTA":
+                if pedido["id_entregador"] == id_busca and pedido["status_pedido"] == 2:
                     encontrou_em_rota = 1
-                    print(f'\nID: {pedido["id_pedido"]}'
-                          f'\nCLIENTE: {pedido["nome_cliente"]}'
-                          f'\nESTADO: {pedido["estado"]}'
-                          f'\nENDEREÇO: {pedido["endereco"]}'
-                          f'\nREGIÃO: {pedido["regiao"]}'
-                          f'\nPRIORIDADE: {pedido["prioridade"]}'
-                          f'\nDESCRIÇÃO: {pedido["descricao_pedido"]}'
-                          f'\nPORTE: {pedido["porte_pedido"]}'
-                          f'\nVALOR: R$ {pedido["valor_pedido"]:.2f}'  
-                          f'\nSTATUS PEDIDO: {pedido["status_pedido"]}'
-                          f'\nID ENTREGADOR: {pedido["id_entregador"]}')
+                    imprimir_ficha_pedido_entregador(pedido)
 
             if encontrou_em_rota == 0:
-                print("Nenhum pedido em rota.")
+                print("  Nenhum pedido em rota.")
 
             print("\n==================================================")
             if encontrou_pendente == 0 and encontrou_em_rota == 0:
@@ -160,6 +170,3 @@ def listar_pedidos_entregador(lista_pedidos, lista_entregadores):
     print('\nEntregador não encontrado no sistema.')
     confirmacao()
     return False
-
-
-

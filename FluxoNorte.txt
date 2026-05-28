@@ -61,7 +61,7 @@ Requisitos:
 			• ID do Entregador (constituído de 4 dígitos)
 			• Nome do entregador
 			• Veículo (carro, van, moto)
-			• ID dos Pedidos a serem entregues # Ser em um menu separado com um print
+			• ID dos Pedidos a serem entregues [FEITO]
 			• Disponibilidade
 	- Atualizações:
 		- Pedidos:
