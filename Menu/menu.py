@@ -2,6 +2,7 @@ from utils import limpar_tela
 import Menu.sub_menus as sm
 from Validacao.validadores import gerenciar_entrada_numerica
 from Gerenciamento.pedidos import cadastrar_pedido, atualizar_pedido, reativar_pedido, solicitar_reembolso
+from Gerenciamento.entregadores import cadastrar_entregador
 from Gerenciamento.consulta_infomações import pedidos_pendentes, pedidos_entregues, buscar_pedido, entregadores_disponiveis, entregas_entregador
 
 def menu_principal():
@@ -60,7 +61,7 @@ def menu_principal():
                 match escolha_menu_entregadores:
                     case 1:
                         limpar_tela()
-                        print("Implementar cadastro de entregadores")
+                        cadastrar_entregador(lista_entregadores)
                     case 2:
                         executando_menu_entregadores = 0
         elif escolha_menu_principal == 3:
