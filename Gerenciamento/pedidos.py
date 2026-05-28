@@ -267,15 +267,25 @@ def atualizar_pedido(lista_pedidos, lista_entregadores):
 
     limpar_tela()
     escolha = gerenciar_entrada_numerica(
-        1, 3,
+        1, 4,
         BRANCO + "\n--- MENU DE ATUALIZAÇÃO ---\n"
         "[1] Alterar Status do Pedido \n"
         "[2] Associar Entregador \n"
         "[3] Desassociar Entregador\n"
-        "[4] Atualizar Pagamento"
+        "[4] Atualizar Pagamento\n"
         "Escolha uma opção: "
     )
-
+    while not escolha:
+        limpar_tela()
+        escolha = gerenciar_entrada_numerica(
+            1, 4,
+            BRANCO + "\n--- MENU DE ATUALIZAÇÃO ---\n"
+                     "[1] Alterar Status do Pedido \n"
+                     "[2] Associar Entregador \n"
+                     "[3] Desassociar Entregador\n"
+                     "[4] Atualizar Pagamento\n"
+                     "Escolha uma opção: "
+        )
     match escolha:
         case 1:
             limpar_tela()
@@ -346,9 +356,33 @@ def atualizar_pedido(lista_pedidos, lista_entregadores):
             return True
 
         case 4:
-            #IMPLEMENTAR ATUALIZAÇÃO
-            print("")
+            escolha_pagamento = gerenciar_entrada_numerica(1,2, "[1] SETAR PAGO \n[2] SETAR NÃO PAGO \nDigite uma opção: ")
+            while not escolha_pagamento:
+                escolha_pagamento = gerenciar_entrada_numerica(1, 2,
+                                                               "[1] SETAR PAGO \n[2] SETAR NÃO PAGO \nDigite uma opção: ")
+            if escolha_pagamento == 1:
+                limpar_tela()
+                if lista_pedidos[posicao]["status_pago"] == "PAGO":
+                    print(AMARELO + "Pedido já está pago")
+                    confirmacao()
+                    return False
+                else:
+                    lista_pedidos[posicao]["status_pago"] = "PAGO"
+                    print(VERDE + "Pedido pago com sucesso!")
+                    confirmacao()
+                    return True
 
+            else:
+                limpar_tela()
+                if lista_pedidos[posicao]["status_pago"] == "NAO PAGO":
+                    print(AMARELO + "Pedido já está pago")
+                    confirmacao()
+                    return False
+                else:
+                    lista_pedidos[posicao]["status_pago"] = "NAO PAGO"
+                    print(VERDE + "Pedido pago com sucesso!")
+                    confirmacao()
+                    return True
         case _:
             limpar_tela()
             print(VERMELHO + "Opção inválida detectada pelo sistema.")
@@ -459,6 +493,7 @@ def solicitar_reembolso(lista_pedidos):
 
     if confirmacao_reembolso == 1:
         lista_pedidos[posicao]["status_pedido"] = "REEMBOLSADO"
+        lista_pedidos[posicao]["status_pago"] = "REEMBOLSADO"
         lista_pedidos[posicao]["id_entregador"] = "0000"
         valor = lista_pedidos[posicao]["valor_pedido"]
 

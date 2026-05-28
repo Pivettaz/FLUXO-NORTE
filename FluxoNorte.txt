@@ -70,7 +70,7 @@ Requisitos:
 			• Associar Entregadores a Pedidos
 			• Remover associação de Entregador
 			* Na parte do reembolso colocar status_pago [FEITO]
-			ATUALIZAR PAGAMENTO - A FAZER
+			ATUALIZAR PAGAMENTO - [FEITO]
 	- Consulta:
 		- Informações:
 			• Pedidos Pendentes
