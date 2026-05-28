@@ -7,7 +7,7 @@ def pedidos_pendentes(lista_pedidos):
     print('\n--- PEDIDOS PENDENTES ---')
     encontrou = 0
     for pedido in lista_pedidos:
-        if pedido["status_pedido"] == 'PENDENTE':
+        if pedido["status_pedido"] == 'PENDENTE' and pedido["prioridade"] == 'ALTA':
             print(f'\nID: {pedido["id_pedido"]}'
                   f'\nCliente: {pedido["nome_cliente"]}'
                   f'\nEstado: {pedido["estado"]}'
@@ -20,10 +20,29 @@ def pedidos_pendentes(lista_pedidos):
                   f'\nStatus: {pedido["status_pedido"]}'
                   f'\nID Entregador: {pedido["id_entregador"]}')
             encontrou = 1
-            confirmacao()
+
+    for pedido in lista_pedidos:
+        if pedido["status_pedido"] == 'PENDENTE' and pedido["prioridade"] == 'NORMAL':
+            print(f'\nID: {pedido["id_pedido"]}'
+                  f'\nCliente: {pedido["nome_cliente"]}'
+                  f'\nEstado: {pedido["estado"]}'
+                  f'\nEndereço: {pedido["endereco"]}'
+                  f'\nRegião: {pedido["regiao"]}'
+                  f'\nPrioridade: {pedido["prioridade"]}'
+                  f'\nDescrição: {pedido["descricao_pedido"]}'
+                  f'\nPorte: {pedido["porte_pedido"]}'
+                  f'\nValor: {pedido["valor_pedido"]}'
+                  f'\nStatus: {pedido["status_pedido"]}'
+                  f'\nID Entregador: {pedido["id_entregador"]}')
+            encontrou = 1
+            
     if encontrou == 0:
         print('\nNenhum pedido pendente.')
         confirmacao()
+        return False
+    
+    confirmacao()
+    return True
 
 
 def pedidos_entregues(lista_pedidos):
