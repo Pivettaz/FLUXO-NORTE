@@ -158,11 +158,11 @@ def cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, re
 
     nome_veiculo = MAPA_VEICULOS.get(entregador_encontrado["veiculo"], "VEÍCULO")
     limite_pontos = CAPACIDADE_PONTOS_VEICULO[entregador_encontrado["veiculo"]]
-    pontos_pedido = PONTOS_PORTE[porte_pedido]
+    pontos_pedido_atual = PONTOS_PORTE[porte_pedido]
 
-    if pontos_em_uso + pontos_pedido > limite_pontos:
+    if pontos_em_uso + pontos_pedido_atual > limite_pontos:
         print(AMARELO + f"\nCapacidade de carga excedida para {nome_veiculo}!")
-        print(AMARELO + f"Limite: {limite_pontos} ponto(s) | Em uso: {pontos_em_uso} | Este pedido: +{pontos_pedido} ({MAPA_PORTES[porte_pedido]})")
+        print(AMARELO + f"Limite: {limite_pontos} ponto(s) | Em uso: {pontos_em_uso} | Este pedido: +{pontos_pedido_atual} ({MAPA_PORTES[porte_pedido]})")
         confirmacao()
         return False
 
