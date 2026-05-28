@@ -3,6 +3,7 @@ from utils import limpar_tela, confirmacao
 from Menu.sub_menus import sub_menu_estados, sub_menu_regiao
 import random
 from cores import BRANCO, VERDE, VERMELHO, AMARELO
+from time import sleep
 
 MAPA_ESTADOS = {1: "AC", 2: "AP", 3: "AM", 4: "PA", 5: "RO", 6: "RR", 7: "TO"}
 MAPA_REGIOES = {1: "ZONA NORTE", 2: "ZONA SUL", 3: "ZONA LEST", 4: "ZONA OEST", 5: "CENTRO"}
@@ -23,7 +24,7 @@ def cadastrar_nome():
     nome = input(BRANCO + "Insira o nome do cliente: ")
     while not validar_nome(nome):
         limpar_tela()
-        nome = input(AMARELO + "Insira o nome do cliente novamente: ")
+        nome = input(BRANCO+ "Insira o nome do cliente novamente: ")
     limpar_tela()
     return nome.upper()
 
@@ -33,13 +34,15 @@ def cadastrar_estado():
     sub_menu_estados()
     estado = gerenciar_entrada_numerica(1, 7, BRANCO + "Digite uma opção: ")
     while not estado:
+        limpar_tela()
+        sub_menu_estados()
         estado = gerenciar_entrada_numerica(1, 7, BRANCO + "Digite uma opção novamente: ")
     return estado
 
 
 def cadastrar_endereco():
     limpar_tela()
-    endereco = input(BRANCO + "Digite o endereço do pedido: ")
+    endereco = input(BRANCO + "[BARRIO - RUA - NÚMERO] do pedido: ")
     limpar_tela()
     return endereco.upper()
 
@@ -67,7 +70,7 @@ def cadastrar_prioridade():
 
 def cadastrar_descricao():
     limpar_tela()
-    return input(BRANCO + "Insira a descrição do product: ")
+    return input(BRANCO + "Insira a descrição do produto: ")
 
 
 def cadastrar_porte():
@@ -88,6 +91,9 @@ def cadastrar_valor():
     while not valor_texto.replace(".", "", 1).strip().isdigit():
         limpar_tela()
         print(AMARELO + "Valor deve ser um número válido")
+        sleep(1.5)
+        limpar_tela()
+
         valor_texto = input(BRANCO + "Insira o valor do produto novamente: ")
         valor_texto = valor_texto.replace(",", ".")
     return float(valor_texto)
@@ -155,9 +161,11 @@ def cadastrar_status(lista_entregadores):
 
 
 def cadastrar_status_pago():
+    limpar_tela()
     status_pago = gerenciar_entrada_numerica(1, 2,
                                              BRANCO + "STATUS FINANCEIRO \n[1] SIM (PAGO) \n[2] NÃO (A PAGAR) \nDigite uma opção: ")
     while not status_pago:
+        limpar_tela()
         status_pago = gerenciar_entrada_numerica(1, 2,
                                                  BRANCO + "STATUS FINANCEIRO \n[1] SIM (PAGO) \n[2] NÃO (A PAGAR) \nDigite uma opção novamente: ")
     return status_pago

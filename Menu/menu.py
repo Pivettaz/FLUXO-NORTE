@@ -41,12 +41,16 @@ def menu_principal():
 
                 match escolha_menu_pedidos:
                     case 1:
+                        limpar_tela()
                         cadastrar_pedido(lista_pedidos, lista_entregadores)
                     case 2:
+                        limpar_tela()
                         atualizar_pedido(lista_pedidos, lista_entregadores)
                     case 3:
+                        limpar_tela()
                         reativar_pedido(lista_pedidos, lista_entregadores)
                     case 4:
+                        limpar_tela()
                         solicitar_reembolso(lista_pedidos)
                     case 5:
                         executando_menu_pedidos = 0
@@ -65,6 +69,7 @@ def menu_principal():
 
                 match escolha_menu_entregadores:
                     case 1:
+                        limpar_tela()
                         cadastrar_entregador(lista_entregadores)
                     case 2:
                         executando_menu_entregadores = 0
@@ -83,14 +88,18 @@ def menu_principal():
 
                 match escolha_menu_consulta:
                     case 1:
+                        limpar_tela()
                         pedidos_pendentes(lista_pedidos)
                     case 2:
+                        limpar_tela()
                         pedidos_entregues(lista_pedidos)
                     case 3:
                         buscar_pedido(lista_pedidos)
                     case 4:
+                        limpar_tela()
                         consultar_entregadores_disponiveis(lista_entregadores)
                     case 5:
+                        limpar_tela()
                         entregas_entregador(lista_pedidos, lista_entregadores)
                     case 6:
                         executando_menu_consulta = 0
@@ -109,12 +118,16 @@ def menu_principal():
 
                 match escolha_menu_relatorios:
                     case 1:
+                        limpar_tela()
                         relatorio_total_pedidos(lista_pedidos)
                     case 2:
+                        limpar_tela()
                         relatorio_pedidos_por_status(lista_pedidos)
                     case 3:
+                        limpar_tela()
                         relatorio_alta_prioridade(lista_pedidos)
                     case 4:
+                        limpar_tela()
                         relatorio_top_entregador(lista_entregadores, lista_pedidos)
                     case 5:
                         executando_menu_relatorios = 0

@@ -38,7 +38,7 @@ def pedidos_pendentes(lista_pedidos):
     print(BRANCO + '--- PEDIDOS PENDENTES ---')
 
     if len(lista_pedidos) == 0:
-        print('\nNenhum pedido cadastrado.')
+        print(AMARELO + '\nNenhum pedido cadastrado.')
         confirmacao()
         return False
 
@@ -55,7 +55,7 @@ def pedidos_pendentes(lista_pedidos):
             encontrou = 1
 
     if encontrou == 0:
-        print('\nNenhum pedido pendente no momento.')
+        print(AMARELO + '\nNenhum pedido pendente no momento.')
 
     confirmacao()
 
@@ -65,7 +65,7 @@ def pedidos_entregues(lista_pedidos):
     print(BRANCO + '--- PEDIDOS ENTREGUES ---')
 
     if len(lista_pedidos) == 0:
-        print('\nNenhum pedido cadastrado no sistema.')
+        print(AMARELO + '\nNenhum pedido cadastrado no sistema.')
         confirmacao()
         return False
 
@@ -77,7 +77,7 @@ def pedidos_entregues(lista_pedidos):
             encontrou = 1
 
     if encontrou == 0:
-        print('\nNenhum pedido entregue encontrado.')
+        print(AMARELO + '\nNenhum pedido entregue encontrado.')
 
     confirmacao()
 
@@ -85,7 +85,7 @@ def pedidos_entregues(lista_pedidos):
 def buscar_pedido(lista_pedidos):
     limpar_tela()
     if len(lista_pedidos) == 0:
-        print('\nNenhum pedido cadastrado no sistema.')
+        print(AMARELO + '\nNenhum pedido cadastrado no sistema.')
         confirmacao()
         return False
 
@@ -135,12 +135,12 @@ def entregas_entregador(lista_pedidos, lista_entregadores):
                     encontrou_pedido = 1
 
             if encontrou_pedido == 0:
-                print('\nEste entregador não possui nenhuma entrega vinculada.')
+                print(AMARELO + '\nEste entregador não possui nenhuma entrega vinculada.')
 
             confirmacao()
             return True
 
-    print(VERMELHO + '\nEntregador não encontrado no sistema.')
+    print(AMARELO + '\nEntregador não encontrado no sistema.')
     confirmacao()
     return False
 
@@ -149,7 +149,7 @@ def consultar_entregadores_disponiveis(lista_entregadores):
     limpar_tela()
 
     if not lista_entregadores:
-        print("Nenhum entregador cadastrado no sistema.")
+        print(AMARELO + "Nenhum entregador cadastrado no sistema.")
         confirmacao()
         return False
 

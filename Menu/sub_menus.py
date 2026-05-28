@@ -63,8 +63,8 @@ def sub_menu_regiao():
     print(BRANCO + "--- SELECIONE A REGIÃO ---")
     print("\n[1] ZONA NORTE")
     print("[2] ZONA SUL")
-    print("[3] ZONA LEST")
-    print("[4] ZONA OEST")
+    print("[3] ZONA LESTE")
+    print("[4] ZONA OESTE")
     print("[5] CENTRO")
 
 def sub_menus_turno():

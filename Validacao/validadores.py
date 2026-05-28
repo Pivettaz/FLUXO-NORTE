@@ -16,11 +16,15 @@ def gerenciar_entrada_numerica(min_val, max_val, mensagem):
         sleep(1.5)
         return False
 
+
 def validar_nome(nome):
-    if len(nome) < 3 or not nome.isalpha():
-        print("\nNome inválido! \n Deve conter mais de 3 letras e não conter símbolos ou números")
+    nome_limpo = nome.strip()
+
+    if len(nome_limpo) < 3 or not nome_limpo.replace(" ", "").isalpha():
+        print(AMARELO + "Nome deve conter pelo menos 3 letras e não conter símbolos ou números.")
         sleep(1.5)
         return False
+
     return True
 
 def validar_id_entregador(id_entregador):
