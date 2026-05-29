@@ -141,8 +141,7 @@ def cadastrar_valor():
     while not valor_texto.replace(".", "", 1).strip().isdigit():
         limpar_tela()
         print(AMARELO + "Valor deve ser um número válido")
-        sleep(1.5)
-        valor_texto = input(BRANCO + "Insira o valor do produto novamente (X para cancelar): ")
+        valor_texto = input(BRANCO + "\nInsira o valor do produto novamente (X para cancelar): ")
         if valor_texto.lower() == 'x':
             return None
         valor_texto = valor_texto.replace(",", ".")
@@ -424,8 +423,10 @@ def atualizar_pedido(lista_pedidos, lista_entregadores):
 
         case 2:
             limpar_tela()
-            if lista_pedidos[posicao]["status_pedido"] == 5:
-                print(AMARELO + "Pedido reembolsado, entregadores não podem ser associados a ele...")
+
+            status_pedido_texto = MAPA_STATUS_PEDIDO.get(lista_pedidos[posicao]["status_pedido"], "DESCONHECIDO")
+            if lista_pedidos[posicao]["status_pedido"] == 5 or lista_pedidos[posicao]["status_pedido"] == 4:
+                print(AMARELO + f"Pedido com status {status_pedido_texto}, entregadores não podem ser associados a ele...")
                 confirmacao()
                 return False
             estado = lista_pedidos[posicao]["estado"]
