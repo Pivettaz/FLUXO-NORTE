@@ -83,9 +83,19 @@ def cadastrar_prioridade():
 
 def cadastrar_descricao():
     limpar_tela()
-    descricao = input(BRANCO + "Insira a descrição do produto (X para cancelar): ")
+    descricao = input(BRANCO + "Insira a descrição do produto (X para cancelar): ").strip()
+
     if descricao.lower() == 'x':
         return None
+
+    while len(descricao) < 10:
+        limpar_tela()
+        print(AMARELO + "Descrição insuficiente! Deve conter pelo menos 10 caracteres.")
+
+        descricao = input(BRANCO + "Insira a descrição do produto (X para cancelar): ").strip()
+
+        if descricao.lower() == 'x':
+            return None
     return descricao
 
 
