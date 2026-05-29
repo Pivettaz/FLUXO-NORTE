@@ -54,7 +54,7 @@ def relatorio_pedidos_por_status(lista_pedidos):
     confirmacao()
 
 
-def relatorio_alta_prioridade(lista_pedidos):
+def relatorio_alta_prioridade_todos(lista_pedidos):
     limpar_tela()
     print(BRANCO + "---- PEDIDOS COM ALTA PRIORIDADE ----")
 
@@ -82,6 +82,64 @@ def relatorio_alta_prioridade(lista_pedidos):
         print(VERDE + f"Total de pedidos com Alta Prioridade: {encontrados}")
 
     confirmacao()
+
+def relatorio_alta_prioridade_pendente(lista_pedidos):
+    limpar_tela()
+    print(BRANCO + "---- PEDIDOS COM ALTA PRIORIDADE (PENDENTE) ----")
+
+    encontrados = 0
+
+    for pedido in lista_pedidos:
+        if pedido["prioridade"] == 1 and pedido["status_pedido"] == 1:
+            encontrados += 1
+
+            estado_txt = MAPA_ESTADOS.get(pedido["estado"], "DESCONHECIDO")
+            regiao_txt = MAPA_REGIOES.get(pedido["regiao"], "DESCONHECIDA")
+            status_txt = MAPA_STATUS_PEDIDO.get(pedido["status_pedido"], "DESCONHECIDO")
+
+            print(f"ID      : {pedido['id_pedido']}")
+            print(f"Cliente : {pedido['nome_cliente']}")
+            print(f"Estado  : {estado_txt}")
+            print(f"Região  : {regiao_txt}")
+            print(f"Endereço: {pedido['endereco']}")
+            print(f"Status  : {status_txt}")
+            print("-" * 30)
+
+    if encontrados == 0:
+        print(AMARELO + "Nenhum pedido Pendente com Alta Prioridade encontrado.")
+    else:
+        print(VERDE + f"Total de pedidos (Pendentes) com Alta Prioridade: {encontrados}")
+
+    confirmacao()
+
+def relatorio_alta_prioridade_em_rota(lista_pedidos):
+        limpar_tela()
+        print(BRANCO + "---- PEDIDOS COM ALTA PRIORIDADE (PENDENTE) ----")
+
+        encontrados = 0
+
+        for pedido in lista_pedidos:
+            if pedido["prioridade"] == 1 and pedido["status_pedido"] == 2:
+                encontrados += 1
+
+                estado_txt = MAPA_ESTADOS.get(pedido["estado"], "DESCONHECIDO")
+                regiao_txt = MAPA_REGIOES.get(pedido["regiao"], "DESCONHECIDA")
+                status_txt = MAPA_STATUS_PEDIDO.get(pedido["status_pedido"], "DESCONHECIDO")
+
+                print(f"ID      : {pedido['id_pedido']}")
+                print(f"Cliente : {pedido['nome_cliente']}")
+                print(f"Estado  : {estado_txt}")
+                print(f"Região  : {regiao_txt}")
+                print(f"Endereço: {pedido['endereco']}")
+                print(f"Status  : {status_txt}")
+                print("-" * 30)
+
+        if encontrados == 0:
+            print(AMARELO + "Nenhum pedido Em Rota com Alta Prioridade encontrado.")
+        else:
+            print(VERDE + f"Total de pedidos (Em Rota) com Alta Prioridade: {encontrados}")
+
+        confirmacao()
 
 
 def relatorio_top_entregador(lista_entregadores, lista_pedidos):
