@@ -131,7 +131,4 @@ def menu_principal():
         else:
             limpar_tela()
             print(VERDE + "Sistema Finalizado com Sucesso.")
-            confirmacao()
             executando_menu_principal = 0
-
-menu_principal()

@@ -1,78 +1,166 @@
-from cores import BRANCO, AMARELO, VERDE
+import pyfiglet
+from cores import BRANCO, AMARELO, VERMELHO, CIANO, PALETA
+
+LARGURA = 44
+NAVEGACAO = ("VOLTAR", "FINALIZAR SISTEMA")
+
+
+def desenhar_menu(titulo, opcoes, cancelar=False):
+    print(BRANCO + "╔" + "═" * LARGURA + "╗")
+    print(BRANCO + "║" + AMARELO + titulo.center(LARGURA) + BRANCO + "║")
+    print(BRANCO + "╠" + "═" * LARGURA + "╣")
+    numero = 1
+    for opcao in opcoes:
+        icone = opcao[0]
+        texto = opcao[1]
+        if texto in NAVEGACAO:
+            cor_texto = VERMELHO
+        else:
+            cor_texto = PALETA[(numero - 1) % len(PALETA)]
+        print(f"  {CIANO}[{numero}]{cor_texto} {icone} {texto}")
+        numero = numero + 1
+    if cancelar:
+        print(f"  {VERMELHO}[X] ❌ CANCELAR")
+    print(BRANCO + "╚" + "═" * LARGURA + "╝")
+
 
 def sub_menu_principal():
-    print(BRANCO + "=== FLUXO NORTE - SISTEMA DE LOGÍSTICA ===")
-    print("\n[1] PEDIDOS")
-    print("[2] ENTREGADORES")
-    print("[3] CONSULTAS")
-    print("[4] RELATÓRIOS")
-    print("[5] FINALIZAR SISTEMA")
-    print(BRANCO + "=========================================")
+    banner = pyfiglet.figlet_format("FLUXO NORTE", font="standard")
+    print(AMARELO + banner)
+    desenhar_menu("SISTEMA DE LOGÍSTICA", [
+        ["📦", "PEDIDOS"],
+        ["🛵", "ENTREGADORES"],
+        ["🔎", "CONSULTAS"],
+        ["📊", "RELATÓRIOS"],
+        ["🚪", "FINALIZAR SISTEMA"],
+    ])
+
 
 def sub_menu_pedidos():
-    print(BRANCO + "--- GERENCIAMENTO DE PEDIDOS ---")
-    print("\n[1] CADASTRO")
-    print("[2] ATUALIZAÇÕES")
-    print("[3] REATIVAR PEDIDO")
-    print("[4] REEMBOLSAR PEDIDO")
-    print("[5] VOLTAR")
-    print(BRANCO + "--------------------------------")
+    desenhar_menu("GERENCIAMENTO DE PEDIDOS", [
+        ["📝", "CADASTRO"],
+        ["🔄", "ATUALIZAÇÕES"],
+        ["🔁", "REATIVAR PEDIDO"],
+        ["💸", "REEMBOLSAR PEDIDO"],
+        ["🔙", "VOLTAR"],
+    ])
+
 
 def sub_menu_entregadores():
-    print(BRANCO + "--- GERENCIAMENTO DE ENTREGADORES ---")
-    print("\n[1] CADASTRO")
-    print("[2] VOLTAR")
-    print(BRANCO + "------------------------------------")
+    desenhar_menu("GERENCIAMENTO DE ENTREGADORES", [
+        ["➕", "CADASTRO"],
+        ["🔙", "VOLTAR"],
+    ])
+
 
 def sub_menu_consultas():
-    print(BRANCO + "--- PAINEL DE CONSULTAS ---")
-    print("\n[1] PEDIDOS PENDENTES (POR PRIORIDADE)")
-    print("[2] PEDIDOS ENTREGUES")
-    print("[3] BUSCAR PEDIDO POR ID")
-    print("[4] ENTREGADORES DISPONÍVEIS")
-    print("[5] HISTÓRICO DE ENTREGAS POR ENTREGADOR")
-    print("[6] VOLTAR")
-    print(BRANCO + "---------------------------")
+    desenhar_menu("PAINEL DE CONSULTAS", [
+        ["⏳", "PEDIDOS PENDENTES (POR PRIORIDADE)"],
+        ["✅", "PEDIDOS ENTREGUES"],
+        ["🔍", "BUSCAR PEDIDO POR ID"],
+        ["🟢", "ENTREGADORES DISPONÍVEIS"],
+        ["📋", "HISTÓRICO DE ENTREGAS POR ENTREGADOR"],
+        ["🔙", "VOLTAR"],
+    ])
+
 
 def sub_menu_relatorios():
-    print(BRANCO + "--- RELATÓRIOS GERENCIAIS ---")
-    print("\n[1] TOTAL DE PEDIDOS CADASTRADOS")
-    print("[2] QUANTIDADE DE PEDIDOS POR STATUS")
-    print("[3] PEDIDOS DE ALTA PRIORIDADE")
-    print("[4] ENTREGADOR LÍDER DE ENTREGAS")
-    print("[5] VOLTAR")
-    print(BRANCO + "-----------------------------")
+    desenhar_menu("RELATÓRIOS GERENCIAIS", [
+        ["🧾", "TOTAL DE PEDIDOS CADASTRADOS"],
+        ["📊", "QUANTIDADE DE PEDIDOS POR STATUS"],
+        ["🌟", "PEDIDOS DE ALTA PRIORIDADE"],
+        ["🏆", "ENTREGADOR LÍDER DE ENTREGAS"],
+        ["🔙", "VOLTAR"],
+    ])
+
 
 def sub_menu_estados():
-    print(BRANCO + "--- SELECIONE O ESTADO ---")
-    print("\n[1] Acre (AC)")
-    print("[2] Amapá (AP)")
-    print("[3] Amazonas (AM)")
-    print("[4] Pará (PA)")
-    print("[5] Rondônia (RO)")
-    print("[6] Roraima (RR)")
-    print("[7] Tocantins (TO)")
-    print(AMARELO + "[X] CANCELAR")
+    desenhar_menu("SELECIONE O ESTADO", [
+        ["📍", "Acre (AC)"],
+        ["📍", "Amapá (AP)"],
+        ["📍", "Amazonas (AM)"],
+        ["📍", "Pará (PA)"],
+        ["📍", "Rondônia (RO)"],
+        ["📍", "Roraima (RR)"],
+        ["📍", "Tocantins (TO)"],
+    ], cancelar=True)
+
 
 def sub_menu_veiculo():
-    print(BRANCO + "--- SELECIONE O VEÍCULO ---")
-    print("\n[1] MOTO")
-    print("[2] CARRO")
-    print("[3] VAN")
-    print(AMARELO + "[X] CANCELAR")
+    desenhar_menu("SELECIONE O VEÍCULO", [
+        ["🛵", "MOTO"],
+        ["🚗", "CARRO"],
+        ["🚐", "VAN"],
+    ], cancelar=True)
+
 
 def sub_menu_regiao():
-    print(BRANCO + "--- SELECIONE A REGIÃO ---")
-    print("\n[1] ZONA NORTE")
-    print("[2] ZONA SUL")
-    print("[3] ZONA LESTE")
-    print("[4] ZONA OESTE")
-    print("[5] CENTRO")
-    print(AMARELO + "[X] CANCELAR")
+    desenhar_menu("SELECIONE A REGIÃO", [
+        ["🧭", "ZONA NORTE"],
+        ["🧭", "ZONA SUL"],
+        ["🧭", "ZONA LESTE"],
+        ["🧭", "ZONA OESTE"],
+        ["🧭", "CENTRO"],
+    ], cancelar=True)
+
 
 def sub_menus_turno():
-    print(BRANCO + "--- SELECIONE O TURNO ---")
-    print("\n[1] MATUTINO   -> (07h às 16h)")
-    print("[2] VESPERTINO -> (14h às 23h)")
-    print("[3] NOTURNO    -> (23h às 07h)")
-    print(AMARELO + "[X] CANCELAR")
+    desenhar_menu("SELECIONE O TURNO", [
+        ["🌅", "MATUTINO   -> (07h às 16h)"],
+        ["🌇", "VESPERTINO -> (14h às 23h)"],
+        ["🌙", "NOTURNO    -> (23h às 07h)"],
+    ], cancelar=True)
+
+
+def sub_menu_prioridade():
+    desenhar_menu("PRIORIDADE", [
+        ["🔴", "ALTA"],
+        ["🟢", "NORMAL"],
+    ], cancelar=True)
+
+
+def sub_menu_porte():
+    desenhar_menu("PORTE DO PEDIDO", [
+        ["🟦", "BAIXO"],
+        ["🟨", "MEDIO"],
+        ["🟥", "GRANDE"],
+    ], cancelar=True)
+
+
+def sub_menu_status_pedido():
+    desenhar_menu("STATUS DO PEDIDO", [
+        ["⏳", "PENDENTE"],
+        ["🛵", "EM ROTA"],
+        ["✅", "ENTREGUE"],
+        ["🚫", "CANCELADO"],
+    ], cancelar=True)
+
+
+def sub_menu_status_pago():
+    desenhar_menu("STATUS FINANCEIRO", [
+        ["✅", "SIM (PAGO)"],
+        ["💵", "NÃO (A PAGAR)"],
+    ], cancelar=True)
+
+
+def sub_menu_atualizacao():
+    desenhar_menu("MENU DE ATUALIZAÇÃO", [
+        ["🔄", "ALTERAR STATUS DO PEDIDO"],
+        ["🔗", "ASSOCIAR ENTREGADOR"],
+        ["➖", "DESASSOCIAR ENTREGADOR"],
+        ["💰", "ATUALIZAR PAGAMENTO"],
+    ], cancelar=True)
+
+
+def sub_menu_pagamento():
+    desenhar_menu("ATUALIZAR PAGAMENTO", [
+        ["✅", "SETAR COMO PAGO"],
+        ["💵", "SETAR COMO NÃO PAGO"],
+    ], cancelar=True)
+
+
+def sub_menu_confirmar(pergunta):
+    desenhar_menu(pergunta, [
+        ["✅", "SIM"],
+        ["❌", "NÃO"],
+    ])

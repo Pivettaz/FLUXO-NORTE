@@ -1,6 +1,8 @@
 from Validacao.validadores import gerenciar_entrada_numerica, validar_id_entregador, validar_id_pedido, validar_nome
 from utils import limpar_tela, confirmacao
-from Menu.sub_menus import sub_menu_estados, sub_menu_regiao
+from Menu.sub_menus import (sub_menu_estados, sub_menu_regiao, sub_menu_prioridade,
+                            sub_menu_porte, sub_menu_status_pedido, sub_menu_status_pago,
+                            sub_menu_atualizacao, sub_menu_pagamento, sub_menu_confirmar)
 import random
 from cores import BRANCO, VERDE, VERMELHO, AMARELO
 from time import sleep
@@ -70,11 +72,12 @@ def cadastrar_regiao():
 
 def cadastrar_prioridade():
     limpar_tela()
-    prioridade = gerenciar_entrada_numerica(1, 2, BRANCO + "\nPRIORIDADE \n[1] ALTA \n[2] NORMAL \n[X] CANCELAR\nDigite uma opção: ")
+    sub_menu_prioridade()
+    prioridade = gerenciar_entrada_numerica(1, 2, BRANCO + "\nDigite uma opção: ")
     while prioridade is False:
         limpar_tela()
-        prioridade = gerenciar_entrada_numerica(1, 2,
-                                                BRANCO + "\nPRIORIDADE \n[1] ALTA \n[2] NORMAL \n[X] CANCELAR\nDigite uma opção novamente: ")
+        sub_menu_prioridade()
+        prioridade = gerenciar_entrada_numerica(1, 2, BRANCO + "\nDigite uma opção novamente: ")
     return prioridade
 
 
@@ -88,12 +91,12 @@ def cadastrar_descricao():
 
 def cadastrar_porte():
     limpar_tela()
-    porte = gerenciar_entrada_numerica(1, 3,
-                                       BRANCO + "\nPORTE \n[1] BAIXO \n[2] MEDIO \n[3] GRANDE \n[X] CANCELAR\nDigite uma opção: ")
+    sub_menu_porte()
+    porte = gerenciar_entrada_numerica(1, 3, BRANCO + "\nDigite uma opção: ")
     while porte is False:
         limpar_tela()
-        porte = gerenciar_entrada_numerica(1, 3,
-                                           BRANCO + "\nPORTE \n[1] BAIXO \n[2] MEDIO \n[3] GRANDE \n[X] CANCELAR\nDigite uma opção novamente: ")
+        sub_menu_porte()
+        porte = gerenciar_entrada_numerica(1, 3, BRANCO + "\nDigite uma opção novamente: ")
     return porte
 
 
@@ -185,23 +188,23 @@ def cadastrar_status(lista_entregadores):
     limpar_tela()
     if not lista_entregadores:
         return 1
-    status = gerenciar_entrada_numerica(1, 4,
-                                        BRANCO + "\nSTATUS DO PEDIDO \n[1] PENDENTE \n[2] EM ROTA \n[3] ENTREGUE \n[4] CANCELADO \n[X] CANCELAR\nDigite uma opção: ")
+    sub_menu_status_pedido()
+    status = gerenciar_entrada_numerica(1, 4, BRANCO + "\nDigite uma opção: ")
     while status is False:
         limpar_tela()
-        status = gerenciar_entrada_numerica(1, 4,
-                                            BRANCO + "\nSTATUS DO PEDIDO \n[1] PENDENTE \n[2] EM ROTA \n[3] ENTREGUE \n[4] CANCELADO \n[X] CANCELAR\nDigite uma opção novamente: ")
+        sub_menu_status_pedido()
+        status = gerenciar_entrada_numerica(1, 4, BRANCO + "\nDigite uma opção novamente: ")
     return status
 
 
 def cadastrar_status_pago():
     limpar_tela()
-    status_pago = gerenciar_entrada_numerica(1, 2,
-                                             BRANCO + "STATUS FINANCEIRO \n[1] SIM (PAGO) \n[2] NÃO (A PAGAR) \n[X] CANCELAR\nDigite uma opção: ")
+    sub_menu_status_pago()
+    status_pago = gerenciar_entrada_numerica(1, 2, BRANCO + "\nDigite uma opção: ")
     while status_pago is False:
         limpar_tela()
-        status_pago = gerenciar_entrada_numerica(1, 2,
-                                                 BRANCO + "STATUS FINANCEIRO \n[1] SIM (PAGO) \n[2] NÃO (A PAGAR) \n[X] CANCELAR\nDigite uma opção novamente: ")
+        sub_menu_status_pago()
+        status_pago = gerenciar_entrada_numerica(1, 2, BRANCO + "\nDigite uma opção novamente: ")
     return status_pago
 
 
@@ -346,25 +349,23 @@ def atualizar_pedido(lista_pedidos, lista_entregadores):
         return False
 
     limpar_tela()
-    escolha = gerenciar_entrada_numerica(
-        1, 4,
-        BRANCO + "\n--- MENU DE ATUALIZAÇÃO ---\n"
-                 "[1] Alterar Status do Pedido \n"
-                 "[2] Associar Entregador \n"
-                 "[3] Desassociar Entregador\n"
-                 "[4] Atualizar Pagamento\n"
-                 "Escolha uma opção: "
-    )
+    sub_menu_atualizacao()
+    escolha = gerenciar_entrada_numerica(1, 4, BRANCO + "\nEscolha uma opção: ")
 
     match escolha:
+        case None:
+            limpar_tela()
+            print(AMARELO + "\nOperação cancelada.")
+            confirmacao()
+            return False
         case 1:
             limpar_tela()
-            escolha_status = gerenciar_entrada_numerica(1, 4,
-                                                        BRANCO + "\nSTATUS DO PEDIDO \n[1] PENDENTE \n[2] EM ROTA \n[3] ENTREGUE \n[4] CANCELADO \n[X] CANCELAR\nDigite uma opção: ")
+            sub_menu_status_pedido()
+            escolha_status = gerenciar_entrada_numerica(1, 4, BRANCO + "\nDigite uma opção: ")
             while escolha_status is False:
                 limpar_tela()
-                escolha_status = gerenciar_entrada_numerica(1, 4,
-                                                            BRANCO + "\nSTATUS DO PEDIDO \n[1] PENDENTE \n[2] EM ROTA \n[3] ENTREGUE \n[4] CANCELADO \n[X] CANCELAR\nDigite uma opção novamente: ")
+                sub_menu_status_pedido()
+                escolha_status = gerenciar_entrada_numerica(1, 4, BRANCO + "\nDigite uma opção novamente: ")
             if escolha_status is None:
                 print(AMARELO + "\nOperação cancelada.")
                 confirmacao()
@@ -423,11 +424,12 @@ def atualizar_pedido(lista_pedidos, lista_entregadores):
 
         case 4:
             limpar_tela()
-            escolha_pagamento = gerenciar_entrada_numerica(1, 2,
-                                                           BRANCO + "[1] SETAR PAGO \n[2] SETAR NÃO PAGO \n[X] CANCELAR\nDigite uma opção: ")
+            sub_menu_pagamento()
+            escolha_pagamento = gerenciar_entrada_numerica(1, 2, BRANCO + "\nDigite uma opção: ")
             while escolha_pagamento is False:
-                escolha_pagamento = gerenciar_entrada_numerica(1, 2,
-                                                               BRANCO + "[1] SETAR PAGO \n[2] SETAR NÃO PAGO \n[X] CANCELAR\nDigite uma opção novamente: ")
+                limpar_tela()
+                sub_menu_pagamento()
+                escolha_pagamento = gerenciar_entrada_numerica(1, 2, BRANCO + "\nDigite uma opção novamente: ")
             if escolha_pagamento is None:
                 print(AMARELO + "\nOperação cancelada.")
                 confirmacao()
@@ -516,8 +518,8 @@ def reativar_pedido(lista_pedidos, lista_entregadores):
     print(BRANCO + f"Valor original: R$ {valor_original:.2f}")
     print(BRANCO + f"Valor com +10%: R$ {valor_reativado:.2f}")
 
-    confirmar = gerenciar_entrada_numerica(1, 2,
-                                           BRANCO + '\nDeseja reativar esse pedido? \n[1] SIM \n[2] NÃO \nDigite uma opção: ')
+    sub_menu_confirmar("DESEJA REATIVAR ESTE PEDIDO?")
+    confirmar = gerenciar_entrada_numerica(1, 2, BRANCO + '\nDigite uma opção: ')
 
     if confirmar != 1:
         limpar_tela()
@@ -585,12 +587,10 @@ def solicitar_reembolso(lista_pedidos):
         confirmacao()
         return False
 
-    justificativa = input("Por que está solicitando o reembolso? ")
+    justificativa = input(BRANCO + "Por que está solicitando o reembolso? ")
 
-    confirmacao_reembolso = gerenciar_entrada_numerica(
-        1, 2,
-        BRANCO + "\nConfirmar reembolso? \n[1] Sim \n[2] Não \nDigite uma opção: "
-    )
+    sub_menu_confirmar("CONFIRMAR REEMBOLSO?")
+    confirmacao_reembolso = gerenciar_entrada_numerica(1, 2, BRANCO + "\nDigite uma opção: ")
 
     if confirmacao_reembolso == 1:
         lista_pedidos[posicao]["status_pedido"] = 5
