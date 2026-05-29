@@ -19,11 +19,17 @@ PONTOS_PORTE = {1: 1, 2: 2, 3: 3}
 CAPACIDADE_PONTOS_VEICULO = {1: 3, 2: 9, 3: 15}
 
 
-def gerar_id_pedido():
+def gerar_id_pedido(lista_pedidos):
     letras_aleatorias = ''.join(random.choices('ABCDEFGHIJKLMNOPQRSTUVWXYZ', k=1))
     numeros_aleatorios = random.randint(1000, 9999)
-    return letras_aleatorias + str(numeros_aleatorios)
+    id_pedido = letras_aleatorias + str(numeros_aleatorios)
 
+    while buscar_posicao_por_id(id_pedido, lista_pedidos) != -1:
+        letras_aleatorias = ''.join(random.choices('ABCDEFGHIJKLMNOPQRSTUVWXYZ', k=1))
+        numeros_aleatorios = random.randint(1000, 9999)
+        id_pedido = letras_aleatorias + str(numeros_aleatorios)
+
+    return id_pedido
 
 def cadastrar_nome():
     limpar_tela()
@@ -136,7 +142,6 @@ def cadastrar_valor():
         limpar_tela()
         print(AMARELO + "Valor deve ser um número válido")
         sleep(1.5)
-        limpar_tela()
         valor_texto = input(BRANCO + "Insira o valor do produto novamente (X para cancelar): ")
         if valor_texto.lower() == 'x':
             return None
@@ -239,7 +244,7 @@ def cadastrar_pedido(lista_pedidos, lista_entregadores):
               "porte_pedido", "valor_pedido", "status_pago", "id_entregador", "status_pedido"]
     pedido = dict.fromkeys(campos)
 
-    pedido["id_pedido"] = gerar_id_pedido()
+    pedido["id_pedido"] = gerar_id_pedido(lista_pedidos)
 
     pedido["nome_cliente"] = cadastrar_nome()
     if pedido["nome_cliente"] is None:

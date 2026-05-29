@@ -3,6 +3,7 @@ from utils import limpar_tela, confirmacao
 from Menu.sub_menus import sub_menu_estados, sub_menu_veiculo, sub_menu_regiao, sub_menus_turno
 import random
 from cores import BRANCO, VERDE, VERMELHO, AMARELO
+from Gerenciamento.pedidos import buscar_posicao_por_id
 
 MAPA_ESTADOS = {1: "AC", 2: "AP", 3: "AM", 4: "PA", 5: "RO", 6: "RR", 7: "TO"}
 MAPA_REGIOES = {1: "ZONA NORTE", 2: "ZONA SUL", 3: "ZONA LEST", 4: "ZONA OEST", 5: "CENTRO"}
@@ -14,8 +15,14 @@ MAPA_PRIORIDADES = {1: "ALTA", 2: "NORMAL"}
 MAPA_PORTES = {1: "PEQUENO", 2: "MÉDIO", 3: "GRANDE"}
 
 
-def gerar_id_entregador():
-    return str(random.randint(1000, 9999))
+
+def gerar_id_entregador(lista_entregadores):
+    id_entregador =  str(random.randint(1000, 9999))
+
+    while buscar_posicao_por_id(id_entregador, lista_entregadores) != -1:
+        id_entregador = str(random.randint(1000, 9999))
+
+    return id_entregador
 
 
 def cadastrar_nome_entregador():
@@ -80,7 +87,7 @@ def cadastrar_entregador(lista_entregadores):
     campos = ["id_entregador", "nome_entregador", "veiculo", "estado", "regiao", "turno", "disponibilidade"]
     entregador = dict.fromkeys(campos)
 
-    entregador["id_entregador"] = gerar_id_entregador()
+    entregador["id_entregador"] = gerar_id_entregador(lista_entregadores)
 
     entregador["nome_entregador"] = cadastrar_nome_entregador()
     if entregador["nome_entregador"] is None:
