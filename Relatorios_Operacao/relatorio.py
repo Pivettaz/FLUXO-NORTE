@@ -13,10 +13,10 @@ def relatorio_total_pedidos(lista_pedidos):
 
     total = len(lista_pedidos)
 
-    print(f"Total de pedidos cadastrados: {total}")
+    print(f"\nTotal de pedidos cadastrados: {total}")
 
     if total == 0:
-        print(AMARELO + "Nenhum pedido encontrado na base de dados.")
+        print(AMARELO + "\nNenhum pedido encontrado na base de dados.")
 
     confirmacao()
 
@@ -77,9 +77,9 @@ def relatorio_alta_prioridade_todos(lista_pedidos):
             print("-" * 30)
 
     if encontrados == 0:
-        print(AMARELO + "Nenhum pedido com Alta Prioridade encontrado.")
+        print(AMARELO + "\nNenhum pedido com Alta Prioridade encontrado.")
     else:
-        print(VERDE + f"Total de pedidos com Alta Prioridade: {encontrados}")
+        print(VERDE + f"\nTotal de pedidos com Alta Prioridade: {encontrados}")
 
     confirmacao()
 
@@ -106,9 +106,9 @@ def relatorio_alta_prioridade_pendente(lista_pedidos):
             print("-" * 30)
 
     if encontrados == 0:
-        print(AMARELO + "Nenhum pedido Pendente com Alta Prioridade encontrado.")
+        print(AMARELO + "\nNenhum pedido Pendente com Alta Prioridade encontrado.")
     else:
-        print(VERDE + f"Total de pedidos (Pendentes) com Alta Prioridade: {encontrados}")
+        print(VERDE + f"\nTotal de pedidos (Pendentes) com Alta Prioridade: {encontrados}")
 
     confirmacao()
 
@@ -135,9 +135,9 @@ def relatorio_alta_prioridade_em_rota(lista_pedidos):
                 print("-" * 30)
 
         if encontrados == 0:
-            print(AMARELO + "Nenhum pedido Em Rota com Alta Prioridade encontrado.")
+            print(AMARELO + "\nNenhum pedido Em Rota com Alta Prioridade encontrado.")
         else:
-            print(VERDE + f"Total de pedidos (Em Rota) com Alta Prioridade: {encontrados}")
+            print(VERDE + f"\nTotal de pedidos (Em Rota) com Alta Prioridade: {encontrados}")
 
         confirmacao()
 
@@ -147,7 +147,7 @@ def relatorio_top_entregador(lista_entregadores, lista_pedidos):
     print(BRANCO + "---- ENTREGADOR COM MAIS ENTREGAS ----")
 
     if not lista_entregadores:
-        print(AMARELO + "Nenhum entregador cadastrado no sistema.")
+        print(AMARELO + "\nNenhum entregador cadastrado no sistema.")
         confirmacao()
         return
 

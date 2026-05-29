@@ -52,10 +52,26 @@ def cadastrar_estado():
 
 def cadastrar_endereco():
     limpar_tela()
-    endereco = input(BRANCO + "[BAIRRO - RUA - NÚMERO] do pedido (X para cancelar): ")
+    endereco = input(BRANCO + "Digite [BAIRRO - RUA - NÚMERO] (X para cancelar): ").strip()
+
     if endereco.lower() == 'x':
         return None
-    limpar_tela()
+
+    rodando_loop = 1
+    while rodando_loop:
+        partes_endereco = endereco.split("-")
+
+        if len(partes_endereco) == 3 and partes_endereco[0].strip() and partes_endereco[1].strip() and partes_endereco[2].strip():
+            break
+
+        limpar_tela()
+        print(AMARELO + "Use o padrão de traços. Exemplo: Centro - Rua Flores - 123\n")
+
+        endereco = input(BRANCO + "\nDigite novamente (X para cancelar): ").strip()
+
+        if endereco.lower() == 'x':
+            return None
+
     return endereco.upper()
 
 
@@ -92,7 +108,7 @@ def cadastrar_descricao():
         limpar_tela()
         print(AMARELO + "Descrição insuficiente! Deve conter pelo menos 10 caracteres.")
 
-        descricao = input(BRANCO + "Insira a descrição do produto (X para cancelar): ").strip()
+        descricao = input(BRANCO + "\nInsira a descrição do produto (X para cancelar): ").strip()
 
         if descricao.lower() == 'x':
             return None
