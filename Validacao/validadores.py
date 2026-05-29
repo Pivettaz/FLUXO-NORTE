@@ -20,12 +20,18 @@ def gerenciar_entrada_numerica(min_val, max_val, mensagem):
 
 
 def validar_nome(nome):
-    nome_limpo = nome.strip()
+    partes = nome.split()
 
-    if len(nome_limpo) < 3 or not nome_limpo.replace(" ", "").isalpha():
-        print(AMARELO + "Nome deve conter pelo menos 3 letras e não conter símbolos ou números.")
+    if len(partes) < 2:
+        print(AMARELO + "Informe nome e sobrenome.")
         sleep(1.5)
         return False
+
+    for parte in partes:
+        if len(parte) < 2 or not parte.isalpha():
+            print(AMARELO + "Nome e sobrenome devem conter pelo menos 2 letras cada e não conter símbolos ou números.")
+            sleep(1.5)
+            return False
 
     return True
 
