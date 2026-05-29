@@ -59,6 +59,27 @@ def pedidos_pendentes(lista_pedidos):
 
     confirmacao()
 
+def pedidos_em_rota(lista_pedidos):
+    limpar_tela()
+    print(BRANCO + '--- PEDIDOS EM ROTA ---')
+
+    if len(lista_pedidos) == 0:
+        print(AMARELO + '\nNenhum pedido cadastrado no sistema.')
+        confirmacao()
+        return False
+
+    encontrou = 0
+
+    for pedido in lista_pedidos:
+        if pedido["status_pedido"] == 2:
+            imprimir_ficha_pedido(pedido)
+            encontrou = 1
+
+    if encontrou == 0:
+        print(AMARELO + '\nNenhum pedido em rota encontrado.')
+
+    confirmacao()
+
 
 def pedidos_entregues(lista_pedidos):
     limpar_tela()
@@ -78,6 +99,48 @@ def pedidos_entregues(lista_pedidos):
 
     if encontrou == 0:
         print(AMARELO + '\nNenhum pedido entregue encontrado.')
+
+    confirmacao()
+
+def pedidos_cancelados(lista_pedidos):
+    limpar_tela()
+    print(BRANCO + '--- PEDIDOS CANCELADOS ---')
+
+    if len(lista_pedidos) == 0:
+        print(AMARELO + '\nNenhum pedido cadastrado no sistema.')
+        confirmacao()
+        return False
+
+    encontrou = 0
+
+    for pedido in lista_pedidos:
+        if pedido["status_pedido"] == 4:
+            imprimir_ficha_pedido(pedido)
+            encontrou = 1
+
+    if encontrou == 0:
+        print(AMARELO + '\nNenhum pedido cancelado encontrado.')
+
+    confirmacao()
+
+def pedidos_reembolsados(lista_pedidos):
+    limpar_tela()
+    print(BRANCO + '--- PEDIDOS REEMBOLSADOS ---')
+
+    if len(lista_pedidos) == 0:
+        print(AMARELO + '\nNenhum pedido cadastrado no sistema.')
+        confirmacao()
+        return False
+
+    encontrou = 0
+
+    for pedido in lista_pedidos:
+        if pedido["status_pedido"] == 5:
+            imprimir_ficha_pedido(pedido)
+            encontrou = 1
+
+    if encontrou == 0:
+        print(AMARELO + '\nNenhum pedido reembolsado encontrado.')
 
     confirmacao()
 
