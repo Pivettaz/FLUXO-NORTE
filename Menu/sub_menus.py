@@ -56,7 +56,10 @@ def sub_menu_entregadores():
 def sub_menu_consultas():
     desenhar_menu("PAINEL DE CONSULTAS", [
         ["⏳", "PEDIDOS PENDENTES (POR PRIORIDADE)"],
+        ["🛵", "PEDIDOS EM ROTA (POR PRIORIDADE)"],
         ["✅", "PEDIDOS ENTREGUES"],
+        ["🚫", "PEDIDOS CANCELADOS"],
+        ["💸", "PEDIDOS REEMBOLSADOS"],
         ["🔍", "BUSCAR PEDIDO POR ID"],
         ["🟢", "ENTREGADORES DISPONÍVEIS"],
         ["📋", "HISTÓRICO DE ENTREGAS POR ENTREGADOR"],
@@ -70,6 +73,13 @@ def sub_menu_relatorios():
         ["📊", "QUANTIDADE DE PEDIDOS POR STATUS"],
         ["🌟", "PEDIDOS DE ALTA PRIORIDADE"],
         ["🏆", "ENTREGADOR LÍDER DE ENTREGAS"],
+        ["🔙", "VOLTAR"],
+    ])
+def sub_menu_alta_prioridade():
+    desenhar_menu("RELATÓRIOS GERENCIAIS", [
+        ["🌟", "GERAL"],
+        ["⏳", "PENDENTE"],
+        ["🛵", "EM ROTA"],
         ["🔙", "VOLTAR"],
     ])
 

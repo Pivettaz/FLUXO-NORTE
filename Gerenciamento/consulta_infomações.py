@@ -61,22 +61,27 @@ def pedidos_pendentes(lista_pedidos):
 
 def pedidos_em_rota(lista_pedidos):
     limpar_tela()
-    print(BRANCO + '--- PEDIDOS EM ROTA ---')
+    print(BRANCO + '--- PEDIDOS EM ROTA---')
 
     if len(lista_pedidos) == 0:
-        print(AMARELO + '\nNenhum pedido cadastrado no sistema.')
+        print(AMARELO + '\nNenhum pedido cadastrado.')
         confirmacao()
         return False
 
     encontrou = 0
 
     for pedido in lista_pedidos:
-        if pedido["status_pedido"] == 2:
+        if pedido["status_pedido"] == 2 and pedido["prioridade"] == 1:
+            imprimir_ficha_pedido(pedido)
+            encontrou = 1
+
+    for pedido in lista_pedidos:
+        if pedido["status_pedido"] == 2 and pedido["prioridade"] == 2:
             imprimir_ficha_pedido(pedido)
             encontrou = 1
 
     if encontrou == 0:
-        print(AMARELO + '\nNenhum pedido em rota encontrado.')
+        print(AMARELO + '\nNenhum pedido em rota no momento.')
 
     confirmacao()
 
