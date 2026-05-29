@@ -481,7 +481,7 @@ def atualizar_pedido(lista_pedidos, lista_entregadores):
 
             if escolha_pagamento == 1:
                 limpar_tela()
-                if lista_pedidos[posicao]["status_pago"] == 1:  # 1 = PAGO
+                if lista_pedidos[posicao]["status_pago"] == 1:
                     print(AMARELO + "Pedido já está pago")
                     confirmacao()
                     return False
@@ -492,7 +492,7 @@ def atualizar_pedido(lista_pedidos, lista_entregadores):
                     return True
             else:
                 limpar_tela()
-                if lista_pedidos[posicao]["status_pago"] == 2:  # 2 = NAO PAGO
+                if lista_pedidos[posicao]["status_pago"] == 2:
                     print(AMARELO + "Pedido já está como NÃO PAGO")
                     confirmacao()
                     return False
