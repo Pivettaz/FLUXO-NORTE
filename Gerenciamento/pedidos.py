@@ -419,6 +419,10 @@ def atualizar_pedido(lista_pedidos, lista_entregadores):
 
         case 2:
             limpar_tela()
+            if lista_pedidos[posicao]["status_pedido"] == 5:
+                print(AMARELO + "Pedido reembolsado, entregadores não podem ser associados a ele...")
+                confirmacao()
+                return False
             estado = lista_pedidos[posicao]["estado"]
             regiao = lista_pedidos[posicao]["regiao"]
 
@@ -460,6 +464,10 @@ def atualizar_pedido(lista_pedidos, lista_entregadores):
 
         case 4:
             limpar_tela()
+            if lista_pedidos[posicao]["status_pedido"] == 5:
+                print(AMARELO + "Pedido reembolsado, não há como atualizar o pagamento")
+                confirmacao()
+                return False
             sub_menu_pagamento()
             escolha_pagamento = gerenciar_entrada_numerica(1, 2, BRANCO + "\nDigite uma opção: ")
             while escolha_pagamento is False:
@@ -597,29 +605,29 @@ def solicitar_reembolso(lista_pedidos):
 
     if posicao == -1:
         limpar_tela()
-        print(AMARELO + "Pedido não encontrado na base de dados.")
+        print(AMARELO + "\nPedido não encontrado na base de dados.")
         confirmacao()
         return False
 
     status_atual = lista_pedidos[posicao]["status_pedido"]
 
-    if status_atual == 5:  # 5 = REEMBOLSADO
+    if status_atual == 5:
         limpar_tela()
-        print(AMARELO + "Este pedido já foi reembolsado anteriormente!")
+        print(AMARELO + "\nEste pedido já foi reembolsado anteriormente!")
         confirmacao()
         return False
 
     if status_atual != 4 and status_atual != 1:
         limpar_tela()
         print(
-            AMARELO + f"Não é possível reembolsar um pedido com o status '{MAPA_STATUS_PEDIDO.get(status_atual, 'DESCONHECIDO')}'.")
-        print("O pedido precisa estar pendente ou cancelado antes de solicitar o reembolso.")
+            AMARELO + f"\nNão é possível reembolsar um pedido com o status '{MAPA_STATUS_PEDIDO.get(status_atual, 'DESCONHECIDO')}'.")
+        print(BRANCO + "O pedido precisa estar pendente ou cancelado antes de solicitar o reembolso.")
         confirmacao()
         return False
 
     if lista_pedidos[posicao]["status_pago"] == 2:
         limpar_tela()
-        print(AMARELO + "Pedido não foi pago, reembolso cancelado.")
+        print(AMARELO + "\nPedido não foi pago, reembolso cancelado.")
         confirmacao()
         return False
 
