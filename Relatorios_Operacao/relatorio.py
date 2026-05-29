@@ -114,7 +114,7 @@ def relatorio_alta_prioridade_pendente(lista_pedidos):
 
 def relatorio_alta_prioridade_em_rota(lista_pedidos):
         limpar_tela()
-        print(BRANCO + "---- PEDIDOS COM ALTA PRIORIDADE (PENDENTE) ----")
+        print(BRANCO + "---- PEDIDOS COM ALTA PRIORIDADE (EM ROTA) ----")
 
         encontrados = 0
 
