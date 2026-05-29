@@ -386,6 +386,10 @@ def atualizar_pedido(lista_pedidos, lista_entregadores):
             return False
         case 1:
             limpar_tela()
+            if lista_pedidos[posicao]["status_pedido"] == 5:
+                print(AMARELO + "Pedido reembolsado, sem alterações a fazer...")
+                confirmacao()
+                return False
             sub_menu_status_pedido()
             escolha_status = gerenciar_entrada_numerica(1, 4, BRANCO + "\nDigite uma opção: ")
             while escolha_status is False:
