@@ -25,7 +25,7 @@ def cadastrar_nome_entregador():
         return None
     while not validar_nome(nome):
         limpar_tela()
-        nome = input(AMARELO + "Insira o nome do entregador novamente (X para cancelar): ")
+        nome = input("Insira o nome do entregador novamente (X para cancelar): ")
         if nome.lower() == 'x':
             return None
     limpar_tela()

@@ -392,12 +392,18 @@ def atualizar_pedido(lista_pedidos, lista_entregadores):
             estado = lista_pedidos[posicao]["estado"]
             regiao = lista_pedidos[posicao]["regiao"]
 
+            if not lista_entregadores:
+                limpar_tela()
+                print(AMARELO + "Nenhum entregador cadastrado no sistema.")
+                confirmacao()
+                return False
+
             id_novo_entregador = cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, regiao, lista_pedidos[posicao]["porte_pedido"])
 
             if not id_novo_entregador:
                 return False
 
-            if lista_pedidos[posicao]["id_entregador"] == id_novo_entregador:
+            if lista_pedidos[posicao]["id_entregador"] == id_novo_entregador and lista_pedidos[posicao]["id_entregador"] != "0000":
                 limpar_tela()
                 print(AMARELO + "Este entregador já é o responsável por este pedido. Nenhuma alteração feita.")
                 confirmacao()
@@ -405,7 +411,7 @@ def atualizar_pedido(lista_pedidos, lista_entregadores):
 
             limpar_tela()
             lista_pedidos[posicao]["id_entregador"] = id_novo_entregador
-            print(VERDE + "Entregador updated com sucesso!")
+            print(VERDE + "Entregador atualizado com sucesso!")
             confirmacao()
             return True
 
