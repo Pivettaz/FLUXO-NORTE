@@ -246,7 +246,7 @@ def consultar_entregadores_disponiveis(lista_entregadores):
             encontrou = 1
 
             veiculo_texto = opcoes_veiculos.get(entregador["veiculo"], "VAN")
-            regiao_texto = MAPA_REGIOES.get(entregador["regiao"], "DESCONHECIDA")  # TRADUZ NÚMERO PARA TEXTO
+            regiao_texto = MAPA_REGIOES.get(entregador["regiao"], "DESCONHECIDA")
             turno_texto = MAPA_TURNOS.get(entregador["turno"], "DESCONHECIDO")
 
             print(f"ID              -> {entregador['id_entregador']}")

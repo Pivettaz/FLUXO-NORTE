@@ -502,7 +502,7 @@ def atualizar_pedido(lista_pedidos, lista_entregadores):
                     return False
                 else:
                     lista_pedidos[posicao]["status_pago"] = 1
-                    lista_pedidos[posicao]["saldo_devedor"] = 0.0  # ZERA O SALDO
+                    lista_pedidos[posicao]["saldo_devedor"] = 0.0
                     print(VERDE + "Pedido pago com sucesso! Saldo devedor zerado.")
                     confirmacao()
                     return True
@@ -515,7 +515,7 @@ def atualizar_pedido(lista_pedidos, lista_entregadores):
                 else:
                     lista_pedidos[posicao]["status_pago"] = 2
                     lista_pedidos[posicao]["saldo_devedor"] = lista_pedidos[posicao][
-                        "valor_pedido"]  # DEVE O VALOR TOTAL
+                        "valor_pedido"]
                     print(VERDE + "Pedido alterado para NÃO PAGO com sucesso!")
                     confirmacao()
                     return True
