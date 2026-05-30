@@ -31,6 +31,7 @@ def gerar_id_pedido(lista_pedidos):
 
     return id_pedido
 
+
 def cadastrar_nome():
     limpar_tela()
     nome = input(BRANCO + "Insira o nome do cliente (X para cancelar): ")
@@ -63,17 +64,16 @@ def cadastrar_endereco():
     if endereco.lower() == 'x':
         return None
 
-    rodando_loop = 1
-    while rodando_loop:
+    while True:
         partes_endereco = endereco.split("-")
 
-        if len(partes_endereco) == 3 and partes_endereco[0].strip() and partes_endereco[1].strip() and partes_endereco[2].strip():
+        if len(partes_endereco) == 3 and partes_endereco[0].strip() and partes_endereco[1].strip() and partes_endereco[
+            2].strip():
             break
 
         limpar_tela()
         print(AMARELO + "Use o padrão de traços. Exemplo: Centro - Rua Flores - 123\n")
-
-        endereco = input(BRANCO + "\nDigite novamente (X para cancelar): ").strip()
+        endereco = input(BRANCO + "Digite novamente (X para cancelar): ").strip()
 
         if endereco.lower() == 'x':
             return None
@@ -113,7 +113,6 @@ def cadastrar_descricao():
     while len(descricao) < 10:
         limpar_tela()
         print(AMARELO + "Descrição insuficiente! Deve conter pelo menos 10 caracteres.")
-
         descricao = input(BRANCO + "\nInsira a descrição do produto (X para cancelar): ").strip()
 
         if descricao.lower() == 'x':
@@ -172,6 +171,7 @@ def cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, re
         if entregador["id_entregador"] == id_entregador:
             entregador_encontrado = entregador
             break
+
     if entregador_encontrado is None:
         print(VERMELHO + "Entregador não encontrado no sistema.")
         confirmacao()
@@ -195,7 +195,8 @@ def cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, re
 
     if pontos_em_uso + pontos_pedido_atual > limite_pontos:
         print(AMARELO + f"\nCapacidade de carga excedida para {nome_veiculo}!")
-        print(AMARELO + f"Limite: {limite_pontos} ponto(s) | Em uso: {pontos_em_uso} | Este pedido: +{pontos_pedido_atual} ({MAPA_PORTES[porte_pedido]})")
+        print(
+            AMARELO + f"Limite: {limite_pontos} ponto(s) | Em uso: {pontos_em_uso} | Este pedido: +{pontos_pedido_atual} ({MAPA_PORTES[porte_pedido]})")
         confirmacao()
         return False
 
@@ -240,7 +241,7 @@ def cadastrar_status_pago():
 
 def cadastrar_pedido(lista_pedidos, lista_entregadores):
     campos = ["id_pedido", "nome_cliente", "estado", "endereco", "regiao", "prioridade", "descricao_pedido",
-              "porte_pedido", "valor_pedido", "status_pago", "id_entregador", "status_pedido"]
+              "porte_pedido", "valor_pedido", "status_pago", "saldo_devedor", "id_entregador", "status_pedido"]
     pedido = dict.fromkeys(campos)
 
     pedido["id_pedido"] = gerar_id_pedido(lista_pedidos)
@@ -301,7 +302,13 @@ def cadastrar_pedido(lista_pedidos, lista_entregadores):
         confirmacao()
         return False
 
-    pedido["id_entregador"] = cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, regiao, pedido["porte_pedido"])
+    if pedido["status_pago"] == 1:
+        pedido["saldo_devedor"] = 0.0
+    else:
+        pedido["saldo_devedor"] = pedido["valor_pedido"]
+
+    pedido["id_entregador"] = cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, regiao,
+                                                             pedido["porte_pedido"])
     if pedido["id_entregador"] is None:
         print(AMARELO + "\nCadastro cancelado.")
         confirmacao()
@@ -330,7 +337,8 @@ def cadastrar_pedido(lista_pedidos, lista_entregadores):
     print(BRANCO + f"PRIORIDADE -> {prioridade_texto}")
     print(BRANCO + f"DESCRIÇÃO -> {pedido['descricao_pedido']}")
     print(BRANCO + f"PORTE -> {porte_texto}")
-    print(BRANCO + f"VALOR -> R$ {pedido['valor_pedido']:.2f}")
+    print(BRANCO + f"VALOR TOTAL -> R$ {pedido['valor_pedido']:.2f}")
+    print(BRANCO + f"SALDO DEVEDOR -> R$ {pedido['saldo_devedor']:.2f}")
     print(BRANCO + f"STATUS PAGAMENTO -> {status_pago_texto}")
     print(BRANCO + f"STATUS -> {status_texto}")
     print(BRANCO + f"ID ENTREGADOR -> {pedido['id_entregador']}")
@@ -422,10 +430,10 @@ def atualizar_pedido(lista_pedidos, lista_entregadores):
 
         case 2:
             limpar_tela()
-
             status_pedido_texto = MAPA_STATUS_PEDIDO.get(lista_pedidos[posicao]["status_pedido"], "DESCONHECIDO")
-            if lista_pedidos[posicao]["status_pedido"] == 5 or lista_pedidos[posicao]["status_pedido"] == 4:
-                print(AMARELO + f"Pedido com status {status_pedido_texto}, entregadores não podem ser associados a ele...")
+            if lista_pedidos[posicao]["status_pedido"] in [4, 5]:
+                print(
+                    AMARELO + f"Pedido com status {status_pedido_texto}, entregadores não podem ser associados a ele...")
                 confirmacao()
                 return False
             estado = lista_pedidos[posicao]["estado"]
@@ -437,12 +445,14 @@ def atualizar_pedido(lista_pedidos, lista_entregadores):
                 confirmacao()
                 return False
 
-            id_novo_entregador = cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, regiao, lista_pedidos[posicao]["porte_pedido"])
+            id_novo_entregador = cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, regiao,
+                                                                lista_pedidos[posicao]["porte_pedido"])
 
             if not id_novo_entregador:
                 return False
 
-            if lista_pedidos[posicao]["id_entregador"] == id_novo_entregador and lista_pedidos[posicao]["id_entregador"] != "0000":
+            if lista_pedidos[posicao]["id_entregador"] == id_novo_entregador and lista_pedidos[posicao][
+                "id_entregador"] != "0000":
                 limpar_tela()
                 print(AMARELO + "Este entregador já é o responsável por este pedido. Nenhuma alteração feita.")
                 confirmacao()
@@ -492,7 +502,8 @@ def atualizar_pedido(lista_pedidos, lista_entregadores):
                     return False
                 else:
                     lista_pedidos[posicao]["status_pago"] = 1
-                    print(VERDE + "Pedido pago com sucesso!")
+                    lista_pedidos[posicao]["saldo_devedor"] = 0.0  # ZERA O SALDO
+                    print(VERDE + "Pedido pago com sucesso! Saldo devedor zerado.")
                     confirmacao()
                     return True
             else:
@@ -503,6 +514,8 @@ def atualizar_pedido(lista_pedidos, lista_entregadores):
                     return False
                 else:
                     lista_pedidos[posicao]["status_pago"] = 2
+                    lista_pedidos[posicao]["saldo_devedor"] = lista_pedidos[posicao][
+                        "valor_pedido"]  # DEVE O VALOR TOTAL
                     print(VERDE + "Pedido alterado para NÃO PAGO com sucesso!")
                     confirmacao()
                     return True
@@ -549,7 +562,8 @@ def reativar_pedido(lista_pedidos, lista_entregadores):
     estado = lista_pedidos[posicao]['estado']
     regiao = lista_pedidos[posicao]['regiao']
 
-    id_entregador = cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, regiao, lista_pedidos[posicao]['porte_pedido'])
+    id_entregador = cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, regiao,
+                                                   lista_pedidos[posicao]['porte_pedido'])
 
     if not id_entregador:
         limpar_tela()
@@ -559,6 +573,7 @@ def reativar_pedido(lista_pedidos, lista_entregadores):
 
     valor_original = lista_pedidos[posicao]['valor_pedido']
     valor_reativado = float(f"{valor_original * 1.10:.2f}")
+    valor_diferenca = float(f"{valor_reativado - valor_original:.2f}")
 
     limpar_tela()
     print(BRANCO + '--- CONFIRMAÇÃO DE REATIVAÇÃO ---')
@@ -566,6 +581,11 @@ def reativar_pedido(lista_pedidos, lista_entregadores):
     print(BRANCO + f"Cliente:        {lista_pedidos[posicao]['nome_cliente']}")
     print(BRANCO + f"Valor original: R$ {valor_original:.2f}")
     print(BRANCO + f"Valor com +10%: R$ {valor_reativado:.2f}")
+
+    ja_estava_pago = lista_pedidos[posicao]['status_pago'] == 1
+
+    if ja_estava_pago:
+        print(AMARELO + f"Diferença da taxa a cobrar: R$ {valor_diferenca:.2f}")
 
     print("\n")
     sub_menu_confirmar("DESEJA REATIVAR ESTE PEDIDO?")
@@ -577,6 +597,11 @@ def reativar_pedido(lista_pedidos, lista_entregadores):
         confirmacao()
         return False
 
+    if ja_estava_pago:
+        lista_pedidos[posicao]['saldo_devedor'] = valor_diferenca
+    else:
+        lista_pedidos[posicao]['saldo_devedor'] = valor_reativado
+
     lista_pedidos[posicao]['status_pago'] = 2
     lista_pedidos[posicao]['status_pedido'] = 1
     lista_pedidos[posicao]['valor_pedido'] = valor_reativado
@@ -584,8 +609,8 @@ def reativar_pedido(lista_pedidos, lista_entregadores):
 
     limpar_tela()
     print(VERDE + 'Pedido reativado com sucesso!')
-    print(f'Novo status: PENDENTE | Novo valor: R$ {valor_reativado:.2f}')
-    print(f'OBS: Pedido está como NÃO PAGO, pague para futuras utilidades')
+    print(BRANCO + f'Novo status: PENDENTE | Novo valor total: R$ {valor_reativado:.2f}')
+    print(AMARELO + f'Saldo pendente a pagar: R$ {lista_pedidos[posicao]["saldo_devedor"]:.2f}')
     confirmacao()
     return True
 
@@ -647,7 +672,7 @@ def solicitar_reembolso(lista_pedidos):
     if confirmacao_reembolso == 1:
         lista_pedidos[posicao]["status_pedido"] = 5
         lista_pedidos[posicao]["status_pago"] = 3
-        lista_pedidos[posicao]["id_entregador"] = "0000"
+        lista_pedidos[posicao]["saldo_devedor"] = 0.0
         valor = lista_pedidos[posicao]["valor_pedido"]
 
         limpar_tela()

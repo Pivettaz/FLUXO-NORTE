@@ -8,6 +8,7 @@ MAPA_PRIORIDADES = {1: "ALTA", 2: "NORMAL"}
 MAPA_PORTES = {1: "PEQUENO", 2: "MÉDIO", 3: "GRANDE"}
 MAPA_STATUS_PEDIDO = {1: "PENDENTE", 2: "EM ROTA", 3: "ENTREGUE", 4: "CANCELADO", 5: "REEMBOLSADO"}
 MAPA_STATUS_PAGO = {1: "PAGO", 2: "NAO PAGO", 3: "REEMBOLSADO"}
+MAPA_TURNOS = {1: "MANHÃ", 2: "TARDE", 3: "NOITE"}
 
 
 def imprimir_ficha_pedido(pedido):
@@ -18,6 +19,8 @@ def imprimir_ficha_pedido(pedido):
     status_pago_txt = MAPA_STATUS_PAGO.get(pedido["status_pago"], "DESCONHECIDO")
     status_pedido_txt = MAPA_STATUS_PEDIDO.get(pedido["status_pedido"], "DESCONHECIDO")
 
+    saldo = pedido.get("saldo_devedor", pedido["valor_pedido"])
+
     print(f'\nID:               {pedido["id_pedido"]}'
           f'\nCLIENTE:          {pedido["nome_cliente"]}'
           f'\nESTADO:           {estado_txt}'
@@ -26,7 +29,8 @@ def imprimir_ficha_pedido(pedido):
           f'\nPRIORIDADE:       {prioridade_txt}'
           f'\nDESCRIÇÃO:        {pedido["descricao_pedido"]}'
           f'\nPORTE:            {porte_txt}'
-          f'\nVALOR:            R$ {pedido["valor_pedido"]:.2f}'
+          f'\nVALOR TOTAL:      R$ {pedido["valor_pedido"]:.2f}'
+          f'\nSALDO DEVEDOR:    R$ {saldo:.2f}'  
           f'\nSTATUS PAGAMENTO: {status_pago_txt}'
           f'\nSTATUS PEDIDO:    {status_pedido_txt}'
           f'\nID ENTREGADOR:    {pedido["id_entregador"]}')
@@ -59,9 +63,10 @@ def pedidos_pendentes(lista_pedidos):
 
     confirmacao()
 
+
 def pedidos_em_rota(lista_pedidos):
     limpar_tela()
-    print(BRANCO + '--- PEDIDOS EM ROTA---')
+    print(BRANCO + '--- PEDIDOS EM ROTA ---')
 
     if len(lista_pedidos) == 0:
         print(AMARELO + '\nNenhum pedido cadastrado.')
@@ -107,6 +112,7 @@ def pedidos_entregues(lista_pedidos):
 
     confirmacao()
 
+
 def pedidos_cancelados(lista_pedidos):
     limpar_tela()
     print(BRANCO + '--- PEDIDOS CANCELADOS ---')
@@ -127,6 +133,7 @@ def pedidos_cancelados(lista_pedidos):
         print(AMARELO + '\nNenhum pedido cancelado encontrado.')
 
     confirmacao()
+
 
 def pedidos_reembolsados(lista_pedidos):
     limpar_tela()
@@ -239,13 +246,15 @@ def consultar_entregadores_disponiveis(lista_entregadores):
             encontrou = 1
 
             veiculo_texto = opcoes_veiculos.get(entregador["veiculo"], "VAN")
+            regiao_texto = MAPA_REGIOES.get(entregador["regiao"], "DESCONHECIDA")  # TRADUZ NÚMERO PARA TEXTO
+            turno_texto = MAPA_TURNOS.get(entregador["turno"], "DESCONHECIDO")
 
             print(f"ID              -> {entregador['id_entregador']}")
             print(f"NOME            -> {entregador['nome_entregador']}")
             print(f"VEÍCULO         -> {veiculo_texto}")
             print(f"ESTADO          -> {entregador['estado']}")
-            print(f"REGIÃO          -> {entregador['regiao']}")
-            print(f"TURNO           -> {entregador['turno']}")
+            print(f"REGIÃO          -> {regiao_texto}")
+            print(f"TURNO           -> {turno_texto}")
             print(f"STATUS          -> {entregador['disponibilidade']}")
             print("-" * 35)
 
