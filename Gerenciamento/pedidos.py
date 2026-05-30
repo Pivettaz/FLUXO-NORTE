@@ -118,7 +118,7 @@ def cadastrar_descricao():
 
         if descricao.lower() == 'x':
             return None
-    return descricao
+    return descricao.upper()
 
 
 def cadastrar_porte():
@@ -380,16 +380,15 @@ def atualizar_pedido(lista_pedidos, lista_entregadores):
 
     limpar_tela()
     sub_menu_atualizacao()
-    escolha = gerenciar_entrada_numerica(1, 4, BRANCO + "\nEscolha uma opção: ")
+    escolha = gerenciar_entrada_numerica(1, 4, BRANCO + "\nEscolha uma opção (X para cancelar): ")
 
     match escolha:
-        case None:
-            limpar_tela()
-            print(AMARELO + "\nOperação cancelada.")
-            confirmacao()
-            return False
         case 1:
             limpar_tela()
+            if lista_pedidos[posicao]["status_pedido"] == 4:
+                print(AMARELO + "Pedido cancelado, necessário reativá-lo...")
+                confirmacao()
+                return False
             if lista_pedidos[posicao]["status_pedido"] == 5:
                 print(AMARELO + "Pedido reembolsado, sem alterações a fazer...")
                 confirmacao()
@@ -568,6 +567,7 @@ def reativar_pedido(lista_pedidos, lista_entregadores):
     print(BRANCO + f"Valor original: R$ {valor_original:.2f}")
     print(BRANCO + f"Valor com +10%: R$ {valor_reativado:.2f}")
 
+    print("\n")
     sub_menu_confirmar("DESEJA REATIVAR ESTE PEDIDO?")
     confirmar = gerenciar_entrada_numerica(1, 2, BRANCO + '\nDigite uma opção: ')
 
@@ -577,6 +577,7 @@ def reativar_pedido(lista_pedidos, lista_entregadores):
         confirmacao()
         return False
 
+    lista_pedidos[posicao]['status_pago'] = 2
     lista_pedidos[posicao]['status_pedido'] = 1
     lista_pedidos[posicao]['valor_pedido'] = valor_reativado
     lista_pedidos[posicao]['id_entregador'] = id_entregador
@@ -584,6 +585,7 @@ def reativar_pedido(lista_pedidos, lista_entregadores):
     limpar_tela()
     print(VERDE + 'Pedido reativado com sucesso!')
     print(f'Novo status: PENDENTE | Novo valor: R$ {valor_reativado:.2f}')
+    print(f'OBS: Pedido está como NÃO PAGO, pague para futuras utilidades')
     confirmacao()
     return True
 
