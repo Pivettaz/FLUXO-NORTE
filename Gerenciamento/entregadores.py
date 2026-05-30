@@ -19,7 +19,7 @@ MAPA_PORTES = {1: "PEQUENO", 2: "MÉDIO", 3: "GRANDE"}
 def gerar_id_entregador(lista_entregadores):
     id_entregador =  str(random.randint(1000, 9999))
 
-    while buscar_posicao_por_id(id_entregador, lista_entregadores) != -1:
+    while buscar_posicao_por_id(id_entregador, lista_entregadores, "id_entregador") != -1:
         id_entregador = str(random.randint(1000, 9999))
 
     return id_entregador
@@ -79,6 +79,8 @@ def cadastrar_turno_entregador():
     sub_menus_turno()
     turno = gerenciar_entrada_numerica(1, 3, "\nDigite uma opção: ")
     while turno is False:
+        limpar_tela()
+        sub_menus_turno()
         turno = gerenciar_entrada_numerica(1, 3, "\nDigite uma opção novamente: ")
     return turno
 
