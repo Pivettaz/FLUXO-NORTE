@@ -133,18 +133,19 @@ def cadastrar_porte():
 
 def cadastrar_valor():
     limpar_tela()
-    valor_texto = input(BRANCO + "Insira o valor do produto (X para cancelar): ")
-    if valor_texto.lower() == 'x':
-        return None
-    valor_texto = valor_texto.replace(",", ".")
-    while not valor_texto.replace(".", "", 1).strip().isdigit():
-        limpar_tela()
-        print(AMARELO + "Valor deve ser um número válido")
-        valor_texto = input(BRANCO + "\nInsira o valor do produto novamente (X para cancelar): ")
+    valor_valido = False
+    while not valor_valido:
+        valor_texto = input(BRANCO + "Insira o valor do produto (X para cancelar): ")
         if valor_texto.lower() == 'x':
             return None
-        valor_texto = valor_texto.replace(",", ".")
-    return float(valor_texto)
+        valor = float(valor_texto)
+        if valor < 0:
+            print(AMARELO + "Valor não pode ser negativo")
+        elif valor > 1000000:
+            print(AMARELO + "Valor não pode ser maior que 1.000.000")
+        else:
+            valor_valido = True
+    return valor
 
 
 def cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, regiao, porte_pedido):
@@ -347,9 +348,9 @@ def cadastrar_pedido(lista_pedidos, lista_entregadores):
     return True
 
 
-def buscar_posicao_por_id(id_procurado, lista_pedidos):
-    for i, pedido in enumerate(lista_pedidos):
-        if pedido['id_pedido'] == id_procurado:
+def buscar_posicao_por_id(id_procurado, lista, chave="id_pedido"):
+    for i, item in enumerate(lista):
+        if item[chave] == id_procurado:
             return i
     return -1
 
@@ -590,6 +591,9 @@ def reativar_pedido(lista_pedidos, lista_entregadores):
     print("\n")
     sub_menu_confirmar("DESEJA REATIVAR ESTE PEDIDO?")
     confirmar = gerenciar_entrada_numerica(1, 2, BRANCO + '\nDigite uma opção: ')
+    while confirmar is False:
+        sub_menu_confirmar("DESEJA REATIVAR ESTE PEDIDO?")
+        confirmar = gerenciar_entrada_numerica(1, 2, BRANCO + '\nDigite uma opção novamente: ')
 
     if confirmar != 1:
         limpar_tela()
@@ -668,6 +672,9 @@ def solicitar_reembolso(lista_pedidos):
 
     sub_menu_confirmar("CONFIRMAR REEMBOLSO?")
     confirmacao_reembolso = gerenciar_entrada_numerica(1, 2, BRANCO + "\nDigite uma opção: ")
+    while confirmacao_reembolso is False:
+        sub_menu_confirmar("CONFIRMAR REEMBOLSO?")
+        confirmacao_reembolso = gerenciar_entrada_numerica(1, 2, BRANCO + "\nDigite uma opção novamente: ")
 
     if confirmacao_reembolso == 1:
         lista_pedidos[posicao]["status_pedido"] = 5
