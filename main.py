@@ -376,6 +376,7 @@ def cadastrar_valor():
             valor_valido = True
     return valor
 
+
 def cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, regiao, porte_pedido):
     limpar_tela()
     id_entregador = input(BRANCO + "Insira o ID do entregador responsável (X para cancelar): ")
@@ -402,8 +403,9 @@ def cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, re
 
     if entregador_encontrado is None:
         print(VERMELHO + "Entregador não encontrado no sistema.")
+        print(AMARELO + "Pedido ficará como Pendente e sem nenhum entregador associado")
         confirmacao()
-        return False
+        return "0000"
 
     contagem = 0
     pontos_em_uso = 0
@@ -413,9 +415,10 @@ def cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, re
             pontos_em_uso += PONTOS_PORTE[pedido["porte_pedido"]]
 
     if contagem >= 5:
-        print(AMARELO + "\nUm entregador só pode assumir 5 entregas simultâneas")
+        print(AMARELO + "\nUm entregador só pode assume 5 entregas simultâneas")
+        print(AMARELO + "Pedido ficará como Pendente e sem nenhum entregador associado")
         confirmacao()
-        return False
+        return "0000"
 
     nome_veiculo = MAPA_VEICULOS.get(entregador_encontrado["veiculo"], "VEÍCULO")
     limite_pontos = CAPACIDADE_PONTOS_VEICULO[entregador_encontrado["veiculo"]]
@@ -424,18 +427,31 @@ def cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, re
     if pontos_em_uso + pontos_pedido_atual > limite_pontos:
         print(AMARELO + f"\nCapacidade de carga excedida para {nome_veiculo}!")
         print(AMARELO + f"Limite: {limite_pontos} ponto(s) | Em uso: {pontos_em_uso} | Este pedido: +{pontos_pedido_atual} ({MAPA_PORTES[porte_pedido]})")
+        print(AMARELO + "Pedido ficará como Pendente e sem nenhum entregador associado")
         confirmacao()
-        return False
+        return "0000"
 
     if entregador_encontrado["estado"] != estado_sigla:
         print(AMARELO + "Este entregador não pertence a esse estado!")
+        print(AMARELO + "Pedido ficará como Pendente e sem nenhum entregador associado")
         confirmacao()
-        return False
+        return "0000"
 
     if entregador_encontrado["regiao"] != regiao:
         print(AMARELO + "Este entregador pertence ao estado, mas não a essa região!")
+        print(AMARELO + "Pedido ficará como Pendente e sem nenhum entregador associado")
         confirmacao()
-        return False
+        return "0000"
+
+    posicao_entregador = buscar_posicao_por_id(id_entregador, lista_entregadores, "id_entregador")
+
+    total_pedidos_futuro = contagem + 1
+    total_pontos_futuro = pontos_em_uso + pontos_pedido_atual
+
+    if total_pontos_futuro >= limite_pontos or total_pedidos_futuro == 5:
+        lista_entregadores[posicao_entregador]["disponibilidade"] = "INDISPONIVEL"
+    else:
+        lista_entregadores[posicao_entregador]["disponibilidade"] = "DISPONIVEL"
 
     print(VERDE + "Entregador verificado e confirmado para esta rota!")
     confirmacao()
@@ -462,6 +478,7 @@ def cadastrar_status_pago():
         sub_menu_status_pago()
         status_pago = gerenciar_entrada_numerica(1, 2, BRANCO + "\nDigite uma opção novamente: ")
     return status_pago
+
 
 def cadastrar_pedido(lista_pedidos, lista_entregadores):
     campos = ["id_pedido", "nome_cliente", "estado", "endereco", "regiao", "prioridade", "descricao_pedido",
@@ -531,18 +548,26 @@ def cadastrar_pedido(lista_pedidos, lista_entregadores):
     else:
         pedido["saldo_devedor"] = pedido["valor_pedido"]
 
-    pedido["id_entregador"] = cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, regiao,
+    id_entregador_resultado = cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, regiao,
                                                              pedido["porte_pedido"])
-    if pedido["id_entregador"] is None:
+
+    if id_entregador_resultado is None:
         print(AMARELO + "\nCadastro cancelado.")
         confirmacao()
         return False
 
-    pedido["status_pedido"] = cadastrar_status(lista_entregadores)
-    if pedido["status_pedido"] is None:
-        print(AMARELO + "\nCadastro cancelado.")
-        confirmacao()
-        return False
+    pedido["id_entregador"] = id_entregador_resultado
+
+    if pedido["id_entregador"] == "0000":
+        pedido["status_pedido"] = 1
+    else:
+        status_pedido = cadastrar_status(lista_entregadores)
+        if status_pedido is None:
+            print(AMARELO + "\nCadastro cancelado.")
+            confirmacao()
+            return False
+
+        pedido["status_pedido"] = status_pedido
 
     lista_pedidos.append(pedido)
 
@@ -552,6 +577,7 @@ def cadastrar_pedido(lista_pedidos, lista_entregadores):
     status_texto = MAPA_STATUS_PEDIDO.get(pedido["status_pedido"], "DESCONHECIDO")
     status_pago_texto = MAPA_STATUS_PAGO.get(pedido["status_pago"], "DESCONHECIDO")
 
+    limpar_tela()
     print("\n" + BRANCO + "----- PEDIDO CADASTRADO -----")
     print(BRANCO + f"ID -> {pedido['id_pedido']}")
     print(BRANCO + f"CLIENTE -> {pedido['nome_cliente']}")
