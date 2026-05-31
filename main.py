@@ -298,7 +298,8 @@ def cadastrar_endereco():
     if endereco.lower() == 'x':
         return None
 
-    while True:
+    executando_endereco = 1
+    while executando_endereco:
         partes_endereco = endereco.split("-")
 
         if len(partes_endereco) == 3 and partes_endereco[0].strip() and partes_endereco[1].strip() and partes_endereco[2].strip():
