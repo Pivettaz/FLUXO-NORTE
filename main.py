@@ -1540,7 +1540,7 @@ def menu_principal():
                         reativar_pedido(lista_pedidos, lista_entregadores)
                     case 4:
                         limpar_tela()
-                        solicitar_reembolso(lista_pedidos)
+                        solicitar_reembolso(lista_pedidos, lista_entregadores)
                     case 5:
                         executando_menu_pedidos = 0
 
