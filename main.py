@@ -5,11 +5,11 @@ from time import sleep
 import pyfiglet
 from colorama import init
 
-BRANCO   = "\033[38;2;245;245;245m"
-AMARELO  = "\033[38;2;255;217;61m"
-VERDE    = "\033[38;2;74;222;128m"
+BRANCO = "\033[38;2;245;245;245m"
+AMARELO = "\033[38;2;255;217;61m"
+VERDE = "\033[38;2;74;222;128m"
 VERMELHO = "\033[38;2;255;85;85m"
-CIANO    = "\033[38;2;34;211;238m"
+CIANO = "\033[38;2;34;211;238m"
 
 PALETA = [
     "\033[38;2;34;211;238m",
@@ -37,11 +37,14 @@ CAPACIDADE_PONTOS_VEICULO = {1: 3, 2: 9, 3: 15}
 LARGURA = 44
 NAVEGACAO = ("VOLTAR", "FINALIZAR SISTEMA")
 
+
 def limpar_tela():
     os.system('cls' if os.name == 'nt' else 'clear')
 
+
 def confirmacao():
-    input(BRANCO + "\nPressione Enter para voltar ao menu...")
+    input(BRANCO + "\nPressione Enter para continuar...")
+
 
 def gerenciar_entrada_numerica(min_val, max_val, mensagem):
     escolha = input(mensagem)
@@ -59,6 +62,7 @@ def gerenciar_entrada_numerica(min_val, max_val, mensagem):
         sleep(1.5)
         return False
 
+
 def validar_nome(nome):
     partes = nome.split()
 
@@ -68,12 +72,13 @@ def validar_nome(nome):
         return False
 
     for parte in partes:
-        if len(parte) < 2 or not parte.isalpha():
+        if len(partes) < 2 or len(parte) < 2 or not parte.isalpha():
             print(AMARELO + "Nome e sobrenome devem conter pelo menos 2 letras cada e não conter símbolos ou números.")
             sleep(1.5)
             return False
 
     return True
+
 
 def validar_id_entregador(id_entregador):
     if not id_entregador.isdigit():
@@ -85,6 +90,7 @@ def validar_id_entregador(id_entregador):
         sleep(1.5)
         return False
     return True
+
 
 def validar_id_pedido(id_pedido):
     if len(id_pedido) != 5:
@@ -100,6 +106,7 @@ def validar_id_pedido(id_pedido):
         sleep(1.5)
         return False
     return id_pedido.upper()
+
 
 def desenhar_menu(titulo, opcoes, cancelar=False):
     print(BRANCO + "╔" + "═" * LARGURA + "╗")
@@ -119,6 +126,7 @@ def desenhar_menu(titulo, opcoes, cancelar=False):
         print(f"  {VERMELHO}[X] ❌ CANCELAR")
     print(BRANCO + "╚" + "═" * LARGURA + "╝")
 
+
 def sub_menu_principal():
     banner = pyfiglet.figlet_format("FLUXO NORTE", font="standard")
     print(AMARELO + banner)
@@ -130,6 +138,7 @@ def sub_menu_principal():
         ["🚪", "FINALIZAR SISTEMA"],
     ])
 
+
 def sub_menu_pedidos():
     desenhar_menu("GERENCIAMENTO DE PEDIDOS", [
         ["📝", "CADASTRO"],
@@ -139,11 +148,13 @@ def sub_menu_pedidos():
         ["🔙", "VOLTAR"],
     ])
 
+
 def sub_menu_entregadores():
     desenhar_menu("GERENCIAMENTO DE ENTREGADORES", [
         ["➕", "CADASTRO"],
         ["🔙", "VOLTAR"],
     ])
+
 
 def sub_menu_consultas():
     desenhar_menu("PAINEL DE CONSULTAS", [
@@ -158,6 +169,7 @@ def sub_menu_consultas():
         ["🔙", "VOLTAR"],
     ])
 
+
 def sub_menu_relatorios():
     desenhar_menu("RELATÓRIOS GERENCIAIS", [
         ["🧾", "TOTAL DE PEDIDOS CADASTRADOS"],
@@ -167,6 +179,7 @@ def sub_menu_relatorios():
         ["🔙", "VOLTAR"],
     ])
 
+
 def sub_menu_alta_prioridade():
     desenhar_menu("RELATÓRIOS GERENCIAIS", [
         ["🌟", "GERAL"],
@@ -174,6 +187,7 @@ def sub_menu_alta_prioridade():
         ["🛵", "EM ROTA"],
         ["🔙", "VOLTAR"],
     ])
+
 
 def sub_menu_estados():
     desenhar_menu("SELECIONE O ESTADO", [
@@ -186,12 +200,14 @@ def sub_menu_estados():
         ["📍", "Tocantins (TO)"],
     ], cancelar=True)
 
+
 def sub_menu_veiculo():
     desenhar_menu("SELECIONE O VEÍCULO", [
         ["🛵", "MOTO"],
         ["🚗", "CARRO"],
         ["🚐", "VAN"],
     ], cancelar=True)
+
 
 def sub_menu_regiao():
     desenhar_menu("SELECIONE A REGIÃO", [
@@ -202,6 +218,7 @@ def sub_menu_regiao():
         ["🧭", "CENTRO"],
     ], cancelar=True)
 
+
 def sub_menus_turno():
     desenhar_menu("SELECIONE O TURNO", [
         ["🌅", "MATUTINO   -> (07h às 16h)"],
@@ -209,18 +226,21 @@ def sub_menus_turno():
         ["🌙", "NOTURNO    -> (23h às 07h)"],
     ], cancelar=True)
 
+
 def sub_menu_prioridade():
     desenhar_menu("PRIORIDADE", [
         ["🔴", "ALTA"],
         ["🟢", "NORMAL"],
     ], cancelar=True)
 
+
 def sub_menu_porte():
     desenhar_menu("PORTE DO PEDIDO", [
-        ["🟦", "BAIXO"],
-        ["🟨", "MEDIO"],
+        ["🟦", "PEQUENO"],
+        ["🟨", "MÉDIO"],
         ["🟥", "GRANDE"],
     ], cancelar=True)
+
 
 def sub_menu_status_pedido():
     desenhar_menu("STATUS DO PEDIDO", [
@@ -230,11 +250,13 @@ def sub_menu_status_pedido():
         ["🚫", "CANCELADO"],
     ], cancelar=True)
 
+
 def sub_menu_status_pago():
     desenhar_menu("STATUS FINANCEIRO", [
         ["✅", "SIM (PAGO)"],
         ["💵", "NÃO (A PAGAR)"],
     ], cancelar=True)
+
 
 def sub_menu_atualizacao():
     desenhar_menu("MENU DE ATUALIZAÇÃO", [
@@ -244,17 +266,20 @@ def sub_menu_atualizacao():
         ["💰", "ATUALIZAR PAGAMENTO"],
     ], cancelar=True)
 
+
 def sub_menu_pagamento():
     desenhar_menu("ATUALIZAR PAGAMENTO", [
         ["✅", "SETAR COMO PAGO"],
         ["💵", "SETAR COMO NÃO PAGO"],
     ], cancelar=True)
 
+
 def sub_menu_confirmar(pergunta):
     desenhar_menu(pergunta, [
         ["✅", "SIM"],
         ["❌", "NÃO"],
     ])
+
 
 def gerar_id_pedido(lista_pedidos):
     letras_aleatorias = ''.join(random.choices('ABCDEFGHIJKLMNOPQRSTUVWXYZ', k=1))
@@ -267,6 +292,7 @@ def gerar_id_pedido(lista_pedidos):
         id_pedido = letras_aleatorias + str(numeros_aleatorios)
 
     return id_pedido
+
 
 def cadastrar_nome():
     limpar_tela()
@@ -281,6 +307,7 @@ def cadastrar_nome():
     limpar_tela()
     return nome.upper()
 
+
 def cadastrar_estado():
     limpar_tela()
     sub_menu_estados()
@@ -291,6 +318,7 @@ def cadastrar_estado():
         estado = gerenciar_entrada_numerica(1, 7, BRANCO + "Digite uma opção novamente: ")
     return estado
 
+
 def cadastrar_endereco():
     limpar_tela()
     endereco = input(BRANCO + "Digite [BAIRRO - RUA - NÚMERO] (X para cancelar): ").strip()
@@ -298,11 +326,11 @@ def cadastrar_endereco():
     if endereco.lower() == 'x':
         return None
 
-    executando_endereco = 1
-    while executando_endereco:
+    while True:
         partes_endereco = endereco.split("-")
 
-        if len(partes_endereco) == 3 and partes_endereco[0].strip() and partes_endereco[1].strip() and partes_endereco[2].strip():
+        if len(partes_endereco) == 3 and partes_endereco[0].strip() and partes_endereco[1].strip() and partes_endereco[
+            2].strip():
             break
 
         limpar_tela()
@@ -314,6 +342,7 @@ def cadastrar_endereco():
 
     return endereco.upper()
 
+
 def cadastrar_regiao():
     limpar_tela()
     sub_menu_regiao()
@@ -324,6 +353,7 @@ def cadastrar_regiao():
         regiao_pedido = gerenciar_entrada_numerica(1, 5, "\nDigite uma opção novamente: ")
     return regiao_pedido
 
+
 def cadastrar_prioridade():
     limpar_tela()
     sub_menu_prioridade()
@@ -333,6 +363,7 @@ def cadastrar_prioridade():
         sub_menu_prioridade()
         prioridade = gerenciar_entrada_numerica(1, 2, BRANCO + "\nDigite uma opção novamente: ")
     return prioridade
+
 
 def cadastrar_descricao():
     limpar_tela()
@@ -350,6 +381,7 @@ def cadastrar_descricao():
             return None
     return descricao.upper()
 
+
 def cadastrar_porte():
     limpar_tela()
     sub_menu_porte()
@@ -360,21 +392,28 @@ def cadastrar_porte():
         porte = gerenciar_entrada_numerica(1, 3, BRANCO + "\nDigite uma opção novamente: ")
     return porte
 
+
 def cadastrar_valor():
     limpar_tela()
-    valor_valido = False
-    while not valor_valido:
-        valor_texto = input(BRANCO + "Insira o valor do produto (X para cancelar): ")
+    cadastrando_valor = 0
+    while cadastrando_valor:
+        valor_texto = input(BRANCO + "Insira o valor do produto (X para cancelar): ").strip()
         if valor_texto.lower() == 'x':
             return None
-        valor = float(valor_texto)
-        if valor < 0:
-            print(AMARELO + "Valor não pode ser negativo")
-        elif valor > 1000000:
-            print(AMARELO + "Valor não pode ser maior que 1.000.000")
+
+        valor_texto = valor_texto.replace(",", ".")
+
+        if valor_texto.replace(".", "", 1).isdigit() and valor_texto != "":
+            valor = float(valor_texto)
+
+            if valor < 0:
+                print(AMARELO + "Valor não pode ser negativo.")
+            elif valor > 1000000:
+                print(AMARELO + "Valor não pode ser maior que 1.000.000")
+            else:
+                return valor
         else:
-            valor_valido = True
-    return valor
+            print(AMARELO + "Por favor, insira um valor numérico válido.")
 
 
 def cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, regiao, porte_pedido):
@@ -391,7 +430,8 @@ def cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, re
     estado_sigla = MAPA_ESTADOS.get(estado, "ID_INVALIDO")
 
     if not lista_entregadores:
-        print(AMARELO + "\nNenhum entregador cadastrado, pedido ficará como Pendente.\nApós cadastrar um entregador atualize esse pedido.")
+        print(
+            AMARELO + "\nNenhum entregador cadastrado, pedido ficará como Pendente.\nApós cadastrar um entregador atualize esse pedido.")
         input(BRANCO + "\nPressione Enter para continuar...")
         return "0000"
 
@@ -415,7 +455,7 @@ def cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, re
             pontos_em_uso += PONTOS_PORTE[pedido["porte_pedido"]]
 
     if contagem >= 5:
-        print(AMARELO + "\nUm entregador só pode assume 5 entregas simultâneas")
+        print(AMARELO + "\nUm entregador só pode assumir 5 entregas simultâneas")
         print(AMARELO + "Pedido ficará como Pendente e sem nenhum entregador associado")
         confirmacao()
         return "0000"
@@ -426,7 +466,8 @@ def cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, re
 
     if pontos_em_uso + pontos_pedido_atual > limite_pontos:
         print(AMARELO + f"\nCapacidade de carga excedida para {nome_veiculo}!")
-        print(AMARELO + f"Limite: {limite_pontos} ponto(s) | Em uso: {pontos_em_uso} | Este pedido: +{pontos_pedido_atual} ({MAPA_PORTES[porte_pedido]})")
+        print(
+            AMARELO + f"Limite: {limite_pontos} ponto(s) | Em uso: {pontos_em_uso} | Este pedido: +{pontos_pedido_atual} ({MAPA_PORTES[porte_pedido]})")
         print(AMARELO + "Pedido ficará como Pendente e sem nenhum entregador associado")
         confirmacao()
         return "0000"
@@ -457,6 +498,7 @@ def cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, re
     confirmacao()
     return id_entregador
 
+
 def atualizar_disponibilidade_entregador(id_entregador, lista_pedidos, lista_entregadores):
     if id_entregador == "0000":
         return
@@ -480,6 +522,7 @@ def atualizar_disponibilidade_entregador(id_entregador, lista_pedidos, lista_ent
     else:
         lista_entregadores[posicao_entregador]["disponibilidade"] = "DISPONIVEL"
 
+
 def cadastrar_status(lista_entregadores):
     limpar_tela()
     if not lista_entregadores:
@@ -491,6 +534,7 @@ def cadastrar_status(lista_entregadores):
         sub_menu_status_pedido()
         status = gerenciar_entrada_numerica(1, 4, BRANCO + "\nDigite uma opção novamente: ")
     return status
+
 
 def cadastrar_status_pago():
     limpar_tela()
@@ -619,11 +663,13 @@ def cadastrar_pedido(lista_pedidos, lista_entregadores):
     confirmacao()
     return True
 
+
 def buscar_posicao_por_id(id_procurado, lista, chave="id_pedido"):
     for i, item in enumerate(lista):
         if item[chave] == id_procurado:
             return i
     return -1
+
 
 def buscar_id_pedido_atualizar():
     id_pedido = input(BRANCO + "Digite o ID do pedido que deseja atualizar (X para cancelar): ").upper()
@@ -741,7 +787,7 @@ def atualizar_pedido(lista_pedidos, lista_entregadores):
             atualizar_disponibilidade_entregador(entregador_antigo, lista_pedidos, lista_entregadores)
             atualizar_disponibilidade_entregador(id_novo_entregador, lista_pedidos, lista_entregadores)
 
-            print(VERDE + "Entregador atualizado com sucesso!")
+            print(VERDE + "Entregador updated com sucesso!")
             confirmacao()
             return True
 
@@ -851,7 +897,7 @@ def reativar_pedido(lista_pedidos, lista_entregadores):
     id_entregador = cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, regiao,
                                                    lista_pedidos[posicao]['porte_pedido'])
 
-    if not id_entregador:
+    if not id_entregador or id_entregador == "0000":
         limpar_tela()
         print(AMARELO + 'Não foi possível reativar o pedido devido a problemas com o entregador.')
         confirmacao()
@@ -904,7 +950,7 @@ def reativar_pedido(lista_pedidos, lista_entregadores):
     return True
 
 
-def solicitar_reembolso(lista_pedidos, lista_entregadores):  # Adicionado lista_entregadores como parâmetro
+def solicitar_reembolso(lista_pedidos, lista_entregadores):
     if not lista_pedidos:
         print(AMARELO + "Sem pedidos para reembolsar..")
         confirmacao()
@@ -985,6 +1031,7 @@ def solicitar_reembolso(lista_pedidos, lista_entregadores):  # Adicionado lista_
     confirmacao()
     return False
 
+
 def gerar_id_entregador(lista_entregadores):
     id_entregador = str(random.randint(1000, 9999))
 
@@ -992,6 +1039,7 @@ def gerar_id_entregador(lista_entregadores):
         id_entregador = str(random.randint(1000, 9999))
 
     return id_entregador
+
 
 def cadastrar_nome_entregador():
     limpar_tela()
@@ -1006,6 +1054,7 @@ def cadastrar_nome_entregador():
     limpar_tela()
     return nome.upper()
 
+
 def cadastrar_veiculo():
     limpar_tela()
     sub_menu_veiculo()
@@ -1015,6 +1064,7 @@ def cadastrar_veiculo():
         sub_menu_veiculo()
         veiculo = gerenciar_entrada_numerica(1, 3, "\nDigite uma opção novamente: ")
     return veiculo
+
 
 def cadastrar_estado_entregador():
     limpar_tela()
@@ -1028,6 +1078,7 @@ def cadastrar_estado_entregador():
         return None
     return MAPA_ESTADOS.get(estado, "DESCONHECIDO")
 
+
 def cadastrar_regiao_entregador():
     limpar_tela()
     sub_menu_regiao()
@@ -1038,6 +1089,7 @@ def cadastrar_regiao_entregador():
         regiao = gerenciar_entrada_numerica(1, 5, "\nDigite uma opção novamente: ")
     return regiao
 
+
 def cadastrar_turno_entregador():
     limpar_tela()
     sub_menus_turno()
@@ -1047,6 +1099,7 @@ def cadastrar_turno_entregador():
         sub_menus_turno()
         turno = gerenciar_entrada_numerica(1, 3, "\nDigite uma opção novamente: ")
     return turno
+
 
 def cadastrar_entregador(lista_entregadores):
     campos = ["id_entregador", "nome_entregador", "veiculo", "estado", "regiao", "turno", "disponibilidade"]
@@ -1103,6 +1156,7 @@ def cadastrar_entregador(lista_entregadores):
     print(f"DISPONIBILIDADE -> {entregador['disponibilidade']}")
     confirmacao()
 
+
 def imprimir_ficha_pedido(pedido):
     estado_txt = MAPA_ESTADOS.get(pedido["estado"], "DESCONHECIDO")
     regiao_txt = MAPA_REGIOES.get(pedido["regiao"], "DESCONHECIDA")
@@ -1127,6 +1181,7 @@ def imprimir_ficha_pedido(pedido):
           f'\nSTATUS PEDIDO:    {status_pedido_txt}'
           f'\nID ENTREGADOR:    {pedido["id_entregador"]}')
     print("-" * 40)
+
 
 def pedidos_pendentes(lista_pedidos):
     limpar_tela()
@@ -1154,6 +1209,7 @@ def pedidos_pendentes(lista_pedidos):
 
     confirmacao()
 
+
 def pedidos_em_rota(lista_pedidos):
     limpar_tela()
     print(BRANCO + '--- PEDIDOS EM ROTA ---')
@@ -1180,6 +1236,7 @@ def pedidos_em_rota(lista_pedidos):
 
     confirmacao()
 
+
 def pedidos_entregues(lista_pedidos):
     limpar_tela()
     print(BRANCO + '--- PEDIDOS ENTREGUES ---')
@@ -1200,6 +1257,7 @@ def pedidos_entregues(lista_pedidos):
         print(AMARELO + '\nNenhum pedido entregue encontrado.')
 
     confirmacao()
+
 
 def pedidos_cancelados(lista_pedidos):
     limpar_tela()
@@ -1222,6 +1280,7 @@ def pedidos_cancelados(lista_pedidos):
 
     confirmacao()
 
+
 def pedidos_reembolsados(lista_pedidos):
     limpar_tela()
     print(BRANCO + '--- PEDIDOS REEMBOLSADOS ---')
@@ -1242,6 +1301,7 @@ def pedidos_reembolsados(lista_pedidos):
         print(AMARELO + '\nNenhum pedido reembolsado encontrado.')
 
     confirmacao()
+
 
 def buscar_pedido(lista_pedidos):
     limpar_tela()
@@ -1273,6 +1333,7 @@ def buscar_pedido(lista_pedidos):
         print(AMARELO + '\nPedido não encontrado no sistema.')
 
     confirmacao()
+
 
 def entregas_entregador(lista_pedidos, lista_entregadores):
     if not lista_entregadores:
@@ -1312,6 +1373,7 @@ def entregas_entregador(lista_pedidos, lista_entregadores):
     confirmacao()
     return False
 
+
 def consultar_entregadores_disponiveis(lista_entregadores):
     limpar_tela()
 
@@ -1349,6 +1411,7 @@ def consultar_entregadores_disponiveis(lista_entregadores):
     confirmacao()
     return True
 
+
 def imprimir_ficha_relatorio(pedido):
     estado_txt = MAPA_ESTADOS.get(pedido["estado"], "DESCONHECIDO")
     regiao_txt = MAPA_REGIOES.get(pedido["regiao"], "DESCONHECIDA")
@@ -1366,6 +1429,7 @@ def imprimir_ficha_relatorio(pedido):
     print(f"Status Entrega  : {status_txt}")
     print("-" * 35)
 
+
 def relatorio_total_pedidos(lista_pedidos):
     limpar_tela()
     print(BRANCO + "---- TOTAL DE PEDIDOS ----")
@@ -1378,6 +1442,7 @@ def relatorio_total_pedidos(lista_pedidos):
         print(AMARELO + "\nNenhum pedido encontrado na base de dados.")
 
     confirmacao()
+
 
 def relatorio_pedidos_por_status(lista_pedidos):
     limpar_tela()
@@ -1411,6 +1476,7 @@ def relatorio_pedidos_por_status(lista_pedidos):
 
     confirmacao()
 
+
 def relatorio_alta_prioridade_todos(lista_pedidos):
     limpar_tela()
     print(BRANCO + "---- PEDIDOS COM ALTA PRIORIDADE ----\n")
@@ -1428,6 +1494,7 @@ def relatorio_alta_prioridade_todos(lista_pedidos):
         print(VERDE + f"\nTotal de pedidos com Alta Prioridade: {encontrados}")
 
     confirmacao()
+
 
 def relatorio_alta_prioridade_pendente(lista_pedidos):
     limpar_tela()
@@ -1447,6 +1514,7 @@ def relatorio_alta_prioridade_pendente(lista_pedidos):
 
     confirmacao()
 
+
 def relatorio_alta_prioridade_em_rota(lista_pedidos):
     limpar_tela()
     print(BRANCO + "---- PEDIDOS COM ALTA PRIORIDADE (EM ROTA) ----\n")
@@ -1464,6 +1532,7 @@ def relatorio_alta_prioridade_em_rota(lista_pedidos):
         print(VERDE + f"\nTotal de pedidos (Em Rota) com Alta Prioridade: {encontrados}")
 
     confirmacao()
+
 
 def relatorio_top_entregador(lista_entregadores, lista_pedidos):
     limpar_tela()
@@ -1501,6 +1570,7 @@ def relatorio_top_entregador(lista_entregadores, lista_pedidos):
 
     confirmacao()
 
+
 def menu_principal():
     lista_pedidos = []
     lista_entregadores = []
@@ -1511,38 +1581,44 @@ def menu_principal():
         sub_menu_principal()
 
         escolha_menu_principal = gerenciar_entrada_numerica(1, 5, "\nDigite uma opção: ")
-        while not escolha_menu_principal:
+        while escolha_menu_principal is False:
             limpar_tela()
             sub_menu_principal()
             escolha_menu_principal = gerenciar_entrada_numerica(1, 5, "\nDigite uma opção novamente: ")
 
-        if escolha_menu_principal == 1:
+        if escolha_menu_principal is None:
+            limpar_tela()
+            print(VERDE + "Sistema Finalizado com Sucesso.")
+            executando_menu_principal = 0
+
+        elif escolha_menu_principal == 1:
             executando_menu_pedidos = 1
             while executando_menu_pedidos:
                 limpar_tela()
                 sub_menu_pedidos()
 
                 escolha_menu_pedidos = gerenciar_entrada_numerica(1, 5, "\nDigite uma opção: ")
-                while not escolha_menu_pedidos:
+                while escolha_menu_pedidos is False:
                     limpar_tela()
                     sub_menu_pedidos()
                     escolha_menu_pedidos = gerenciar_entrada_numerica(1, 5, "\nDigite uma opção novamente: ")
 
-                match escolha_menu_pedidos:
-                    case 1:
-                        limpar_tela()
-                        cadastrar_pedido(lista_pedidos, lista_entregadores)
-                    case 2:
-                        limpar_tela()
-                        atualizar_pedido(lista_pedidos, lista_entregadores)
-                    case 3:
-                        limpar_tela()
-                        reativar_pedido(lista_pedidos, lista_entregadores)
-                    case 4:
-                        limpar_tela()
-                        solicitar_reembolso(lista_pedidos, lista_entregadores)
-                    case 5:
-                        executando_menu_pedidos = 0
+                if escolha_menu_pedidos in [5, None]:
+                    executando_menu_pedidos = 0
+                else:
+                    match escolha_menu_pedidos:
+                        case 1:
+                            limpar_tela()
+                            cadastrar_pedido(lista_pedidos, lista_entregadores)
+                        case 2:
+                            limpar_tela()
+                            atualizar_pedido(lista_pedidos, lista_entregadores)
+                        case 3:
+                            limpar_tela()
+                            reativar_pedido(lista_pedidos, lista_entregadores)
+                        case 4:
+                            limpar_tela()
+                            solicitar_reembolso(lista_pedidos, lista_entregadores)
 
         elif escolha_menu_principal == 2:
             executando_menu_entregadores = 1
@@ -1551,17 +1627,18 @@ def menu_principal():
                 sub_menu_entregadores()
 
                 escolha_menu_entregadores = gerenciar_entrada_numerica(1, 2, "\nDigite uma opção: ")
-                while not escolha_menu_entregadores:
+                while escolha_menu_entregadores is False:
                     limpar_tela()
                     sub_menu_entregadores()
                     escolha_menu_entregadores = gerenciar_entrada_numerica(1, 2, "\nDigite uma opção novamente: ")
 
-                match escolha_menu_entregadores:
-                    case 1:
-                        limpar_tela()
-                        cadastrar_entregador(lista_entregadores)
-                    case 2:
-                        executando_menu_entregadores = 0
+                if escolha_menu_entregadores in [2, None]:
+                    executando_menu_entregadores = 0
+                else:
+                    match escolha_menu_entregadores:
+                        case 1:
+                            limpar_tela()
+                            cadastrar_entregador(lista_entregadores)
 
         elif escolha_menu_principal == 3:
             executando_menu_consulta = 1
@@ -1570,37 +1647,38 @@ def menu_principal():
                 sub_menu_consultas()
 
                 escolha_menu_consulta = gerenciar_entrada_numerica(1, 9, "\nDigite uma opção: ")
-                while not escolha_menu_consulta:
+                while escolha_menu_consulta is False:
                     limpar_tela()
                     sub_menu_consultas()
                     escolha_menu_consulta = gerenciar_entrada_numerica(1, 9, "\nDigite uma opção novamente: ")
 
-                match escolha_menu_consulta:
-                    case 1:
-                        limpar_tela()
-                        pedidos_pendentes(lista_pedidos)
-                    case 2:
-                        limpar_tela()
-                        pedidos_em_rota(lista_pedidos)
-                    case 3:
-                        limpar_tela()
-                        pedidos_entregues(lista_pedidos)
-                    case 4:
-                        limpar_tela()
-                        pedidos_cancelados(lista_pedidos)
-                    case 5:
-                        limpar_tela()
-                        pedidos_reembolsados(lista_pedidos)
-                    case 6:
-                        buscar_pedido(lista_pedidos)
-                    case 7:
-                        limpar_tela()
-                        consultar_entregadores_disponiveis(lista_entregadores)
-                    case 8:
-                        limpar_tela()
-                        entregas_entregador(lista_pedidos, lista_entregadores)
-                    case 9:
-                        executando_menu_consulta = 0
+                if escolha_menu_consulta in [9, None]:
+                    executando_menu_consulta = 0
+                else:
+                    match escolha_menu_consulta:
+                        case 1:
+                            limpar_tela()
+                            pedidos_pendentes(lista_pedidos)
+                        case 2:
+                            limpar_tela()
+                            pedidos_em_rota(lista_pedidos)
+                        case 3:
+                            limpar_tela()
+                            pedidos_entregues(lista_pedidos)
+                        case 4:
+                            limpar_tela()
+                            pedidos_cancelados(lista_pedidos)
+                        case 5:
+                            limpar_tela()
+                            pedidos_reembolsados(lista_pedidos)
+                        case 6:
+                            buscar_pedido(lista_pedidos)
+                        case 7:
+                            limpar_tela()
+                            consultar_entregadores_disponiveis(lista_entregadores)
+                        case 8:
+                            limpar_tela()
+                            entregas_entregador(lista_pedidos, lista_entregadores)
 
         elif escolha_menu_principal == 4:
             executando_menu_relatorios = 1
@@ -1609,52 +1687,56 @@ def menu_principal():
                 sub_menu_relatorios()
 
                 escolha_menu_relatorios = gerenciar_entrada_numerica(1, 5, "\nDigite uma opção: ")
-                while not escolha_menu_relatorios:
+                while escolha_menu_relatorios is False:
                     limpar_tela()
                     sub_menu_relatorios()
                     escolha_menu_relatorios = gerenciar_entrada_numerica(1, 5, "\nDigite uma opção novamente: ")
 
-                match escolha_menu_relatorios:
-                    case 1:
-                        limpar_tela()
-                        relatorio_total_pedidos(lista_pedidos)
-                    case 2:
-                        limpar_tela()
-                        relatorio_pedidos_por_status(lista_pedidos)
-                    case 3:
-                        executando_alta_prioridade = 1
-                        while executando_alta_prioridade:
+                if escolha_menu_relatorios in [5, None]:
+                    executando_menu_relatorios = 0
+                else:
+                    match escolha_menu_relatorios:
+                        case 1:
                             limpar_tela()
-                            sub_menu_alta_prioridade()
-
-                            escolha_alta_prioridade = gerenciar_entrada_numerica(1, 4, "\nDigite uma opção: ")
-                            while not escolha_alta_prioridade:
+                            relatorio_total_pedidos(lista_pedidos)
+                        case 2:
+                            limpar_tela()
+                            relatorio_pedidos_por_status(lista_pedidos)
+                        case 3:
+                            executando_alta_prioridade = 1
+                            while executando_alta_prioridade:
                                 limpar_tela()
                                 sub_menu_alta_prioridade()
-                                escolha_alta_prioridade = gerenciar_entrada_numerica(1, 4, "\nDigite uma opção novamente: ")
 
-                            match escolha_alta_prioridade:
-                                case 1:
+                                escolha_alta_prioridade = gerenciar_entrada_numerica(1, 4, "\nDigite uma opção: ")
+                                while escolha_alta_prioridade is False:
                                     limpar_tela()
-                                    relatorio_alta_prioridade_todos(lista_pedidos)
-                                case 2:
-                                    limpar_tela()
-                                    relatorio_alta_prioridade_pendente(lista_pedidos)
-                                case 3:
-                                    limpar_tela()
-                                    relatorio_alta_prioridade_em_rota(lista_pedidos)
-                                case 4:
+                                    sub_menu_alta_prioridade()
+                                    escolha_alta_prioridade = gerenciar_entrada_numerica(1, 4,
+                                                                                         "\nDigite uma opção novamente: ")
+
+                                if escolha_alta_prioridade in [4, None]:
                                     executando_alta_prioridade = 0
-                    case 4:
-                        limpar_tela()
-                        relatorio_top_entregador(lista_entregadores, lista_pedidos)
-                    case 5:
-                        executando_menu_relatorios = 0
+                                else:
+                                    match escolha_alta_prioridade:
+                                        case 1:
+                                            limpar_tela()
+                                            relatorio_alta_prioridade_todos(lista_pedidos)
+                                        case 2:
+                                            limpar_tela()
+                                            relatorio_alta_prioridade_pendente(lista_pedidos)
+                                        case 3:
+                                            limpar_tela()
+                                            relatorio_alta_prioridade_em_rota(lista_pedidos)
+                        case 4:
+                            limpar_tela()
+                            relatorio_top_entregador(lista_entregadores, lista_pedidos)
 
         else:
             limpar_tela()
             print(VERDE + "Sistema Finalizado com Sucesso.")
             executando_menu_principal = 0
+
 
 if __name__ == "__main__":
     init(autoreset=True)
