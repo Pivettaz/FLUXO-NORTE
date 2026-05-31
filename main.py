@@ -457,6 +457,29 @@ def cadastrar_id_entregador_pedido(lista_pedidos, lista_entregadores, estado, re
     confirmacao()
     return id_entregador
 
+def atualizar_disponibilidade_entregador(id_entregador, lista_pedidos, lista_entregadores):
+    if id_entregador == "0000":
+        return
+
+    posicao_entregador = buscar_posicao_por_id(id_entregador, lista_entregadores, "id_entregador")
+    if posicao_entregador == -1:
+        return
+
+    id_veiculo = lista_entregadores[posicao_entregador]["veiculo"]
+    limite_pontos = CAPACIDADE_PONTOS_VEICULO[id_veiculo]
+
+    contagem = 0
+    pontos_em_uso = 0
+    for pedido in lista_pedidos:
+        if pedido["id_entregador"] == id_entregador and pedido["status_pedido"] in [1, 2]:
+            contagem += 1
+            pontos_em_uso += PONTOS_PORTE[pedido["porte_pedido"]]
+
+    if pontos_em_uso >= limite_pontos or contagem >= 5:
+        lista_entregadores[posicao_entregador]["disponibilidade"] = "INDISPONIVEL"
+    else:
+        lista_entregadores[posicao_entregador]["disponibilidade"] = "DISPONIVEL"
+
 def cadastrar_status(lista_entregadores):
     limpar_tela()
     if not lista_entregadores:
@@ -613,6 +636,7 @@ def buscar_id_pedido_atualizar():
             return None
     return id_pedido
 
+
 def atualizar_pedido(lista_pedidos, lista_entregadores):
     if not lista_pedidos:
         print(AMARELO + "Sem pedidos para atualizar...")
@@ -661,15 +685,20 @@ def atualizar_pedido(lista_pedidos, lista_entregadores):
 
             if lista_pedidos[posicao]["status_pedido"] == escolha_status:
                 limpar_tela()
-                print(AMARELO + f"O pedido já está com o status '{MAPA_STATUS_PEDIDO[escolha_status]}'. Nenhuma alteração foi feita.")
+                print(
+                    AMARELO + f"O pedido já está com o status '{MAPA_STATUS_PEDIDO[escolha_status]}'. Nenhuma alteração foi feita.")
                 confirmacao()
                 return False
 
-            if escolha_status == 4:
-                lista_pedidos[posicao]["id_entregador"] = "0000"
+            entregador_afetado = lista_pedidos[posicao]["id_entregador"]
 
             limpar_tela()
             lista_pedidos[posicao]["status_pedido"] = escolha_status
+
+            if escolha_status in [3, 4]:
+                lista_pedidos[posicao]["id_entregador"] = "0000"
+                atualizar_disponibilidade_entregador(entregador_afetado, lista_pedidos, lista_entregadores)
+
             print(VERDE + f"Status do pedido atualizado com sucesso para: {MAPA_STATUS_PEDIDO[escolha_status]}")
             confirmacao()
             return True
@@ -678,7 +707,8 @@ def atualizar_pedido(lista_pedidos, lista_entregadores):
             limpar_tela()
             status_pedido_texto = MAPA_STATUS_PEDIDO.get(lista_pedidos[posicao]["status_pedido"], "DESCONHECIDO")
             if lista_pedidos[posicao]["status_pedido"] in [4, 5]:
-                print(AMARELO + f"Pedido com status {status_pedido_texto}, entregadores não podem ser associados a ele...")
+                print(
+                    AMARELO + f"Pedido com status {status_pedido_texto}, entregadores não podem ser associados a ele...")
                 confirmacao()
                 return False
             estado = lista_pedidos[posicao]["estado"]
@@ -696,14 +726,21 @@ def atualizar_pedido(lista_pedidos, lista_entregadores):
             if not id_novo_entregador:
                 return False
 
-            if lista_pedidos[posicao]["id_entregador"] == id_novo_entregador and lista_pedidos[posicao]["id_entregador"] != "0000":
+            if lista_pedidos[posicao]["id_entregador"] == id_novo_entregador and lista_pedidos[posicao][
+                "id_entregador"] != "0000":
                 limpar_tela()
                 print(AMARELO + "Este entregador já é o responsável por este pedido. Nenhuma alteração feita.")
                 confirmacao()
                 return False
 
+            entregador_antigo = lista_pedidos[posicao]["id_entregador"]
+
             limpar_tela()
             lista_pedidos[posicao]["id_entregador"] = id_novo_entregador
+
+            atualizar_disponibilidade_entregador(entregador_antigo, lista_pedidos, lista_entregadores)
+            atualizar_disponibilidade_entregador(id_novo_entregador, lista_pedidos, lista_entregadores)
+
             print(VERDE + "Entregador atualizado com sucesso!")
             confirmacao()
             return True
@@ -715,8 +752,13 @@ def atualizar_pedido(lista_pedidos, lista_entregadores):
                 confirmacao()
                 return False
 
+            entregador_removido = lista_pedidos[posicao]["id_entregador"]
+
             limpar_tela()
             lista_pedidos[posicao]["id_entregador"] = "0000"
+
+            atualizar_disponibilidade_entregador(entregador_removido, lista_pedidos, lista_entregadores)
+
             print(VERDE + "Entregador desassociado do pedido com sucesso.")
             confirmacao()
             return True
@@ -768,6 +810,7 @@ def atualizar_pedido(lista_pedidos, lista_entregadores):
             confirmacao()
             return False
 
+
 def reativar_pedido(lista_pedidos, lista_entregadores):
     if not lista_pedidos:
         print(AMARELO + "Sem pedidos para reativar...")
@@ -779,6 +822,7 @@ def reativar_pedido(lista_pedidos, lista_entregadores):
         print(AMARELO + "\nOperação cancelada.")
         confirmacao()
         return False
+
     while not validar_id_pedido(id_pedido):
         limpar_tela()
         id_pedido = input(AMARELO + 'Digite o ID do pedido novamente (X para cancelar): ').upper()
@@ -859,7 +903,8 @@ def reativar_pedido(lista_pedidos, lista_entregadores):
     confirmacao()
     return True
 
-def solicitar_reembolso(lista_pedidos):
+
+def solicitar_reembolso(lista_pedidos, lista_entregadores):  # Adicionado lista_entregadores como parâmetro
     if not lista_pedidos:
         print(AMARELO + "Sem pedidos para reembolsar..")
         confirmacao()
@@ -896,7 +941,8 @@ def solicitar_reembolso(lista_pedidos):
 
     if status_atual != 4 and status_atual != 1:
         limpar_tela()
-        print(AMARELO + f"\nNão é possível reembolsar um pedido com o status '{MAPA_STATUS_PEDIDO.get(status_atual, 'DESCONHECIDO')}'.")
+        print(
+            AMARELO + f"\nNão é possível reembolsar um pedido com o status '{MAPA_STATUS_PEDIDO.get(status_atual, 'DESCONHECIDO')}'.")
         print(BRANCO + "O pedido precisa estar pendente ou cancelado antes de solicitar o reembolso.")
         confirmacao()
         return False
@@ -916,9 +962,15 @@ def solicitar_reembolso(lista_pedidos):
         confirmacao_reembolso = gerenciar_entrada_numerica(1, 2, BRANCO + "\nDigite uma opção novamente: ")
 
     if confirmacao_reembolso == 1:
+        entregador_afetado = lista_pedidos[posicao]["id_entregador"]
+
         lista_pedidos[posicao]["status_pedido"] = 5
         lista_pedidos[posicao]["status_pago"] = 3
         lista_pedidos[posicao]["saldo_devedor"] = 0.0
+        lista_pedidos[posicao]["id_entregador"] = "0000"
+
+        atualizar_disponibilidade_entregador(entregador_afetado, lista_pedidos, lista_entregadores)
+
         valor = lista_pedidos[posicao]["valor_pedido"]
 
         limpar_tela()
